@@ -13,18 +13,146 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{32222611-f4f3-4e19-9ede-8ad4e6daa3af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\OpenGL">
+      <UniqueIdentifier>{5d2af90e-1a06-436a-b419-9b2852b7d57c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Maths">
+      <UniqueIdentifier>{70c92823-cf4a-4983-9bd4-d49d6914bccc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Accelerators">
+      <UniqueIdentifier>{aae49c02-59a7-4fa7-b280-02b417265d5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dependencies">
+      <UniqueIdentifier>{f15b54a3-518a-4db0-b661-6b3998463e7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects">
+      <UniqueIdentifier>{479385ee-3a3c-4dc8-b83a-7501f832a8a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shading">
+      <UniqueIdentifier>{1dc09435-0526-4afa-8892-5cddda645224}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shading\Materials">
+      <UniqueIdentifier>{72581749-95e1-4762-974f-3cffd263111c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="OpenGL.h">
+      <Filter>Source Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="vec3.h">
+      <Filter>Source Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="image_parameters.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="chunk.h">
+      <Filter>Source Files\Accelerators</Filter>
+    </ClInclude>
+    <ClInclude Include="pi.h">
+      <Filter>Source Files\Maths</Filter>
+    </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image_write.h">
+      <Filter>Source Files\Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="tiny_obj_loader.h">
+      <Filter>Source Files\Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Source Files\Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="triangle.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="vec2.h">
+      <Filter>Source Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="scenes.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="save.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ray.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="random.h">
+      <Filter>Source Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="GLshader.h">
+      <Filter>Source Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="hit_record.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="sphere.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="object_list.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="material.h">
+      <Filter>Source Files\Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="lambert.h">
+      <Filter>Source Files\Shading\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="metal.h">
+      <Filter>Source Files\Shading\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="dielectric.h">
+      <Filter>Source Files\Shading\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="blinnphong.h">
+      <Filter>Source Files\Shading\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="diffuse_light.h">
+      <Filter>Source Files\Shading\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="oren_nayar.h">
+      <Filter>Source Files\Shading\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="materials.h">
+      <Filter>Source Files\Shading\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="radiance.h">
+      <Filter>Source Files\Shading</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Gaia.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL.cpp">
+      <Filter>Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="image_parameters.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader.frag">
+      <Filter>Source Files\OpenGL</Filter>
+    </None>
+    <None Include="shader.vert">
+      <Filter>Source Files\OpenGL</Filter>
+    </None>
   </ItemGroup>
 </Project>

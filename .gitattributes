@@ -61,3 +61,9 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+
+# Sets glad.c as a vendored file, excluding it from language statistics
+Gaia/glad.c linguist-vendored = true
+stb_image_write.h linguist-vendored = true
+stb_image.h linguist-vendored = true
+tiny_obj_loader.h linguist-vendored = true
