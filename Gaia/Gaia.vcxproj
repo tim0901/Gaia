@@ -180,6 +180,7 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="object_list.h" />
     <ClInclude Include="oren_nayar.h" />
+    <ClInclude Include="plane.h" />
     <ClInclude Include="random.h" />
     <ClInclude Include="ray.h" />
     <ClInclude Include="save.h" />

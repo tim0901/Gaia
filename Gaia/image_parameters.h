@@ -35,7 +35,7 @@ struct image_parameters {
 	int* chunks_remaining = new int(0);
 
 	//Save Options
-	std::string save_name = "out";
+	std::string save_name = "v_002_cornell_box";
 	bool savePPM = false;
 	bool saveHDR = true;
 };

@@ -53,7 +53,7 @@ int initialise_window(image_parameters* image, bool *windowOpen) {
 
 	GLFWwindow* window;
 	//This creates a window object
-	window = glfwCreateWindow(xDim, yDim, "Render", NULL, NULL);
+	window = glfwCreateWindow(xDim, yDim, "Gaia", NULL, NULL);
 
 
 	if (window == NULL)
