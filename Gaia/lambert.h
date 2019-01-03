@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef LAMBERT_H
 #define LAMBERT_H
@@ -10,15 +10,32 @@ class lambertian :public material {
 public:
 	lambertian(const vec3& a) :albedo(a) {}
 	//Describes how a ray is scattered
-	virtual bool scatter(const ray &incident, const hit_record &rec, vec3 &brdf, ray &scattered) const {
+	float scattering_pdf(const ray &incident, const hit_record &rec, const ray &scattered) const {
+		float cosine = dot(rec.normal, unit_vector(scattered.direction()));
+		if (cosine < 0) {
+			cosine = 0;
+		}
+		return cosine;
+	}
+
+	virtual bool scatter(const ray &incident, const hit_record &rec, vec3 &brdf, ray &scattered, float &pdf) const {
 		//New ray direction is uniformly sampled from a sphere
-		vec3 target = rec.p + rec.normal + random_in_unit_sphere();
+		vec3 target;
+		do {
+			target = rec.p + rec.normal + random_in_unit_sphere();
+		} while (dot(target, rec.normal) < 0);
 		//Fires new ray
-		scattered = ray(rec.p, target - rec.p);
+		scattered = ray(rec.p,unit_vector(target - rec.p));
 		//Absorbs a little of the colour of the material
 		brdf = albedo/M_PI;
+
+		pdf = 0.5; //dot(rec.normal, scattered.direction());
+
 		return true;
 	}
+
+	std::string type = "lambertian";
+
 	vec3 albedo;
 };
 

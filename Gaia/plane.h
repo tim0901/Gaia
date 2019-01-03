@@ -9,9 +9,11 @@
 class rectangle : public object {
 public:
 	rectangle() {}
-	rectangle(vec3 a, vec3 b, vec3 c, material *mat) : mat_ptr(mat), pointa(a), pointb(b), pointc(c) {};
+	rectangle(float oid, float pid, vec3 a, vec3 b, vec3 c, material *mat) : object_id(oid), primitive_id(pid), mat_ptr(mat), pointa(a), pointb(b), pointc(c) {};
 	virtual bool hit(const ray& r, float tmin, float tmax, hit_record &rec) const;
 
+	float object_id;
+	float primitive_id;
 	vec3 pointa;
 	vec3 pointb;
 	vec3 pointc;
@@ -58,6 +60,8 @@ bool rectangle::hit(const ray& r, float tmin, float tmax, hit_record &rec) const
 	float u = (pointb - p).length() / v1.length();
 	float v = (pointb - p).length() / v2.length();
 
+	rec.object_id = object_id;
+	rec.primitive_id = primitive_id;
 	rec.u = u;
 	rec.v = v;
 	rec.t = t;

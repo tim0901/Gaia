@@ -135,6 +135,9 @@
     <ClInclude Include="plane.h">
       <Filter>Source Files\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="gooch.h">
+      <Filter>Source Files\Shading\Materials</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Gaia.cpp">

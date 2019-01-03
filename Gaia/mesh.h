@@ -3,14 +3,14 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include "hitable.h"
+#include "object.h"
 #include "triangle.h"
 #include "tiny_obj_loader.h"
 
-class mesh : public hitable {
+class mesh : public object {
 public:
 	mesh() {}
-	mesh(int ntris, int nverts, vec3* vertexList, vec3* trianglesList, vec3* normalsList, material* mat) : nTris(ntris), nVerts(nverts), vertices(vertexList), normals(normalsList), triangles(trianglesList), mat_ptr(mat) {
+	mesh(float oid, int ntris, int nverts, vec3* vertexList, vec3* trianglesList, vec3* normalsList, material* mat) : object_id(oid), nTris(ntris), nVerts(nverts), vertices(vertexList), normals(normalsList), triangles(trianglesList), mat_ptr(mat) {
 		
 		pmin = pmax = vertices[0];
 
@@ -63,13 +63,15 @@ public:
 	virtual bool hit(const ray& r, float t0, float t1, hit_record& rec) const;
 	virtual bool bounding_box(float t0, float t1, aabb& box) const;
 
+	float object_id;
+
 	int nTris;
 	int nVerts;
 	vec3* normals;
 	vec3* triangles;
 	vec3* vertices;
 	material* mat_ptr;
-	hitable *list_ptr; 
+	object *list_ptr; 
 	vec3 pmin;
 	vec3 pmax;
 };

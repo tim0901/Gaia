@@ -12,11 +12,23 @@ class oren_nayar : public material {
 public:
 	oren_nayar(const vec3& a, float r) : albedo(a), roughness(r) {}
 
-	virtual bool scatter(const ray &incident, const hit_record &rec, vec3 &brdf, ray &scattered) const {
+	//Unsure if correct
+	float scattering_pdf(const ray &incident, const hit_record &rec, const ray &scattered) const {
+		float cosine = dot(rec.normal, unit_vector(scattered.direction()));
+		if (cosine < 0) {
+			cosine = 0;
+		}
+		return cosine;
+	}
+
+	virtual bool scatter(const ray &incident, const hit_record &rec, vec3 &brdf, ray &scattered, float &pdf) const {
 		
 		//Generate random scattered ray
-		vec3 target = rec.p + rec.normal + random_in_unit_sphere();
-		scattered = ray(rec.p, target - rec.p);
+		vec3 target; 
+		do {
+			target = rec.p + rec.normal + random_in_unit_sphere();
+		} while (dot(target, rec.normal) < 0);
+		scattered = ray(rec.p, unit_vector(target - rec.p));
 
 		float a = 1 - 0.5*((roughness*roughness) / (roughness*roughness + 0.33));
 		float b = 0.45*((roughness*roughness) / (roughness*roughness + 0.45));
@@ -33,8 +45,13 @@ public:
 
 		brdf = abs(albedo * (a + (b*std::max(0.f, cos(phi_i - phi_r))*sin(alpha)*tan(beta))) / M_PI);
 
+		pdf = 0.5;
+
 		return true;
 	}
+
+	std::string type = "oren_nayar";
+
 	vec3 albedo;
 	float roughness;
 

@@ -12,7 +12,7 @@ class mesh;
 class triangle :public object {
 public:
 	triangle() {}
-	triangle(vec3* p0, vec3* p1, vec3* p2, material *m, vec3* n0, vec3* n1, vec3* n2) : point0(p0), point1(p1), point2(p2), mat_ptr(m), normal0(n0), normal1(n1), normal2(n2) {}
+	triangle(float oid, float pid, vec3* p0, vec3* p1, vec3* p2, material *m, vec3* n0, vec3* n1, vec3* n2) :object_id(oid), primitive_id(pid), point0(p0), point1(p1), point2(p2), mat_ptr(m), normal0(n0), normal1(n1), normal2(n2) {}
 	virtual bool hit(const ray& r, float tmin, float tmax, hit_record& rec) const;
 	//virtual bool bounding_box(float t0, float t1, aabb& box) const;
 	
@@ -41,6 +41,9 @@ public:
 		return random_on_triangle - o;
 		
 	}
+
+	float object_id;
+	float primitive_id;
 	vec3* point0;
 	vec3* point1;
 	vec3* point2;
@@ -126,6 +129,8 @@ bool triangle::hit(const ray& r, float tmin, float tmax, hit_record& rec) const 
 	vec3 pHit = b0 * *point0 + b1 * *point1 + b2 * *point2;
 	vec2 uvHit = b0 * uv[0] + b1 * uv[1] + b2 * uv[2];
 
+	rec.object_id = object_id;
+	rec.primitive_id = primitive_id;
 	rec.mat_ptr = mat_ptr;
 	rec.t = t;
 	rec.p = pHit;

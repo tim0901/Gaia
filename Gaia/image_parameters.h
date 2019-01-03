@@ -3,6 +3,7 @@
 #ifndef IMAGE_PARAMETERS_H
 #define IMAGE_PARAMETERS_H
 
+#include "vec3.h"
 #include"chunk.h"
 #include <list>
 
@@ -28,6 +29,11 @@ struct image_parameters {
 	std::list<chunk> chunk_list;
 	std::list<chunk>::iterator iter;
 
+	//Rendering Options
+	bool montecarlo = false;
+	bool constant_luminance = false;
+	vec3 *background_colour = new vec3(0, 0, 0);
+	
 	//Iterative mode settings
 	bool iterative_mode = true;
 	int sample_number = 1;

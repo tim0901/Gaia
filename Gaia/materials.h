@@ -8,6 +8,7 @@
 #include "blinnphong.h"
 #include "dielectric.h"
 #include "diffuse_light.h"
+#include "gooch.h"
 #include "lambert.h"
 #include "metal.h"
 #include "oren_nayar.h"

@@ -16,7 +16,7 @@ public:
 
 	//DOES NOT WORK
 
-	virtual bool scatter(const ray &incident, const hit_record &rec, vec3 &alb, ray &scattered) const {
+	virtual bool scatter(const ray &incident, const hit_record &rec, vec3 &alb, ray &scattered, float &pdf) const {
 		float kd, ks, n;
 
 		
@@ -37,6 +37,9 @@ public:
 
 		
 	}
+
+	std::string type = "phong";
+
 	vec3 albedo;
 };
 

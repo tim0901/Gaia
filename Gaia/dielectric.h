@@ -14,7 +14,12 @@ float schlick_approximation(float cosine, float ref_idx);
 class dielectric :public material {
 public:
 	dielectric(float ref_ind, vec3 a) :ref_indx(ref_ind), albedo(a) {}
-	virtual bool scatter(const ray &incident, const hit_record &rec, vec3 &alb, ray &scattered) const {
+
+	float scattering_pdf(const ray &incident, const hit_record &rec, const ray &scattered) const {
+		return 0;
+	}
+	
+	virtual bool scatter(const ray &incident, const hit_record &rec, vec3 &alb, ray &scattered, float &pdf) const {
 		vec3 outward_normal;
 		vec3 reflected = reflect(incident.direction(), rec.normal);
 		float ni_over_nt;
@@ -54,6 +59,8 @@ public:
 
 		return true;
 	}
+
+	std::string type = "dielectric";
 
 	vec3 albedo;
 	float ref_indx;

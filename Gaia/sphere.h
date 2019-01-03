@@ -8,8 +8,11 @@
 class sphere: public object {
 public:
 	sphere() {}
-	sphere(vec3 c, float r, material *mat) : mat_ptr(mat), centre(c), radius(r) {};
+	sphere(float oid, float pid, vec3 c, float r, material *mat) : object_id(oid), primitive_id(pid), mat_ptr(mat), centre(c), radius(r) {};
 	virtual bool hit(const ray& r, float tmin, float tmax, hit_record &rec) const;
+	
+	float object_id;
+	float primitive_id;
 	float radius;
 	vec3 centre;
 	material *mat_ptr;
@@ -29,6 +32,8 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record &rec) const 
 	if (discriminant > 0) {
 		float temp = (-b - sqrt(discriminant)) / a;
 		if (temp < t_max && temp > t_min) {
+			rec.object_id = object_id;
+			rec.primitive_id = primitive_id;
 			rec.t = temp;
 			rec.p = r.p_at_t(rec.t);
 			rec.normal = (rec.p - centre) / radius;
@@ -39,6 +44,8 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record &rec) const 
 		}
 		temp = (-b + sqrt(discriminant)) / a;
 		if (temp < t_max && temp > t_min) {
+			rec.object_id = object_id;
+			rec.primitive_id = primitive_id;
 			rec.t = temp;
 			rec.p = r.p_at_t(rec.t);
 			rec.normal = (rec.p - centre) / radius;
