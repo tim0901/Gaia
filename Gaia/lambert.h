@@ -17,15 +17,27 @@ public:
 		}
 		return cosine;
 	}
+	
+	virtual vec3 emitted(float u, float v, const vec3& p) const { return vec3(0, 0, 0); }
+
 
 	virtual bool scatter(const ray &incident, const hit_record &rec, vec3 &brdf, ray &scattered, float &pdf) const {
 		//New ray direction is uniformly sampled from a sphere
 		vec3 target;
+
+		/*
+		//This will break as soon as the ray is travelling in the -ve direction.
 		do {
 			target = rec.p + rec.normal + random_in_unit_sphere();
 		} while (dot(target, rec.normal) < 0);
+		*/
+
+		//Temp
+		target = rec.p + rec.normal + random_in_unit_sphere();
+		
 		//Fires new ray
 		scattered = ray(rec.p,unit_vector(target - rec.p));
+
 		//Absorbs a little of the colour of the material
 		brdf = albedo/M_PI;
 

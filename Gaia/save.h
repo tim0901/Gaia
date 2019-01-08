@@ -11,6 +11,10 @@
 #include <string>
 
 void save(image_parameters* image) {
+	
+	if (image->saveHDR == false && image->savePPM == false) {
+		return;
+	}
 
 	std::cout << "Saving..." << std::endl;
 
@@ -21,6 +25,7 @@ void save(image_parameters* image) {
 		std::string hdr_name = image->save_name + ".hdr";
 		stbi_write_hdr(&hdr_name[0u], image->nx, image->ny, 4, image->output_array);
 
+		std::cout << ".HDR save complete" << std::endl;
 	}
 	if (image->savePPM == true) {
 
@@ -53,7 +58,7 @@ void save(image_parameters* image) {
 
 	}
 	else {
-		std::cout << "Save complete" << std::endl;
+		std::cout << "All saves complete" << std::endl;
 	}
 }
 

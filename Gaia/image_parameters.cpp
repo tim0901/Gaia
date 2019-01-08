@@ -6,6 +6,13 @@
 
 void initialise(image_parameters *image) {
 
+
+	//We use a single sample per pixel for edge lines, so ns = 1.
+	if (image->edge_line_pass == true) {
+
+		image->ns = 1;
+	}
+
 	//Precalculate divisions for samples
 	*image->sample_reciprocals_ptr = (float*)calloc(image->ns + 1, sizeof(float));
 	image->sample_reciprocals[0] = 0;

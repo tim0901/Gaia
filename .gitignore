@@ -268,3 +268,8 @@ __pycache__/
 #Input Meshes
 *.obj
 *.mtl
+/Gaia/random colour temp.png
+/Gaia/random edge.png
+/Gaia/v003 gooch render.png
+/Gaia/gooch colour.png
+/Gaia/gooch outline.png

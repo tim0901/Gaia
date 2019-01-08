@@ -44,17 +44,17 @@ public:
 
 		}
 
-		hitable **list = new hitable*[nTris];
+		object **list = new object*[nTris];
 
 		int j = 0;
 		for (j; j < nTris; j++) {
 
-			hitable **temp = new hitable*[1];
+			object **temp = new object*[1];
 			int x = trianglesList[j].x();
 			int y = trianglesList[j].y();
 			int z = trianglesList[j].z();
 
-			list[j] = new triangle(&vertexList[x], &vertexList[y], &vertexList[z], mat, &normals[x], &normals[y], &normals[z]);
+			list[j] = new triangle(oid, j, &vertexList[x], &vertexList[y], &vertexList[z], mat, &normals[x], &normals[y], &normals[z]);
 		}
 		list_ptr = new bvh_node(list, j, 0, 0);
 		//list_ptr = new hitable_list(list, j);
