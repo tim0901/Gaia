@@ -10,7 +10,9 @@ public:
 	sphere() {}
 	sphere(float oid, float pid, vec3 c, float r, material *mat) : object_id(oid), primitive_id(pid), mat_ptr(mat), centre(c), radius(r) {};
 	virtual bool hit(const ray& r, float tmin, float tmax, hit_record &rec) const;
-	
+	virtual bool bounding_box(float t0, float t1, aabb &box) const;
+
+
 	float object_id;
 	float primitive_id;
 	float radius;
@@ -57,4 +59,10 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record &rec) const 
 	}
 	return false;
 }
+
+bool sphere::bounding_box(float t0, float t1, aabb &box) const{
+	box = aabb(centre - vec3(radius, radius, radius), centre + vec3(radius, radius, radius));
+	return true;
+}
+
 #endif // !SPHERE_H

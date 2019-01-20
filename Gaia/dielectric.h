@@ -13,7 +13,7 @@ float schlick_approximation(float cosine, float ref_idx);
 //Describes a perfectly refractive glass material
 class dielectric :public material {
 public:
-	dielectric(float ref_ind, vec3 a) :ref_indx(ref_ind), albedo(a) {}
+	dielectric(float ref_ind, const vec3& a) :ref_indx(ref_ind), albedo(a) {}
 
 	float scattering_pdf(const ray &incident, const hit_record &rec, const ray &scattered) const {
 		return 0;

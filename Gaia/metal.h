@@ -15,13 +15,16 @@ public:
 		return 0;
 	}
 	
-	virtual bool scatter(const ray &incident, const hit_record &rec, vec3 &alb, ray &scattered, float &pdf) const {
+	virtual bool scatter(const ray &incident, const hit_record &rec, vec3 &brdf, ray &scattered, float &pdf) const {
 		//Ray is reflected perfectly
 		vec3 reflected = reflect(unit_vector(incident.direction()), rec.normal);
 		//Fires new ray
 		scattered = ray(rec.p, reflected + fuzz*random_in_unit_sphere());
+
+		float cos_theta = dot(scattered.direction(), rec.normal);
+
 		//Absorbs a little of the colour of the material
-		alb = albedo;
+		brdf = cos_theta * albedo;
 		return (dot(scattered.direction(),rec.normal)>0);
 	}
 

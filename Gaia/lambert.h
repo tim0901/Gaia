@@ -38,8 +38,11 @@ public:
 		//Fires new ray
 		scattered = ray(rec.p,unit_vector(target - rec.p));
 
+
+		float cos_theta = dot(scattered.direction(), rec.normal);
+		
 		//Absorbs a little of the colour of the material
-		brdf = albedo/M_PI;
+		brdf = cos_theta * albedo/M_PI;
 
 		pdf = 0.5; //dot(rec.normal, scattered.direction());
 

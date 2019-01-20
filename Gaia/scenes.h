@@ -13,9 +13,12 @@
 #include "stb_image.h"
 #include "materials.h"
 #include "triangle.h"
+#include "mesh.h"
+#include "aabb.h"
+#include "bvh.h"
 
 void cornell_box(object **world, /*object **light_list, */image_parameters *image, camera **cam) {
-	
+
 	//X goes right -> left
 	//Y goes down -> up
 	//Z goes front -> back
@@ -23,6 +26,10 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 	image->nx = 500;
 	image->ny = 500;
 	image->constant_luminance = false;
+	image->iterative_mode = false;
+	image->z_depth_pass = false;
+	image->min_z_depth = 2;
+	image->max_z_depth = 3.5;
 	image->montecarlo = true;
 
 	//Camera
@@ -45,27 +52,26 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 	lambertian *red = new lambertian(vec3(0.65, 0.05, 0.05));
 	lambertian *blue = new lambertian(vec3(0.05, 0.05, 0.65));
 	lambertian *yellow = new lambertian(vec3(0.8, 0.8, 0));
-
+	lambertian *racinggreen = new lambertian(vec3(0.0, 66.0 / 255.0, 37.0 / 255.0));
 	//Objects
 
 	//Floor
 //	list[i++] = new rectangle(i,0,vec3(0, 0, 0), vec3(1, 0, 0), vec3(1, 0, 1), white); 
 	list[i++] = new triangle(i, 0, new vec3(0, 0, 0), new vec3(1, 0, 1), new vec3(1, 0, 0), white, new vec3(0, 1, 0), new vec3(0, 1, 0), new vec3(0, 1, 0));
 	list[i++] = new triangle(i, 0, new vec3(0, 0, 0), new vec3(0, 0, 1), new vec3(1, 0, 1), white, new vec3(0, 1, 0), new vec3(0, 1, 0), new vec3(0, 1, 0));
-	
+
 	//Ceiling
 //	list[i++] = new rectangle(i,0,vec3(0, 1, 0), vec3(0, 1, 1), vec3(1, 1, 1), white);
 	list[i++] = new triangle(i, 0, new vec3(0, 1, 0), new vec3(1, 1, 1), new vec3(0, 1, 1), white, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
 	list[i++] = new triangle(i, 0, new vec3(0, 1, 0), new vec3(1, 1, 0), new vec3(1, 1, 1), white, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
 
 	//Ceiling light
-	list[i++] = new rectangle(i,0,vec3(0.3, 0.98, 0.3), vec3(0.3, 0.98, 0.7), vec3(0.7, 0.98, 0.7), light);
+	list[i++] = new rectangle(i, 0, vec3(0.3, 0.98, 0.3), vec3(0.3, 0.98, 0.7), vec3(0.7, 0.98, 0.7), light);
 
 	//Back Wall
 //	list[i++] = new rectangle(i,0,vec3(0, 1, 1), vec3(0, 0, 1), vec3(1, 0, 1), white);
-	list[i++] = new triangle(i, 0, new vec3(0, 1, 1), new vec3(1, 0, 1), new vec3(0, 0, 1), white, new vec3(0, 0, -1), new vec3(0, 0, -1), new vec3(0, 0, -1));
-	list[i++] = new triangle(i, 0, new vec3(1, 0, 1), new vec3(0, 1, 1), new vec3(1, 1, 1), white, new vec3(0, 0, -1), new vec3(0, 0, -1), new vec3(0, 0, -1));
-
+	list[i++] = new triangle(i, 0, new vec3(0, 1, 1), new vec3(1, 0, 1), new vec3(0, 0, 1), racinggreen, new vec3(0, 0, -1), new vec3(0, 0, -1), new vec3(0, 0, -1));
+	list[i++] = new triangle(i, 0, new vec3(1, 0, 1), new vec3(0, 1, 1), new vec3(1, 1, 1), racinggreen, new vec3(0, 0, -1), new vec3(0, 0, -1), new vec3(0, 0, -1));
 
 	//Left Wall
 //	list[i++] = new rectangle(i,0,vec3(1, 0, 1), vec3(1, 0, 0), vec3(1, 1, 0), red);
@@ -76,26 +82,38 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 //	list[i++] = new rectangle(i,0,vec3(0, 1, 0), vec3(0, 0, 0), vec3(0, 0, 1), green);	
 	list[i++] = new triangle(i, 0, new vec3(0, 0, 1), new vec3(0, 0, 0), new vec3(0, 1, 0), green, new vec3(1, 0, 0), new vec3(1, 0, 0), new vec3(1, 0, 0));
 	list[i++] = new triangle(i, 0, new vec3(0, 0, 1), new vec3(0, 1, 0), new vec3(0, 1, 1), green, new vec3(1, 0, 0), new vec3(1, 0, 0), new vec3(1, 0, 0));
-	
+
 	*world = new object_list(list, i);
 }
 
 
 void mini(object **world, /*object **light_list, */image_parameters *image, camera **cam) {
 
+	image->edge_line_pass = false;
+	image->z_depth_pass = false;
+	image->iterative_mode = false;
+
+	image->max_z_depth = 250;
+	image->min_z_depth = 0;
+
+	image->ns = 10;
+	vec3 *skyblue = new vec3(119.0 / 255.0, 181.0 / 255.0, 254.0 / 255.0);
+	image->saveHDR = true;
+	image->save_name = "mini_colour_test";
+	image->background_colour = new vec3(1,1,1);
 	//X goes right -> left
 	//Y goes down -> up
 	//Z goes front -> back
 
-	image->nx = 1000;
-	image->ny = 500;
+	image->nx = 960;
+	image->ny = 540;
 
 	//Camera
-	vec3 look_from(50.5, 0.5, 2);
-	vec3 look_at(50.5, 0.5, 5);
-	vec3 up(0, 1, 0); // vector that is "up" for the camera
+	vec3 look_from(-100, -150, 50);
+	vec3 look_at(0, 0, 20);
+	vec3 up(0, 0, 1); // vector that is "up" for the camera
 	float focal_length = (look_from - look_at).length();
-	int fov = 30;
+	int fov = 40;
 	float aperture = 0.0;
 	float aspect_ratio = float(image->nx) / float(image->ny);
 	*cam = new camera(look_from, look_at, up, fov, aspect_ratio, aperture, focal_length);
@@ -110,15 +128,66 @@ void mini(object **world, /*object **light_list, */image_parameters *image, came
 	lambertian *red = new lambertian(vec3(0.65, 0.05, 0.05));
 	lambertian *blue = new lambertian(vec3(0.05, 0.05, 0.65));
 	lambertian *yellow = new lambertian(vec3(0.8, 0.8, 0));
+	metal *redmetal = new metal(vec3(0.65, 0.05, 0.05), 0.5);
+	metal *minigreen = new metal(vec3(28.0/255.0, 54.0/255.0, 50.0/255.0), 0);
+	lambertian *minigreen2 = new lambertian(vec3(28.0 / 255.0, 54.0 / 255.0, 50.0 / 255.0));
+	lambertian *racinggreen = new lambertian(vec3(0.0, 66.0 / 255.0, 37.0 / 255.0));
+
+	dielectric *glass = new dielectric(1.5, vec3(1, 1, 1));
 
 	//Objects
 
-	//Floor
-	list[i++] = new triangle(i,0,new vec3(0, 0, 0), new vec3(100, 0, 100), new vec3(100, 0, 0), white, new vec3(0, 1, 0), new vec3(0, 1, 0), new vec3(0, 1, 0));	
-	list[i++] = new triangle(i,0,new vec3(0, 0, 0), new vec3(0, 0, 100), new vec3(100, 0, 100), white, new vec3(0, 1, 0), new vec3(0, 1, 0), new vec3(0, 1, 0));
+	mesh *test = new mesh(load_mesh(0, "minicooper.obj", racinggreen));
+	list[i++] = test;
+//	list[i++] = new xy_rect(1, 0, -5000, 5000, -5000, 5000, 0, vec3(0, 0, 1), red);
 
-	//Ceiling light
-	list[i++] = new rectangle(i,0,vec3(50, 2, 7), vec3(50, 2, 8), vec3(51, 2, 8), light);
+	list[i++] = new sphere(1, 0, vec3(0, 0, -10000), 10000, red);
+	
+	*world = new object_list(list, i);
+}
+
+
+void teapot(object **world, /*object **light_list, */image_parameters *image, camera **cam) {
+
+	image->edge_line_pass = false;
+
+	image->background_colour = new vec3(1, 1, 1);
+
+	//X goes right -> left
+	//Y goes down -> up
+	//Z goes front -> back
+
+	image->nx = 1000;
+	image->ny = 500;
+
+	//Camera
+	vec3 look_from(-150, 150, 150);
+	vec3 look_at(0, 65, 0);
+	vec3 up(0, 1, 0); // vector that is "up" for the camera
+	float focal_length = (look_from - look_at).length();
+	int fov = 50;
+	float aperture = 0.0;
+	float aspect_ratio = float(image->nx) / float(image->ny);
+	*cam = new camera(look_from, look_at, up, fov, aspect_ratio, aperture, focal_length);
+
+	int i = 0;
+	object **list = new object*[50];
+
+	//Materials
+	diffuse_light *light = new diffuse_light(new vec3(15, 15, 15));
+	lambertian *white = new lambertian(vec3(0.73, 0.73, 0.73));
+	lambertian *green = new lambertian(vec3(0.12, 0.45, 0.15));
+	lambertian *red = new lambertian(vec3(0.65, 0.05, 0.05));
+	lambertian *blue = new lambertian(vec3(0.05, 0.05, 0.65));
+	lambertian *yellow = new lambertian(vec3(0.8, 0.8, 0));
+	material *redmetal = new metal(vec3(0.65, 0.05, 0.05), 0.5);
+
+	//Objects
+
+	mesh *test = new mesh(load_mesh(i + 1, "rolling_Teapot.obj", redmetal));
+	object **meshlist = new object*[1];
+	meshlist[0] = test;
+	list[i++] = new bvh_node(meshlist, 1, 0, 1);
 
 	*world = new object_list(list, i);
 }
@@ -127,13 +196,15 @@ void mini(object **world, /*object **light_list, */image_parameters *image, came
 
 //Stores various scenes for testing
 void three_spheres(object **world, /*object **light_list, */image_parameters *image, camera **cam) {
-	
+
 	//Set image size
 	image->nx = 1000;
 	image->ny = 500;
 
-	image->ns = 10;
-	image->iterative_mode = true;
+	image->ns = 1000;
+
+	image->z_depth_pass = false;
+	image->iterative_mode = false;
 	image->montecarlo = false;
 
 	//Camera
@@ -159,12 +230,12 @@ void three_spheres(object **world, /*object **light_list, */image_parameters *im
 
 
 	//Objects
-	list[i++] = new sphere(i,0,vec3(0, 0, -1), 0.5,test );
-	list[i++] = new sphere(i,0,vec3(0, 0, 3), 0.5,yellow );
-	list[i++] = new sphere(i,0,vec3(0, -100.5, -1), 100, yellow);
+	list[i++] = new sphere(i, 0, vec3(0, 0, -1), 0.5, test);
+	list[i++] = new sphere(i, 0, vec3(0, 0, 3), 0.5, yellow);
+	list[i++] = new sphere(i, 0, vec3(0, -100.5, -1), 100, yellow);
 	list[i++] = new sphere(i, 0, vec3(1, 0, -1), 0.5, met);
 	list[i++] = new sphere(i, 0, vec3(-1, 0, -1), 0.5, glass);
-	list[i++] = new sphere(i, 0, vec3(-1, 0, -1), -0.499, glass);
+	//	list[i++] = new sphere(i, 0, vec3(-1, 0, -1), -0.499, glass);
 
 	list[i++] = new sphere(i, 0, vec3(0, 2, 0), 0.5, light);
 	list[i++] = new sphere(i, 0, vec3(-1, 2, 0), 0.5, light);
@@ -211,7 +282,7 @@ void goochtest(object **world, /*object **light_list, */image_parameters *image,
 	diffuse_light *light = new diffuse_light(new vec3(25, 25, 25));
 	lambertian *white = new lambertian(vec3(0.73, 0.73, 0.73));
 	lambertian *green = new lambertian(vec3(0.12, 0.45, 0.15));
-	lambertian *red = new lambertian(vec3(1,0,0));
+	lambertian *red = new lambertian(vec3(1, 0, 0));
 	lambertian *blue = new lambertian(vec3(0.05, 0.05, 0.65));
 	lambertian *yellow = new lambertian(vec3(0.8, 0.8, 0));
 
@@ -231,8 +302,9 @@ void goochtest(object **world, /*object **light_list, */image_parameters *image,
 	*/
 }
 
+//Not currently supported
 void film(object **world, /*object **light_list, */image_parameters *image, camera **cam, int frameno) {
-	
+
 	//Camera
 	vec3 look_from(0, 0, 2);
 	vec3 look_at(0, 0, -1);
@@ -287,6 +359,7 @@ void film(object **world, /*object **light_list, */image_parameters *image, came
 void random_scene(object **world, /*object **light_list, */image_parameters *image, camera **cam) {
 
 	image->edge_line_pass = false;
+	image->background_colour = new vec3(1, 1, 1);
 
 	vec3 look_from(13, 2, 3);
 	vec3 look_at(0, 0, 0);
@@ -300,6 +373,7 @@ void random_scene(object **world, /*object **light_list, */image_parameters *ima
 	int i = 0;
 	int n = 500;
 	object **list = new object*[n + 5];
+	object **templist = new object*[n + 5];
 
 	list[i++] = new sphere(i, 0, vec3(0, -1000, 0), 1000, new lambertian(vec3(0.5, 0.5, 0.5)));
 	list[i++] = new sphere(i, 0, vec3(0, 1, 0), 1.0, new dielectric(1.5, vec3(1, 1, 1)));
@@ -321,13 +395,14 @@ void random_scene(object **world, /*object **light_list, */image_parameters *ima
 				}
 				else {  // glass
 					list[i++] = new sphere(i, 0, center, 0.2, new dielectric(1.5, vec3(1, 1, 1)));
-					list[i++] = new sphere(i, 0, center, -0.1999, new dielectric(1.5, vec3(1, 1, 1)));
 				}
 			}
 		}
 	}
-	
-	*world = new object_list(list, i);
+	templist[0] = new bvh_node(list, i, 0, 1);
+
+	*world = new object_list(templist, 1);
+	//*world = new object_list(list, i);
 	/*
 	int i = 0;
 	texture *pertext = new noise_texture(4);

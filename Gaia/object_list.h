@@ -11,6 +11,8 @@ public:
 	object_list() {}
 	object_list(object **l, int n) { list = l; list_size = n; }
 	virtual bool hit(const ray& r, float t_min, float t_max, hit_record &rec) const;
+	virtual bool bounding_box(float t0, float t1, aabb &box) const;
+	
 	object **list;
 	int list_size;
 };
@@ -34,6 +36,40 @@ bool object_list::hit(const ray& r, float t_min, float t_max, hit_record &rec) c
 	return hit_anything;
 
 }
+
+
+//Creates a bounding box surrounding a list of objects 
+bool object_list::bounding_box(float t0, float t1, aabb &box) const {
+	
+	//Requires objects!
+	if (list_size < 1) return false;
+	
+	aabb temp_box;
+
+	bool first_true = list[0]->bounding_box(t0, t1, temp_box);
+	
+	//Objects need a bounding_box function
+	if (!first_true) {
+		return false;
+	}
+	else {
+		box = temp_box;
+	}
+
+	//For each object in the list, check if it is within the bounding box and extend it if the object falls outside.
+	for (int i = 1; i < list_size; i++) {
+		if (list[0]->bounding_box(t0, t1, temp_box)) {
+			box = surrounding_box(box, temp_box);
+		}
+		else {
+			return false;
+		}
+	}
+
+	//Return final bounding box
+	return true;
+}
+
 
 #endif // !OBJECT_LIST.H
 

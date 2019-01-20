@@ -19,8 +19,6 @@ vec3 cast(image_parameters *image, const ray& r, object *world, int depth) {
 		bool hit = rec.mat_ptr->scatter(r, rec, radiance, scattered, pdf);
 		emitted = rec.mat_ptr->emitted(rec.u, rec.v, rec.p);
 
-		float cos_theta = dot(scattered.direction(), rec.normal);
-
 		if (depth < 50 && hit) {
 			//Path tracing equation
 			if (image->montecarlo == true) {
@@ -28,7 +26,7 @@ vec3 cast(image_parameters *image, const ray& r, object *world, int depth) {
 				//Use Monte Carlo rendering - doesn't work with reflections
 				if (image->constant_luminance == false) {
 					vec3 brdf = radiance;
-					return emitted + brdf * cos_theta *rec.mat_ptr->scattering_pdf(r, rec, scattered) *cast(image, scattered, world, depth + 1) / pdf;
+					return emitted + brdf *rec.mat_ptr->scattering_pdf(r, rec, scattered) *cast(image, scattered, world, depth + 1) / pdf;
 				}
 				else {
 					vec3 brdf = radiance * M_PI;
@@ -38,7 +36,7 @@ vec3 cast(image_parameters *image, const ray& r, object *world, int depth) {
 			else {
 				if (image->constant_luminance == false) {
 					vec3 brdf = radiance;
-					return emitted + brdf * cos_theta * cast(image, scattered, world, depth + 1);
+					return emitted + brdf * cast(image, scattered, world, depth + 1);
 				}
 				else {
 					vec3 brdf = radiance * M_PI;
@@ -57,7 +55,7 @@ vec3 cast(image_parameters *image, const ray& r, object *world, int depth) {
 	}
 	else {
 		//Background colour
-		//return *image->background_colour;
+		return *image->background_colour;
 		vec3 unit_direction = unit_vector(r.direction());
 		float t = 0.5*(unit_direction.y() + 1.0);
 		return (1.0 - t)*vec3(1.0, 1.0, 1.0) + t * vec3(0.5, 0.7, 1.0);

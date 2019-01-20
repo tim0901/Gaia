@@ -45,9 +45,9 @@ void save(image_parameters* image) {
 		for (int j = image->ny - 1; j >= 0; j--) {
 			for (int i = 0; i < image->nx; i++) {
 
-				int ir = 255.99*image->output_array[((i + (image->nx * j)) * 4)];
-				int ig = 255.99*image->output_array[((i + (image->nx * j)) * 4) + 1];
-				int ib = 255.99*image->output_array[((i + (image->nx * j)) * 4) + 2];
+				int ir = 255.99*sqrt(image->output_array[((i + (image->nx * j)) * 4)]);
+				int ig = 255.99*sqrt(image->output_array[((i + (image->nx * j)) * 4) + 1]);
+				int ib = 255.99*sqrt(image->output_array[((i + (image->nx * j)) * 4) + 2]);
 
 				std::cout << ir << " " << ig << " " << ib << "\n";
 			}

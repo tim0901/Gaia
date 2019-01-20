@@ -13,7 +13,7 @@ struct image_parameters {
 	int ny = 500;
 
 	//Number of Samples
-	int ns = 1000;
+	int ns = 100;
 	float *sample_reciprocals = { 0 };
 	float **sample_reciprocals_ptr = &sample_reciprocals;
 
@@ -32,6 +32,11 @@ struct image_parameters {
 	bool montecarlo = false;
 	bool constant_luminance = false;
 	bool edge_line_pass = false;
+	bool z_depth_pass = false;
+
+	//Z_depth Pass Options
+	float min_z_depth = 0;
+	float max_z_depth = 100;
 
 	//Edge Line Pass Options
 	int edge_line_quality_n = 3; //+ve integer, min N=1
@@ -45,9 +50,9 @@ struct image_parameters {
 	int* chunks_remaining = new int(0);
 
 	//Save Options
-	std::string save_name = "v003 gooch render";
+	std::string save_name = "random edge";
 	bool savePPM = false;
-	bool saveHDR = true;
+	bool saveHDR = false;
 };
 
 void initialise(image_parameters *image);

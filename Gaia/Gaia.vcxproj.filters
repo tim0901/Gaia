@@ -138,6 +138,12 @@
     <ClInclude Include="gooch.h">
       <Filter>Source Files\Shading\Materials</Filter>
     </ClInclude>
+    <ClInclude Include="aabb.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Gaia.cpp">

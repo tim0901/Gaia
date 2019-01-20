@@ -4,6 +4,7 @@
 #define MESH_H
 
 #include "object.h"
+#include "bvh.h"
 #include "triangle.h"
 #include "tiny_obj_loader.h"
 
@@ -64,6 +65,7 @@ public:
 	virtual bool bounding_box(float t0, float t1, aabb& box) const;
 
 	float object_id;
+	float primitive_id = -1;
 
 	int nTris;
 	int nVerts;
@@ -86,7 +88,7 @@ bool mesh::hit(const ray& r, float t0, float t1, hit_record& rec) const {
 	return list_ptr->hit(r, t0, t1, rec);
 }
 
-mesh load_mesh(std::string input_file, material *mat) {
+mesh load_mesh(int oid, std::string input_file, material *mat) {
 
 	std::string inputfile = input_file;
 
@@ -184,6 +186,6 @@ mesh load_mesh(std::string input_file, material *mat) {
 		//std::cout << trianglesList[i] << std::endl;
 	}
 	//std::cout << "Tris: " << nTris << std::endl;
-	return mesh(nTris, int(attrib.vertices.size()), vertexList, trianglesList, normalsList, mat);
+	return mesh(oid, nTris, int(attrib.vertices.size()), vertexList, trianglesList, normalsList, mat);
 }
 #endif // !MESH_H
