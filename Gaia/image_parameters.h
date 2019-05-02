@@ -30,13 +30,19 @@ struct image_parameters {
 
 	//Rendering Options
 	bool montecarlo = false;
-	bool constant_luminance = false;
 	bool edge_line_pass = false;
 	bool z_depth_pass = false;
 
+	//Isolate output channels - only for beauty renders. 
+	bool red_channel = true;
+	bool green_channel = true;
+	bool blue_channel = true;
+	bool alpha_channel = true; // None of the output file formats support alpha channel data, so this option is currently useless.
+
 	//Z_depth Pass Options
-	float min_z_depth = 0;
-	float max_z_depth = 100;
+	float min_z_depth = 5;
+	float max_z_depth = 25;
+	bool invert_z_colours = false;
 
 	//Edge Line Pass Options
 	int edge_line_quality_n = 3; //+ve integer, min N=1

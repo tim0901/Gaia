@@ -202,6 +202,7 @@
     <ClInclude Include="triangle.h" />
     <ClInclude Include="vec2.h" />
     <ClInclude Include="vec3.h" />
+    <ClInclude Include="vec4.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="image_parameters.cpp" />

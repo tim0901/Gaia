@@ -107,6 +107,9 @@ mesh load_mesh(int oid, std::string input_file, material *mat) {
 		exit(1);
 	}
 
+
+	std::cout << materials.size() << std::endl;
+
 	//std::cout << "Verts: " << attrib.vertices.size() << std::endl;
 	//std::cout << "Normals: " << attrib.normals.size() << std::endl;
 	//std::cout << "Shapes: " << shapes.size() << std::endl;

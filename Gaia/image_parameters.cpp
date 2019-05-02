@@ -1,7 +1,6 @@
 #pragma once
 
 #include "pch.h"
-#include "chunk.h"
 #include "image_parameters.h"
 
 void initialise(image_parameters *image) {
