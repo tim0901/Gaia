@@ -25,7 +25,7 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 
 	image->nx = 500;
 	image->ny = 500;
-	image->ns = 1000;
+	image->ns = 100;
 	image->iterative_mode = false;
 	image->z_depth_pass = false;
 	image->min_z_depth = 2;
@@ -98,9 +98,10 @@ void mini(object **world, /*object **light_list, */image_parameters *image, came
 
 	image->ns = 10;
 	vec3 *skyblue = new vec3(119.0 / 255.0, 181.0 / 255.0, 254.0 / 255.0);
+	vec3 *whitecolour = new vec3(1, 1, 1);
 	image->saveHDR = false;
 	image->save_name = "mini_colour_test";
-	image->background_colour = new vec3(1,1,1);
+	image->background_colour = skyblue;
 
 	//X goes right -> left
 	//Y goes down -> up

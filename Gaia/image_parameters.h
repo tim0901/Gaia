@@ -5,6 +5,7 @@
 
 #include "vec3.h"
 #include"chunk.h"
+#include <vector>
 
 struct image_parameters {
 
@@ -17,6 +18,10 @@ struct image_parameters {
 	float *sample_reciprocals = { 0 };
 	float **sample_reciprocals_ptr = &sample_reciprocals;
 
+	//Chunk order
+	bool spiral = true;
+	bool spiral_in = false;
+
 	//Sets size of chunk
 	int chunk_size = 50;
 	int xChunks;
@@ -25,8 +30,9 @@ struct image_parameters {
 	//Output Storage
 	float *output_array = { 0 };
 	float **output_array_ptr = &output_array;
-	std::list<chunk> chunk_list;
-	std::list<chunk>::iterator iter;
+
+	std::vector<chunk> chunk_vector;
+	std::vector<chunk>::iterator vec_iter;
 
 	//Rendering Options
 	bool montecarlo = false;
