@@ -25,12 +25,16 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 
 	image->nx = 500;
 	image->ny = 500;
-	image->constant_luminance = false;
+	image->ns = 100;
 	image->iterative_mode = false;
 	image->z_depth_pass = false;
 	image->min_z_depth = 2;
 	image->max_z_depth = 3.5;
 	image->montecarlo = true;
+
+	image->saveHDR = false;
+	image->savePPM = false;
+	image->save_name = "scorch test iter";
 
 	//Camera
 	vec3 look_from(0.5, 0.5, -2);
@@ -41,6 +45,8 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 	float aperture = 0.0;
 	float aspect_ratio = float(image->nx) / float(image->ny);
 	*cam = new camera(look_from, look_at, up, fov, aspect_ratio, aperture, focal_length);
+
+	image->background_colour = new vec3(1, 1, 1);
 
 	int i = 0;
 	object **list = new object*[50];
@@ -53,8 +59,13 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 	lambertian *blue = new lambertian(vec3(0.05, 0.05, 0.65));
 	lambertian *yellow = new lambertian(vec3(0.8, 0.8, 0));
 	lambertian *racinggreen = new lambertian(vec3(0.0, 66.0 / 255.0, 37.0 / 255.0));
-	//Objects
+	metal *redmetal = new metal(vec3(0.65, 0.05, 0.05), 0.3);
+	metal *minigreen = new metal(vec3(28.0 / 255.0, 54.0 / 255.0, 50.0 / 255.0), 0);
+	metal *purplemetal = new metal(vec3(28.0 / 255.0, 4.0 / 255.0, 50.0 / 255.0), 0);
+	metal *minigreen3 = new metal(vec3(6.0 / 255.0, 33.0 / 255.0, 10.0 / 255.0), 0.3);
 
+	//Objects
+	
 	//Floor
 //	list[i++] = new rectangle(i,0,vec3(0, 0, 0), vec3(1, 0, 0), vec3(1, 0, 1), white); 
 	list[i++] = new triangle(i, 0, new vec3(0, 0, 0), new vec3(1, 0, 1), new vec3(1, 0, 0), white, new vec3(0, 1, 0), new vec3(0, 1, 0), new vec3(0, 1, 0));
@@ -70,8 +81,8 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 
 	//Back Wall
 //	list[i++] = new rectangle(i,0,vec3(0, 1, 1), vec3(0, 0, 1), vec3(1, 0, 1), white);
-	list[i++] = new triangle(i, 0, new vec3(0, 1, 1), new vec3(1, 0, 1), new vec3(0, 0, 1), racinggreen, new vec3(0, 0, -1), new vec3(0, 0, -1), new vec3(0, 0, -1));
-	list[i++] = new triangle(i, 0, new vec3(1, 0, 1), new vec3(0, 1, 1), new vec3(1, 1, 1), racinggreen, new vec3(0, 0, -1), new vec3(0, 0, -1), new vec3(0, 0, -1));
+	list[i++] = new triangle(i, 0, new vec3(0, 1, 1), new vec3(1, 0, 1), new vec3(0, 0, 1), white, new vec3(0, 0, -1), new vec3(0, 0, -1), new vec3(0, 0, -1));
+	list[i++] = new triangle(i, 0, new vec3(1, 0, 1), new vec3(0, 1, 1), new vec3(1, 1, 1), white, new vec3(0, 0, -1), new vec3(0, 0, -1), new vec3(0, 0, -1));
 
 	//Left Wall
 //	list[i++] = new rectangle(i,0,vec3(1, 0, 1), vec3(1, 0, 0), vec3(1, 1, 0), red);
@@ -82,12 +93,51 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 //	list[i++] = new rectangle(i,0,vec3(0, 1, 0), vec3(0, 0, 0), vec3(0, 0, 1), green);	
 	list[i++] = new triangle(i, 0, new vec3(0, 0, 1), new vec3(0, 0, 0), new vec3(0, 1, 0), green, new vec3(1, 0, 0), new vec3(1, 0, 0), new vec3(1, 0, 0));
 	list[i++] = new triangle(i, 0, new vec3(0, 0, 1), new vec3(0, 1, 0), new vec3(0, 1, 1), green, new vec3(1, 0, 0), new vec3(1, 0, 0), new vec3(1, 0, 0));
+	
+	*world = new object_list(list, i);
+}
+
+void furnace_test(object **world, /*object **light_list, */image_parameters *image, camera **cam) {
+
+	image->nx = 500;
+	image->ny = 500;
+	image->ns = 100;
+	image->montecarlo = true;
+	image->iterative_mode = true;
+
+	image->saveHDR = true;
+	image->savePPM = true;
+	image->save_name = "furnace test";
+
+	//Camera
+	vec3 look_from(0, 0, -2);
+	vec3 look_at(0, 0, 1);
+	vec3 up(0, 1, 0); // vector that is "up" for the camera
+	float focal_length = (look_from - look_at).length();
+	int fov = 30;
+	float aperture = 0.0;
+	float aspect_ratio = float(image->nx) / float(image->ny);
+	*cam = new camera(look_from, look_at, up, fov, aspect_ratio, aperture, focal_length);
+
+	image->background_colour = new vec3(1, 1, 1);
+
+	int i = 0;
+	object **list = new object*[1];
+
+	list[i++] = new sphere(i, 0, vec3(0, 0, 0), 0.5, new lambertian(vec3(0.18, 0.18, 0.18)));
 
 	*world = new object_list(list, i);
 }
 
-
 void mini(object **world, /*object **light_list, */image_parameters *image, camera **cam) {
+
+	//X goes right -> left
+	//Y goes down -> up
+	//Z goes front -> back
+
+	image->nx = 1000;
+	image->ny = 500;
+	image->ns = 100;
 
 	image->edge_line_pass = false;
 	image->z_depth_pass = false;
@@ -96,17 +146,12 @@ void mini(object **world, /*object **light_list, */image_parameters *image, came
 	image->max_z_depth = 250;
 	image->min_z_depth = 0;
 
-	image->ns = 10;
 	vec3 *skyblue = new vec3(119.0 / 255.0, 181.0 / 255.0, 254.0 / 255.0);
+	vec3 *whitecolour = new vec3(1, 1, 1);
 	image->saveHDR = true;
-	image->save_name = "mini_colour_test";
-	image->background_colour = new vec3(1,1,1);
-	//X goes right -> left
-	//Y goes down -> up
-	//Z goes front -> back
-
-	image->nx = 960;
-	image->ny = 540;
+	image->save_name = "mini multiple lights";
+	image->background_colour = new vec3(0,0,0);
+	image->montecarlo = false;
 
 	//Camera
 	vec3 look_from(-100, -150, 50);
@@ -127,21 +172,46 @@ void mini(object **world, /*object **light_list, */image_parameters *image, came
 	lambertian *green = new lambertian(vec3(0.12, 0.45, 0.15));
 	lambertian *red = new lambertian(vec3(0.65, 0.05, 0.05));
 	lambertian *blue = new lambertian(vec3(0.05, 0.05, 0.65));
+	lambertian *black = new lambertian(vec3(0.05, 0.05, 0.05));
 	lambertian *yellow = new lambertian(vec3(0.8, 0.8, 0));
-	metal *redmetal = new metal(vec3(0.65, 0.05, 0.05), 0.5);
+	metal *redmetal = new metal(vec3(0.65, 0.05, 0.05), 0.3);
 	metal *minigreen = new metal(vec3(28.0/255.0, 54.0/255.0, 50.0/255.0), 0);
+	metal *purplemetal = new metal(vec3(28.0/255.0, 4.0/255.0, 50.0/255.0), 0);
+	metal *minigreen3 = new metal(vec3(6.0/255.0, 33.0/255.0, 10.0/255.0), 0.3);
 	lambertian *minigreen2 = new lambertian(vec3(28.0 / 255.0, 54.0 / 255.0, 50.0 / 255.0));
 	lambertian *racinggreen = new lambertian(vec3(0.0, 66.0 / 255.0, 37.0 / 255.0));
+	lambertian *grey = new lambertian(vec3(0.4, 0.4, 0.4));
+	lambertian *beige = new lambertian(vec3(207.0/255.0, 185.0/255.0, 151.0/255.0));
+	metal *chrome = new metal(vec3(0.4, 0.4, 0.4),0.9);
 
-	dielectric *glass = new dielectric(1.5, vec3(1, 1, 1));
+	dielectric *glass = new dielectric(1.0, vec3(1, 1, 1));
+	dielectric *redglass = new dielectric(1.5, vec3(0.65, 0.05, 0.05));
+
+	material **matlist = new material*[50];
+	matlist[0] = chrome;
+	matlist[1] = black;
+	matlist[2] = black;
+	matlist[3] = beige;
+	matlist[4] = minigreen3;
+	matlist[5] = glass;
+	matlist[6] = redglass;
 
 	//Objects
 
-	mesh *test = new mesh(load_mesh(0, "minicooper.obj", racinggreen));
+	mesh *test = new mesh(load_mesh(0, "minitest.obj", matlist));
 	list[i++] = test;
 //	list[i++] = new xy_rect(1, 0, -5000, 5000, -5000, 5000, 0, vec3(0, 0, 1), red);
 
-	list[i++] = new sphere(1, 0, vec3(0, 0, -10000), 10000, red);
+	list[i++] = new sphere(1, 0, vec3(0, 0, -10000), 10000, grey);
+
+	list[i++] = new sphere(2, 0, vec3(-100, -150, 300), 150, light);
+	list[i++] = new sphere(3, 0, vec3(-100, 0, 300), 100, light);
+	list[i++] = new sphere(4, 0, vec3(0, -150, 300), 100, light);
+	list[i++] = new sphere(5, 0, vec3(0, 150, 300), 100, light);
+	list[i++] = new sphere(6, 0, vec3(100, 0 , 300), 100, light);
+	list[i++] = new sphere(7, 0, vec3(100, -150, 300), 100, light);
+	list[i++] = new sphere(8, 0, vec3(-100, 150, 300), 100, light);
+	list[i++] = new sphere(9, 0, vec3(100, 150, 300), 100, light);
 	
 	*world = new object_list(list, i);
 }
@@ -182,9 +252,15 @@ void teapot(object **world, /*object **light_list, */image_parameters *image, ca
 	lambertian *yellow = new lambertian(vec3(0.8, 0.8, 0));
 	material *redmetal = new metal(vec3(0.65, 0.05, 0.05), 0.5);
 
+
+	material **matlist = new material*[50];
+	matlist[0] = redmetal;
+	matlist[1] = blue;
+
+
 	//Objects
 
-	mesh *test = new mesh(load_mesh(i + 1, "rolling_Teapot.obj", redmetal));
+	mesh *test = new mesh(load_mesh(i + 1, "rolling_Teapot.obj", matlist));
 	object **meshlist = new object*[1];
 	meshlist[0] = test;
 	list[i++] = new bvh_node(meshlist, 1, 0, 1);
@@ -253,7 +329,6 @@ void three_spheres(object **world, /*object **light_list, */image_parameters *im
 //Stores various scenes for testing
 void goochtest(object **world, /*object **light_list, */image_parameters *image, camera **cam) {
 
-	image->constant_luminance = true;
 	image->montecarlo = true;
 	image->background_colour = new vec3(1, 1, 1);
 
@@ -359,6 +434,12 @@ void film(object **world, /*object **light_list, */image_parameters *image, came
 void random_scene(object **world, /*object **light_list, */image_parameters *image, camera **cam) {
 
 	image->edge_line_pass = false;
+	image->saveHDR = false;
+	image->save_name = "v 0.1 z depth test 2";
+	image->z_depth_pass = false;
+	image->montecarlo = false;
+	float min_z_depth = 5;
+	float max_z_depth = 25;
 	image->background_colour = new vec3(1, 1, 1);
 
 	vec3 look_from(13, 2, 3);

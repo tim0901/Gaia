@@ -5,8 +5,13 @@
 
 #include "vec3.h"
 #include"chunk.h"
+#include <vector>
 
 struct image_parameters {
+
+	//Viewport
+	bool show_viewport = true;
+	bool progress_monitoring = false; // Prints chunks remaining in non-iterative mode
 
 	//Image dimensions
 	int nx = 1000;
@@ -17,6 +22,10 @@ struct image_parameters {
 	float *sample_reciprocals = { 0 };
 	float **sample_reciprocals_ptr = &sample_reciprocals;
 
+	//Chunk order
+	bool spiral = true;
+	bool spiral_in = false;
+
 	//Sets size of chunk
 	int chunk_size = 50;
 	int xChunks;
@@ -25,18 +34,25 @@ struct image_parameters {
 	//Output Storage
 	float *output_array = { 0 };
 	float **output_array_ptr = &output_array;
-	std::list<chunk> chunk_list;
-	std::list<chunk>::iterator iter;
+
+	std::vector<chunk> chunk_vector;
+	std::vector<chunk>::iterator vec_iter;
 
 	//Rendering Options
 	bool montecarlo = false;
-	bool constant_luminance = false;
 	bool edge_line_pass = false;
 	bool z_depth_pass = false;
 
+	//Isolate output channels - only for beauty renders. 
+	bool red_channel = true;
+	bool green_channel = true;
+	bool blue_channel = true;
+	bool alpha_channel = true; // None of the output file formats support alpha channel data, so this option is currently useless.
+
 	//Z_depth Pass Options
-	float min_z_depth = 0;
-	float max_z_depth = 100;
+	float min_z_depth = 5;
+	float max_z_depth = 25;
+	bool invert_z_colours = false;
 
 	//Edge Line Pass Options
 	int edge_line_quality_n = 3; //+ve integer, min N=1
@@ -50,6 +66,7 @@ struct image_parameters {
 	int* chunks_remaining = new int(0);
 
 	//Save Options
+	float gamma = 2.2;
 	std::string save_name = "random edge";
 	bool savePPM = false;
 	bool saveHDR = false;

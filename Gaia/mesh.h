@@ -11,7 +11,7 @@
 class mesh : public object {
 public:
 	mesh() {}
-	mesh(float oid, int ntris, int nverts, vec3* vertexList, vec3* trianglesList, vec3* normalsList, material* mat) : object_id(oid), nTris(ntris), nVerts(nverts), vertices(vertexList), normals(normalsList), triangles(trianglesList), mat_ptr(mat) {
+	mesh(float oid, int ntris, int nverts, vec3* vertexList, vec3* trianglesList, vec3* normalsList, int* materialsList, material** mat) : object_id(oid), nTris(ntris), nVerts(nverts), vertices(vertexList), normals(normalsList), triangles(trianglesList), materials(materialsList), mat_list_ptr(mat) {
 		
 		pmin = pmax = vertices[0];
 
@@ -51,11 +51,11 @@ public:
 		for (j; j < nTris; j++) {
 
 			object **temp = new object*[1];
-			int x = trianglesList[j].x();
-			int y = trianglesList[j].y();
-			int z = trianglesList[j].z();
+			int x = triangles[j].x();
+			int y = triangles[j].y();
+			int z = triangles[j].z();
 
-			list[j] = new triangle(oid, j, &vertexList[x], &vertexList[y], &vertexList[z], mat, &normals[x], &normals[y], &normals[z]);
+			list[j] = new triangle(object_id, j, &vertices[x], &vertices[y], &vertices[z], mat_list_ptr[materials[j]], &normals[x], &normals[y], &normals[z]);
 		}
 		list_ptr = new bvh_node(list, j, 0, 0);
 		//list_ptr = new hitable_list(list, j);
@@ -72,7 +72,8 @@ public:
 	vec3* normals;
 	vec3* triangles;
 	vec3* vertices;
-	material* mat_ptr;
+	int* materials;
+	material** mat_list_ptr;
 	object *list_ptr; 
 	vec3 pmin;
 	vec3 pmax;
@@ -88,7 +89,7 @@ bool mesh::hit(const ray& r, float t0, float t1, hit_record& rec) const {
 	return list_ptr->hit(r, t0, t1, rec);
 }
 
-mesh load_mesh(int oid, std::string input_file, material *mat) {
+mesh load_mesh(int oid, std::string input_file, material **mat) {
 
 	std::string inputfile = input_file;
 
@@ -111,6 +112,8 @@ mesh load_mesh(int oid, std::string input_file, material *mat) {
 	//std::cout << "Normals: " << attrib.normals.size() << std::endl;
 	//std::cout << "Shapes: " << shapes.size() << std::endl;
 
+	//Allocate space in memory for vectors.
+
 	vec3* vertexList = { 0 };
 	vec3** vertexListPtr = &vertexList;
 	*vertexListPtr = (vec3*)calloc(attrib.vertices.size(), sizeof(vec3));
@@ -126,6 +129,13 @@ mesh load_mesh(int oid, std::string input_file, material *mat) {
 	int* indiciesList = { 0 };
 	int** indiciesListPtr = &indiciesList;
 	*indiciesListPtr = (int*)calloc(1000000, sizeof(int));
+
+	int* materialsList = { 0 };
+	int** materialsListPtr = &materialsList;
+	*materialsListPtr = (int*)calloc(1000000,sizeof(int));
+	
+
+//	std::cout << shapes[0].mesh.material_ids[0] << std::endl;
 	/*
 	for (const auto& shape : shapes) {
 		for (const auto& index : shape.mesh.indices) {
@@ -183,9 +193,21 @@ mesh load_mesh(int oid, std::string input_file, material *mat) {
 	for (int i = 0; i < nTris; i++) {
 
 		trianglesList[i] = vec3(indiciesList[3 * i], indiciesList[3 * i + 1], indiciesList[3 * i + 2]);
-		//std::cout << trianglesList[i] << std::endl;
+		
+		//Load the associated material for the triangle
+
+		if (nTris > shapes[0].mesh.material_ids.size()) {
+			materialsList[i] = 0;
+		}
+		else {
+			materialsList[i] = shapes[0].mesh.material_ids[i];
+		}
 	}
 	//std::cout << "Tris: " << nTris << std::endl;
-	return mesh(oid, nTris, int(attrib.vertices.size()), vertexList, trianglesList, normalsList, mat);
+
+	shapes.clear();
+	materials.clear();
+
+	return mesh(oid, nTris, int(attrib.vertices.size()), vertexList, trianglesList, normalsList, materialsList, mat);
 }
 #endif // !MESH_H

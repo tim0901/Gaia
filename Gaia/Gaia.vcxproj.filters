@@ -144,6 +144,9 @@
     <ClInclude Include="bvh.h">
       <Filter>Source Files\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="vec4.h">
+      <Filter>Source Files\Maths</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Gaia.cpp">

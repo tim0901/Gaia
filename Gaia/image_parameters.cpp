@@ -1,8 +1,12 @@
 #pragma once
 
 #include "pch.h"
-#include "chunk.h"
 #include "image_parameters.h"
+
+void spiral(image_parameters* image);
+void topright(image_parameters *image, std::vector<chunk> *temp_chunk_vector, int x1, int x2, int y1, int y2);
+void bottomleft(image_parameters *image, std::vector<chunk> *temp_chunk_vector, int x1, int x2, int y1, int y2);
+
 
 void initialise(image_parameters *image) {
 
@@ -20,7 +24,6 @@ void initialise(image_parameters *image) {
 
 		image->sample_reciprocals[int(x)] = 1 / x;
 	}
-
 
 	//Defines array for output
 	*image->output_array_ptr = (float*)calloc((image->nx + 2) * (image->ny + 2) * 4, sizeof(float));
@@ -50,13 +53,90 @@ void initialise(image_parameters *image) {
 
 			}
 
-			image->chunk_list.push_front(tempChunk);
+			image->chunk_vector.push_back(tempChunk);
 		}
 	}
 
-	//Stores the number of chunks remaining to be rendered
+	//Stores the number of chunks remaining to be rendered - also used in spiral sorting algorithm
 	*image->chunks_remaining = image->xChunks * image->yChunks;
 
+	//Sets normal render order
+	std::reverse(image->chunk_vector.begin(), image->chunk_vector.end());
+	
+	if (image->spiral == true | image->spiral_in == true) {
+		spiral(image);
+	}
+
 	//Initialise iterator
-	image->iter = image->chunk_list.begin();
+	image->vec_iter = image->chunk_vector.begin();
 }
+
+
+void spiral(image_parameters *image){
+	//Converts default chunk ordering into a clockwise spiral from the centre
+
+	//Temporary vector for sorting
+	std::vector<chunk> *temp_chunk_vector = new std::vector<chunk>;
+
+	//Spiral algorithm
+	topright(image, temp_chunk_vector, 0, image->xChunks-1, 0, image->yChunks-1);
+
+	//Clear container
+	image->chunk_vector.clear();
+
+	//Reverse spiral if wanting in->out
+	if (image->spiral_in == false) {
+		
+		for (int i = 0; i < *image->chunks_remaining; i++) {
+
+			image->chunk_vector.push_back(temp_chunk_vector->at(*image->chunks_remaining - 1 -i));
+		}
+	}
+	else {
+		image->chunk_vector = *temp_chunk_vector;
+	}
+
+	//Clear temp vector
+	temp_chunk_vector->clear();
+	delete temp_chunk_vector;
+}
+
+void topright(image_parameters *image,std::vector<chunk> *temp_chunk_vector, int x1, int x2, int y1, int y2) {
+	int i = 0;
+	int j = 0;
+	//Push top
+	for (i = x1; i <= x2; i++) {
+		//std::cout << "T: " << i << " " << j << std::endl;
+		temp_chunk_vector->push_back(image->chunk_vector.at(y1 + i * image->yChunks));
+	}
+	//push right
+	for (j = y1 + 1; j <= y2; j++) {
+		//std::cout << "R: " << i << " " << j << std::endl;
+		temp_chunk_vector->push_back(image->chunk_vector.at(j + x2 * image->yChunks));
+	}
+
+	if (x2 - x1 > 0) {
+		bottomleft(image, temp_chunk_vector, x1, x2 - 1, y1 + 1, y2);
+	}
+}
+
+void bottomleft(image_parameters *image, std::vector<chunk> *temp_chunk_vector, int x1, int x2, int y1, int y2) {
+	int i = 0;
+	int j = 0;
+	//Push bottom
+	for (i = x2; i >= x1; i--) {
+		//std::cout << "B: " << i << " " << j << std::endl;
+		temp_chunk_vector->push_back(image->chunk_vector.at(y2 + i * image->yChunks));
+	}
+	//push left
+	for (j = y2-1; j >= y1; j--) {
+		//std::cout << "L: " << i << " " << j << std::endl;
+		temp_chunk_vector->push_back(image->chunk_vector.at(j + x1* image->yChunks));
+	}
+
+	if ((x2 - x1) > 0) {
+		topright(image, temp_chunk_vector, x1+1 , x2, y1, y2-1);
+	}
+}
+
+

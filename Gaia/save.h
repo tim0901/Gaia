@@ -4,6 +4,7 @@
 #define SAVE_H
 
 #include <iostream>
+#include <algorithm>
 #include "image_parameters.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STBI_MSC_SECURE_CRT
@@ -31,35 +32,39 @@ void save(image_parameters* image) {
 
 		//Exports as .PPM - loses alpha channel data
 
-		//Required for console output, breaks writing to console
-		FILE *stream;
-
 		//Sends console output to file 
 		std::string ppm_name = image->save_name + ".ppm";
-		freopen_s(&stream, &ppm_name[0u], "w", stdout);
+		
+
+		//Stream for writing to file
+		std::ofstream ofs;
+
+		//Open file
+		ofs.open(ppm_name);
 
 		//PPM file header
-		std::cout << "P3\n" << image->nx << " " << image->ny << "\n255\n";
-
+		ofs << "P3\n" << image->nx << " " << image->ny << "\n255\n";
+		float gamma = 2.2;
 		//Outputs colours as required by file format
 		for (int j = image->ny - 1; j >= 0; j--) {
 			for (int i = 0; i < image->nx; i++) {
+				
+				int ir = 255.99 * sqrt(powf(image->output_array[((i + (image->nx * j)) * 4)],1/gamma));
+				int ig = 255.99 * sqrt(powf(image->output_array[((i + (image->nx * j)) * 4) + 1],1/gamma));
+				int ib = 255.99 * sqrt(powf(image->output_array[((i + (image->nx * j)) * 4) + 2],1/gamma));
 
-				int ir = 255.99*sqrt(image->output_array[((i + (image->nx * j)) * 4)]);
-				int ig = 255.99*sqrt(image->output_array[((i + (image->nx * j)) * 4) + 1]);
-				int ib = 255.99*sqrt(image->output_array[((i + (image->nx * j)) * 4) + 2]);
-
-				std::cout << ir << " " << ig << " " << ib << "\n";
+				ofs << ir << " " << ig << " " << ib << "\n";
 			}
 		}
 
-		//Closes out.ppm file at end out output.
-		fclose(stdout);
-
+		//Close file
+		ofs.close();
+		std::cout << ".PPM save complete" << std::endl;
 	}
-	else {
-		std::cout << "All saves complete" << std::endl;
-	}
+	
+	
+	std::cout << "All saves complete" << std::endl;
+	
 }
 
 #endif // !SAVE_H
