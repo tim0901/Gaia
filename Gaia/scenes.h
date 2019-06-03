@@ -17,6 +17,8 @@
 #include "aabb.h"
 #include "bvh.h"
 
+
+
 void cornell_box(object **world, /*object **light_list, */image_parameters *image, camera **cam) {
 
 	//X goes right -> left
@@ -46,7 +48,7 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 	float aspect_ratio = float(image->nx) / float(image->ny);
 	*cam = new camera(look_from, look_at, up, fov, aspect_ratio, aperture, focal_length);
 
-	image->background_colour = new vec3(1, 1, 1);
+	image->background_colour = new vec3(0, 0, 0);
 
 	int i = 0;
 	object **list = new object*[50];
@@ -137,7 +139,7 @@ void mini(object **world, /*object **light_list, */image_parameters *image, came
 
 	image->nx = 1000;
 	image->ny = 500;
-	image->ns = 100;
+	image->ns = 1000;
 
 	image->edge_line_pass = false;
 	image->z_depth_pass = false;
@@ -149,7 +151,7 @@ void mini(object **world, /*object **light_list, */image_parameters *image, came
 	vec3 *skyblue = new vec3(119.0 / 255.0, 181.0 / 255.0, 254.0 / 255.0);
 	vec3 *whitecolour = new vec3(1, 1, 1);
 	image->saveHDR = true;
-	image->save_name = "mini multiple lights";
+	image->save_name = "mini OSD";
 	image->background_colour = new vec3(0,0,0);
 	image->montecarlo = false;
 
@@ -198,7 +200,7 @@ void mini(object **world, /*object **light_list, */image_parameters *image, came
 
 	//Objects
 
-	mesh *test = new mesh(load_mesh(0, "minitest.obj", matlist));
+	mesh *test = new mesh(load_mesh(0, image,"minitest.obj", matlist));
 	list[i++] = test;
 //	list[i++] = new xy_rect(1, 0, -5000, 5000, -5000, 5000, 0, vec3(0, 0, 1), red);
 
@@ -260,7 +262,7 @@ void teapot(object **world, /*object **light_list, */image_parameters *image, ca
 
 	//Objects
 
-	mesh *test = new mesh(load_mesh(i + 1, "rolling_Teapot.obj", matlist));
+	mesh *test = new mesh(load_mesh(i + 1, image, "rolling_Teapot.obj", matlist));
 	object **meshlist = new object*[1];
 	meshlist[0] = test;
 	list[i++] = new bvh_node(meshlist, 1, 0, 1);
