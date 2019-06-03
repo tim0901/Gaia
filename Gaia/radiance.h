@@ -20,11 +20,11 @@ vec4 cast(image_parameters *image, const ray& r, object *world, int depth) {
 		emitted = rec.mat_ptr->emitted(rec.u, rec.v, rec.p);
 
 		vec4 emitteda = vec4(emitted.r(), emitted.g(), emitted.b(), 1);
-		vec4 radiancea = vec4(radiance.r(), radiance.g(), radiance.b(), 1);
+		vec4 brdf = vec4(radiance.r(), radiance.g(), radiance.b(), 1);
 
 		if (depth < 50 && hit) {
 			//Path tracing equation
-			vec4 brdf = radiancea;
+
 			if (image->montecarlo == true) {
 				//Use Monte Carlo rendering - doesn't work with reflections
 				vec4 temp = emitteda + brdf *rec.mat_ptr->scattering_pdf(r, rec, scattered) *cast(image, scattered, world, depth + 1) / pdf;

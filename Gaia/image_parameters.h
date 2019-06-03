@@ -9,6 +9,10 @@
 
 struct image_parameters {
 
+	//Viewport
+	bool show_viewport = true;
+	bool progress_monitoring = false; // Prints chunks remaining in non-iterative mode
+
 	//Image dimensions
 	int nx = 1000;
 	int ny = 500;
@@ -62,6 +66,7 @@ struct image_parameters {
 	int* chunks_remaining = new int(0);
 
 	//Save Options
+	float gamma = 2.2;
 	std::string save_name = "random edge";
 	bool savePPM = false;
 	bool saveHDR = false;
