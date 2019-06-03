@@ -65,6 +65,9 @@ struct image_parameters {
 	int previous_samples = 0;
 	int* chunks_remaining = new int(0);
 
+	//OpenSubDiv settings
+	int maxlevel = 0;
+
 	//Save Options
 	float gamma = 2.2;
 	std::string save_name = "random edge";
