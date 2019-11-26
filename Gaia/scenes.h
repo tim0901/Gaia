@@ -27,7 +27,7 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 
 	image->nx = 500;
 	image->ny = 500;
-	image->ns = 100;
+	image->ns = 500;
 	image->iterative_mode = false;
 	image->z_depth_pass = false;
 	image->min_z_depth = 2;
@@ -36,7 +36,7 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 
 	image->saveHDR = false;
 	image->savePPM = false;
-	image->save_name = "scorch test iter";
+	image->save_name = "MIStrianglesYES";
 
 	//Camera
 	vec3 look_from(0.5, 0.5, -2);
@@ -79,7 +79,10 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 	list[i++] = new triangle(i, 0, new vec3(0, 1, 0), new vec3(1, 1, 0), new vec3(1, 1, 1), white, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
 
 	//Ceiling light
-	list[i++] = new rectangle(i, 0, vec3(0.3, 0.98, 0.3), vec3(0.3, 0.98, 0.7), vec3(0.7, 0.98, 0.7), light);
+//	list[i++] = new rectangle(i, 0, vec3(0.3, 0.98, 0.3), vec3(0.3, 0.98, 0.7), vec3(0.7, 0.98, 0.7), light);
+//	list[i++] = new xz_rect(i, 0, 0.3, 0.7,0.3, 0.7, 0.98, vec3(0,-1,0), light);
+	list[i++] = new triangle(i, 0, new vec3(0.3, 0.98, 0.3), new vec3(0.7, 0.98, 0.7), new vec3(0.3, 0.98, 0.7), light, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
+	list[i++] = new triangle(i, 0, new vec3(0.3, 0.98, 0.3), new vec3(0.7, 0.98, 0.3), new vec3(0.7, 0.98, 0.7), light, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
 
 	//Back Wall
 //	list[i++] = new rectangle(i,0,vec3(0, 1, 1), vec3(0, 0, 1), vec3(1, 0, 1), white);
@@ -96,6 +99,8 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 	list[i++] = new triangle(i, 0, new vec3(0, 0, 1), new vec3(0, 0, 0), new vec3(0, 1, 0), green, new vec3(1, 0, 0), new vec3(1, 0, 0), new vec3(1, 0, 0));
 	list[i++] = new triangle(i, 0, new vec3(0, 0, 1), new vec3(0, 1, 0), new vec3(0, 1, 1), green, new vec3(1, 0, 0), new vec3(1, 0, 0), new vec3(1, 0, 0));
 	
+	list[i++] = new sphere(i, 0, vec3(0.3, 0.2, 0.5), 0.2, white);
+
 	*world = new object_list(list, i);
 }
 
@@ -139,7 +144,7 @@ void mini(object **world, /*object **light_list, */image_parameters *image, came
 
 	image->nx = 1000;
 	image->ny = 500;
-	image->ns = 1000;
+	image->ns = 10;
 
 	image->edge_line_pass = false;
 	image->z_depth_pass = false;

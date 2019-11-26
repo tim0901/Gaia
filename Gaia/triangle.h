@@ -19,12 +19,11 @@ public:
 	virtual float pdf_value(const vec3& o, const vec3& v) const {
 		hit_record rec;
 		if (this->hit(ray(o, v), 0.001, FLT_MAX, rec)) {			
-			float area = ((*point1 - *point0).length())*((*point2 - *point0).length())*0.5;
-			//float distance_squared = rec.t*rec.t*v.squared_length();
-			//float cosine = fabs(dot(v, rec.normal) / v.length());
-			
+
+			float area = cross((*point1 - *point0), (*point2 - *point0)).length()*0.5;
+
+			//std::cout << *point0 << " " << *point1 << " " << *point2 << " " << ((*point1 - *point0).length()) << " " << ((*point2 - *point0).length()) << " " << area << std::endl;
 			return 1 / area;
-			//return (distance_squared / (cosine*area));
 		}
 		else {
 			return 0;
@@ -35,10 +34,10 @@ public:
 		float a = drand48();
 		float b = drand48();
 		float su0 = sqrt(a);
-		vec3 random_on_triangle = vec3(1 - su0, b*su0, 0);
 
-		vec3 random_point = *point0 + a*(*point1 - *point0) + b*(*point2 - *point0); //(*point0 + drand48() * (*point1-*point0), *point2 + drand48()*(*point2-*point1), *point1 + drand48()*(*point2 - *point1));
-		return random_on_triangle - o;
+		vec3 random_point = *point0 + (1-su0)*(*point1 - *point0) + (b*su0)*(*point2 - *point0); 
+
+		return random_point - o;
 		
 	}
 

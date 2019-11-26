@@ -147,6 +147,15 @@
     <ClInclude Include="vec4.h">
       <Filter>Source Files\Maths</Filter>
     </ClInclude>
+    <ClInclude Include="pdf.h">
+      <Filter>Source Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="onb.h">
+      <Filter>Source Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix4.h">
+      <Filter>Source Files\Maths</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Gaia.cpp">

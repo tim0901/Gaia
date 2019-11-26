@@ -5,6 +5,7 @@
 
 #include "material.h"
 #include "random.h"
+#include "onb.h"
 
 class lambertian :public material {
 public:
@@ -15,10 +16,12 @@ public:
 		if (cosine < 0) {
 			cosine = 0;
 		}
-		return cosine;
+		return cosine/M_PI;
 	}
 	
-	virtual vec3 emitted(float u, float v, const vec3& p) const { return vec3(0, 0, 0); }
+	virtual vec3 emitted(const ray &incident, const hit_record &rec, float u, float v, const vec3& p) const {
+		
+		return vec3(0, 0, 0); }
 
 
 	virtual bool scatter(const ray &incident, const hit_record &rec, vec3 &brdf, ray &scattered, float &pdf) const {
@@ -32,19 +35,25 @@ public:
 		} while (dot(target, rec.normal) < 0);
 		*/
 
+		onb uvw;
+		uvw.build_from_w(rec.normal);
+
+		scattered = ray(rec.p, unit_vector(uvw.local(random_cosine_direction())));
+		
 		//Temp
 		target = rec.p + rec.normal + random_in_unit_sphere();
 		
 		//Fires new ray
-		scattered = ray(rec.p,unit_vector(target - rec.p));
+		//scattered = ray(rec.p,unit_vector(target - rec.p));
 
 
 		float cos_theta = dot(scattered.direction(), rec.normal);
 		
 		//Absorbs a little of the colour of the material
-		brdf = cos_theta * albedo/M_PI;
+		//brdf = cos_theta * albedo/M_PI;
+		brdf = albedo;
 
-		pdf = 0.5; //dot(rec.normal, scattered.direction());
+		pdf = dot(uvw.w(), scattered.direction())/M_PI;
 
 		return true;
 	}
