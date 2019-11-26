@@ -32,5 +32,9 @@ vec3 random_in_unit_sphere() {
 	return p;
 }
 
+//Normalize random in unit sphere to sample on a unit sphere
+vec3 randon_on_unit_sphere() {
+	return unit_vector(random_in_unit_sphere());
+}
 
 #endif //RANDOM_H
