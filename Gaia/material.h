@@ -6,13 +6,22 @@
 #include "vec3.h"
 #include "ray.h"
 
+//Forward declaration
 struct hit_record;
+class pdf;
+
+struct scattering_record {
+	ray specular_ray;
+	bool is_specular;
+	vec3 brdf;
+	pdf* pdf;
+};
 
 //Defines a material
 class material {
 public:
 	//Scatter function
-	virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& albedo, ray& scattered, float& pdf) const = 0;
+	virtual bool scatter(const ray& r_in, const hit_record& rec, scattering_record &scatter) const = 0;
 	virtual vec3 emitted(const ray& r_in, const hit_record& rec, float u, float v, const vec3& p) const { return vec3(0, 0, 0); }
 	virtual float scattering_pdf(const ray& r_in, const hit_record& rec, const ray& scattered) const { return 0; }
 

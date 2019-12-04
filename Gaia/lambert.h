@@ -21,40 +21,14 @@ public:
 	
 	virtual vec3 emitted(const ray &incident, const hit_record &rec, float u, float v, const vec3& p) const {
 		
-		return vec3(0, 0, 0); }
+		return vec3(0, 0, 0); 
+	}
 
-
-	virtual bool scatter(const ray &incident, const hit_record &rec, vec3 &brdf, ray &scattered, float &pdf) const {
-		//New ray direction is uniformly sampled from a sphere
-		vec3 target;
-
-		/*
-		//This will break as soon as the ray is travelling in the -ve direction.
-		do {
-			target = rec.p + rec.normal + random_in_unit_sphere();
-		} while (dot(target, rec.normal) < 0);
-		*/
-
-		onb uvw;
-		uvw.build_from_w(rec.normal);
-
-		scattered = ray(rec.p, unit_vector(uvw.local(random_cosine_direction())));
-		
-		//Temp
-		target = rec.p + rec.normal + random_in_unit_sphere();
-		
-		//Fires new ray
-		//scattered = ray(rec.p,unit_vector(target - rec.p));
-
-
-		float cos_theta = dot(scattered.direction(), rec.normal);
-		
-		//Absorbs a little of the colour of the material
-		//brdf = cos_theta * albedo/M_PI;
-		brdf = albedo;
-
-		pdf = dot(uvw.w(), scattered.direction())/M_PI;
-
+	virtual bool scatter(const ray &incident, const hit_record &rec, scattering_record &scatter) const {
+		scatter.is_specular = false;
+		scatter.specular_ray;
+		scatter.brdf = albedo;
+		scatter.pdf = new cosine_pdf(rec.normal);
 		return true;
 	}
 

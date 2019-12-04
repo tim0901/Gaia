@@ -15,15 +15,13 @@ class dielectric :public material {
 public:
 	dielectric(float ref_ind, const vec3& a) :ref_indx(ref_ind), albedo(a) {}
 
-	float scattering_pdf(const ray &incident, const hit_record &rec, const ray &scattered) const {
-		return 0;
-	}
-	
-	virtual bool scatter(const ray &incident, const hit_record &rec, vec3 &alb, ray &scattered, float &pdf) const {
+	virtual bool scatter(const ray &incident, const hit_record &rec, scattering_record &scatter) const {
 		vec3 outward_normal;
 		vec3 reflected = reflect(incident.direction(), rec.normal);
 		float ni_over_nt;
-		alb = albedo;
+		scatter.brdf = albedo;
+		scatter.is_specular = true;
+		scatter.pdf = 0;
 		vec3 refracted;
 		float reflection_prob;
 		float cosine;
@@ -51,10 +49,10 @@ public:
 
 		//Randomly assign rays to reflection and refraction, depending on their reflection probabilities
 		if (drand48() < reflection_prob) {
-			scattered = ray(rec.p, reflected);
+			scatter.specular_ray = ray(rec.p, reflected);
 		}
 		else {
-			scattered = ray(rec.p, refracted);
+			scatter.specular_ray = ray(rec.p, refracted);
 		}
 
 		return true;
