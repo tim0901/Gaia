@@ -17,17 +17,15 @@
 #include "aabb.h"
 #include "bvh.h"
 
-
-
-void cornell_box(object **world, /*object **light_list, */image_parameters *image, camera **cam) {
+void cornell_box(object **world, object **light_list, image_parameters *image, camera **cam) {
 
 	//X goes right -> left
 	//Y goes down -> up
 	//Z goes front -> back
 
-	image->nx = 500;
-	image->ny = 500;
-	image->ns = 500;
+	image->nx = 1000;
+	image->ny = 1000;
+	image->ns = 2000;
 	image->iterative_mode = false;
 	image->z_depth_pass = false;
 	image->min_z_depth = 2;
@@ -36,7 +34,7 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 
 	image->saveHDR = false;
 	image->savePPM = false;
-	image->save_name = "MIStrianglesYES";
+	image->save_name = "montecarlocornell";
 
 	//Camera
 	vec3 look_from(0.5, 0.5, -2);
@@ -65,8 +63,9 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 	metal *minigreen = new metal(vec3(28.0 / 255.0, 54.0 / 255.0, 50.0 / 255.0), 0);
 	metal *purplemetal = new metal(vec3(28.0 / 255.0, 4.0 / 255.0, 50.0 / 255.0), 0);
 	metal *minigreen3 = new metal(vec3(6.0 / 255.0, 33.0 / 255.0, 10.0 / 255.0), 0.3);
+	dielectric* glass = new dielectric(1.5, vec3(1.0, 1.0, 1.0));
 
-	//Objects
+	//Object list
 	
 	//Floor
 //	list[i++] = new rectangle(i,0,vec3(0, 0, 0), vec3(1, 0, 0), vec3(1, 0, 1), white); 
@@ -80,9 +79,9 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 
 	//Ceiling light
 //	list[i++] = new rectangle(i, 0, vec3(0.3, 0.98, 0.3), vec3(0.3, 0.98, 0.7), vec3(0.7, 0.98, 0.7), light);
-//	list[i++] = new xz_rect(i, 0, 0.3, 0.7,0.3, 0.7, 0.98, vec3(0,-1,0), light);
-	list[i++] = new triangle(i, 0, new vec3(0.3, 0.98, 0.3), new vec3(0.7, 0.98, 0.7), new vec3(0.3, 0.98, 0.7), light, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
-	list[i++] = new triangle(i, 0, new vec3(0.3, 0.98, 0.3), new vec3(0.7, 0.98, 0.3), new vec3(0.7, 0.98, 0.7), light, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
+	list[i++] = new xz_rect(i, 0, 0.3, 0.7,0.3, 0.7, 0.999, vec3(0,-1,0), light);
+//	list[i++] = new triangle(i, 0, new vec3(0.3, 0.999, 0.3), new vec3(0.7, 0.999, 0.7), new vec3(0.3, 0.999, 0.7), light, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
+//	list[i++] = new triangle(i, 0, new vec3(0.3, 0.999, 0.3), new vec3(0.7, 0.999, 0.3), new vec3(0.7, 0.999, 0.7), light, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
 
 	//Back Wall
 //	list[i++] = new rectangle(i,0,vec3(0, 1, 1), vec3(0, 0, 1), vec3(1, 0, 1), white);
@@ -99,12 +98,103 @@ void cornell_box(object **world, /*object **light_list, */image_parameters *imag
 	list[i++] = new triangle(i, 0, new vec3(0, 0, 1), new vec3(0, 0, 0), new vec3(0, 1, 0), green, new vec3(1, 0, 0), new vec3(1, 0, 0), new vec3(1, 0, 0));
 	list[i++] = new triangle(i, 0, new vec3(0, 0, 1), new vec3(0, 1, 0), new vec3(0, 1, 1), green, new vec3(1, 0, 0), new vec3(1, 0, 0), new vec3(1, 0, 0));
 	
-	list[i++] = new sphere(i, 0, vec3(0.3, 0.2, 0.5), 0.2, white);
+	list[i++] = new sphere(i, 0, vec3(0.3, 0.2, 0.5), 0.2, glass);
 
+	//list[i++] = new sphere(i, 0, vec3(0.3, 0.2, 0.5), 0.2, purplemetal);
+
+	//i is reused for object id so must assign world list now
 	*world = new object_list(list, i);
+
+	//Light List
+	int j = 0;
+	object** llist = new object* [50];
+
+//	llist[j++] = new triangle(i++, 0, new vec3(0.3, 0.999, 0.3), new vec3(0.7, 0.999, 0.7), new vec3(0.3, 0.999, 0.7), 0, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
+//	llist[j++] = new triangle(i++, 0, new vec3(0.3, 0.999, 0.3), new vec3(0.7, 0.999, 0.3), new vec3(0.7, 0.999, 0.7), 0, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
+	llist[j++] = new sphere(i++, 0, vec3(0.3, 0.2, 0.5), 0.2, 0);
+	llist[i++] = new xz_rect(i++, 0, 0.3, 0.7, 0.3, 0.7, 0.999, vec3(0, -1, 0), 0);
+
+	*light_list = new object_list(llist, j);
+
 }
 
-void furnace_test(object **world, /*object **light_list, */image_parameters *image, camera **cam) {
+void bunny_test(object** world, object** light_list, image_parameters* image, camera** cam) {
+
+
+	//X goes right -> left
+	//Y goes down -> up
+	//Z goes front -> back
+
+	image->nx = 500;
+	image->ny = 500;
+	image->ns = 1000;
+	image->iterative_mode = false;
+	image->z_depth_pass = false;
+	image->min_z_depth = 2;
+	image->max_z_depth = 3.5;
+	image->montecarlo = true;
+
+	image->saveHDR = true;
+	image->savePPM = false;
+	image->save_name = "bunny";
+
+	image->maxlevel = 3;
+
+	//Camera
+	vec3 look_from(-0.02, 0.13, 2);
+	vec3 look_at(-0.02, 0.1, 0);
+	vec3 up(0, 1, 0); // vector that is "up" for the camera
+	float focal_length = (look_from - look_at).length();
+	int fov = 6;
+	float aperture = 0.0;
+	float aspect_ratio = float(image->nx) / float(image->ny);
+	*cam = new camera(look_from, look_at, up, fov, aspect_ratio, aperture, focal_length);
+
+	image->background_colour = new vec3(0, 0, 0);
+
+	int i = 0;
+	object** list = new object * [50];
+
+	//Materials
+	diffuse_light* light = new diffuse_light(new vec3(10, 10, 10));
+	lambertian* white = new lambertian(vec3(0.73, 0.73, 0.73));
+	lambertian* green = new lambertian(vec3(0.12, 0.45, 0.15));
+	lambertian* red = new lambertian(vec3(0.65, 0.05, 0.05));
+	lambertian* blue = new lambertian(vec3(0.05, 0.05, 0.65));
+	lambertian* yellow = new lambertian(vec3(0.8, 0.8, 0));
+	lambertian* racinggreen = new lambertian(vec3(0.0, 66.0 / 255.0, 37.0 / 255.0));
+	metal* redmetal = new metal(vec3(0.65, 0.05, 0.05), 0.3);
+	metal* minigreen = new metal(vec3(28.0 / 255.0, 54.0 / 255.0, 50.0 / 255.0), 0);
+	metal* purplemetal = new metal(vec3(28.0 / 255.0, 4.0 / 255.0, 50.0 / 255.0), 0);
+	metal* minigreen3 = new metal(vec3(6.0 / 255.0, 33.0 / 255.0, 10.0 / 255.0), 0.3);
+	dielectric* glass = new dielectric(1.0, vec3(0.65, 0.05, 0.05));
+	oren_nayar* oren = new oren_nayar(vec3(0.73, 0.73, 0.73), 0.5);
+
+
+	//Object list
+	//Stanford bunny mesh
+	material** matlist = new material * [50];
+	int m = 0;
+	matlist[m++] = white;
+	mesh* bunnymesh = new mesh(load_mesh(0, image, "bunny.obj", matlist));
+
+	list[i++] = new triangle(i, 0, new vec3(-0.2, 0.3, -0.2), new vec3(0.2, 0.3, 0.2), new vec3(-0.2, 0.3, 0.2), light, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
+	list[i++] = new triangle(i, 0, new vec3(-0.2, 0.3, -0.2), new vec3(0.2, 0.3, -0.2), new vec3(0.2, 0.3, 0.2), light, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
+
+	list[i++] = bunnymesh;
+	*world = new object_list(list, i);
+
+	//Light List
+	int j = 0;
+	object** llist = new object * [50];
+
+	llist[j++] = new triangle(i++, 0, new vec3(-0.2, 0.3, -0.2), new vec3(0.2, 0.3, 0.2), new vec3(-0.2, 0.3, 0.2), 0, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
+	llist[j++] = new triangle(i++, 0, new vec3(-0.2, 0.3, -0.2), new vec3(0.2, 0.3, -0.2), new vec3(0.2, 0.3, 0.2), 0, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
+
+	*light_list = new object_list(llist, j);
+}
+
+void furnace_test(object **world, object** light_list, image_parameters *image, camera **cam) {
 
 	image->nx = 500;
 	image->ny = 500;
@@ -136,7 +226,7 @@ void furnace_test(object **world, /*object **light_list, */image_parameters *ima
 	*world = new object_list(list, i);
 }
 
-void mini(object **world, /*object **light_list, */image_parameters *image, camera **cam) {
+void mini(object **world, object **light_list, image_parameters *image, camera **cam) {
 
 	//X goes right -> left
 	//Y goes down -> up
@@ -144,7 +234,7 @@ void mini(object **world, /*object **light_list, */image_parameters *image, came
 
 	image->nx = 1000;
 	image->ny = 500;
-	image->ns = 10;
+	image->ns = 25;
 
 	image->edge_line_pass = false;
 	image->z_depth_pass = false;
@@ -158,7 +248,7 @@ void mini(object **world, /*object **light_list, */image_parameters *image, came
 	image->saveHDR = true;
 	image->save_name = "mini OSD";
 	image->background_colour = new vec3(0,0,0);
-	image->montecarlo = false;
+	image->montecarlo = true;
 
 	//Camera
 	vec3 look_from(-100, -150, 50);
@@ -211,6 +301,9 @@ void mini(object **world, /*object **light_list, */image_parameters *image, came
 
 	list[i++] = new sphere(1, 0, vec3(0, 0, -10000), 10000, grey);
 
+	list[i++] = new xy_rect(2, 0, -100, 100, -100, 100, 100, vec3(0, 0, -1), light);
+
+	/*
 	list[i++] = new sphere(2, 0, vec3(-100, -150, 300), 150, light);
 	list[i++] = new sphere(3, 0, vec3(-100, 0, 300), 100, light);
 	list[i++] = new sphere(4, 0, vec3(0, -150, 300), 100, light);
@@ -219,8 +312,19 @@ void mini(object **world, /*object **light_list, */image_parameters *image, came
 	list[i++] = new sphere(7, 0, vec3(100, -150, 300), 100, light);
 	list[i++] = new sphere(8, 0, vec3(-100, 150, 300), 100, light);
 	list[i++] = new sphere(9, 0, vec3(100, 150, 300), 100, light);
-	
+	*/
 	*world = new object_list(list, i);
+
+	//Light List
+	int j = 0;
+	object** llist = new object * [50];
+
+	llist[j++] = new xy_rect(2, 0, -100, 100, -100, 100, 100, vec3(0, 0, -1), 0);
+	llist[j++] = test;
+
+	*light_list = new object_list(llist, j);
+
+
 }
 
 

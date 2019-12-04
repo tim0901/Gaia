@@ -21,35 +21,25 @@ public:
 		return mat->scattering_pdf(incident,rec, scattered);
 	}
 
-	virtual bool scatter(const ray &incident, const hit_record &rec, vec3 &brdf, ray &scattered, float &pdf) const {
+	virtual bool scatter(const ray &incident, const hit_record &rec, scattering_record &scatter) const {
+
+
 
 		//Render base material
-		mat->scatter(incident, rec, brdf, scattered, pdf);
-		
-		if (mat->type == "lambertian") {
-			brdf = brdf * M_PI;
-		}
-
-		vec3 albedo;
-
-		//Location of light
-		
+		mat->scatter(incident, rec, scatter);
 
 		//Find angle between normal and light direction
 		vec3 tolight = unit_vector(*pointat - rec.p);
 		float cosine = dot(tolight, rec.normal);
 
-		vec3 kcool = vec3(0, 0, warm) + alpha * brdf;
-		vec3 kwarm = vec3(cool, cool, 0) + beta * brdf;
+		vec3 kcool = vec3(0, 0, warm) + alpha * scatter.brdf;
+		vec3 kwarm = vec3(cool, cool, 0) + beta * scatter.brdf;
 
-		albedo = ((1 + cosine) / 2)*kcool + (1 - ((1 + cosine) / 2))*kwarm;
+		//Tint material
+		scatter.brdf = ((1 + cosine) / 2)*kcool + (1 - ((1 + cosine) / 2))*kwarm;
 		
-		float cos_theta = dot(scattered.direction(), rec.normal);
-		
-		//Absorbs a little of the colour of the material
-		brdf = cos_theta * albedo / M_PI;
 
-		pdf = 0.5; //dot(rec.normal, scattered.direction());
+		scatter.pdf = scatter.pdf; //keep pdf of base material
 
 		return true;
 	}

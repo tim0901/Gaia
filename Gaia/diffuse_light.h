@@ -9,7 +9,7 @@
 class diffuse_light :public material {
 public:
 	diffuse_light(vec3 *a) : emit(a) {}
-	virtual bool scatter(const ray &incident, const hit_record &rec, vec3 &alb, ray& scattered, float &pdf) const {
+	virtual bool scatter(const ray &incident, const hit_record &rec, scattering_record &scatter) const {
 		return false;
 	}
 	virtual vec3 emitted(const ray& incident, const hit_record &rec, float u, float v, const vec3& p) const { 
