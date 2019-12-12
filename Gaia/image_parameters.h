@@ -25,6 +25,9 @@ struct image_parameters {
 	int ns = 100;
 	float *sample_reciprocals = { 0 };
 	float **sample_reciprocals_ptr = &sample_reciprocals;
+	int stratify_divisions = 1;
+	int strat_sample_iter_u = 0;
+	int strat_sample_iter_v = 0;
 
 	///Ray bounces
 	int bounces = 10;
@@ -50,6 +53,7 @@ struct image_parameters {
 	///Edge Line Pass Options
 	int edge_line_quality_n = 3; //+ve integer, min N=1
 	float edge_line_thickness_h = 3;
+	bool primitive_edge_lines = true;
 	vec3* background_colour = new vec3(0, 0, 0);
 
 	///Z_depth Pass Options

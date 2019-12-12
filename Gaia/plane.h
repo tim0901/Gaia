@@ -89,6 +89,23 @@ public:
 		return true;
 	}
 
+	virtual float pdf_value(const vec3& o, const vec3& v) const {
+		hit_record rec;
+		if (this->hit(ray(o, v), 0.001, FLT_MAX, rec)) {
+			float area = (x1 - x0) * (y1 - y0);
+			float distance_squared = rec.t * rec.t * v.squared_length();
+			float cosine = fabs(dot(v, rec.normal) / v.length());
+			return  distance_squared / (cosine * area);
+		}
+		else
+			return 0;
+	}
+	virtual vec3 random(const vec3& o) const {
+		vec3 random_point = vec3(x0 + drand48() * (x1 - x0),
+			y0 + drand48() * (y1 - y0), const_axis);
+		return random_point - o;
+	}
+
 	float object_id;
 	float primitive_id;
 
@@ -140,6 +157,23 @@ public:
 	virtual bool bounding_box(float t0, float t1, aabb& box) const {
 		box = aabb(vec3(const_axis - 0.0001, y0, z0), vec3(const_axis + 0.0001, y1, z1));
 		return true;
+	}
+
+	virtual float pdf_value(const vec3& o, const vec3& v) const {
+		hit_record rec;
+		if (this->hit(ray(o, v), 0.001, FLT_MAX, rec)) {
+			float area = (y1 - y0) * (z1 - z0);
+			float distance_squared = rec.t * rec.t * v.squared_length();
+			float cosine = fabs(dot(v, rec.normal) / v.length());
+			return  distance_squared / (cosine * area);
+		}
+		else
+			return 0;
+	}
+	virtual vec3 random(const vec3& o) const {
+		vec3 random_point = vec3(const_axis, y0 + drand48() * (y1 - y0),
+			z0 + drand48() * (z1 - z0));
+		return random_point - o;
 	}
 
 	float object_id;

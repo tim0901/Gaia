@@ -15,6 +15,7 @@ public:
 		float cosine = dot(rec.normal, unit_vector(scattered.direction()));
 		if (cosine < 0) {
 			cosine = 0;
+			return 0;
 		}
 		return cosine/M_PI;
 	}

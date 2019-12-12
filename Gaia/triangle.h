@@ -22,8 +22,10 @@ public:
 
 			float area = cross((*point1 - *point0), (*point2 - *point0)).length()*0.5;
 
+			float distance_squared = rec.t * rec.t * v.squared_length();
+			float cosine = fabs(dot(v, rec.normal) / v.length());
 			//std::cout << *point0 << " " << *point1 << " " << *point2 << " " << ((*point1 - *point0).length()) << " " << ((*point2 - *point0).length()) << " " << area << std::endl;
-			return 1 / area;
+			return distance_squared / (cosine * area);
 		}
 		else {
 			return 0;
