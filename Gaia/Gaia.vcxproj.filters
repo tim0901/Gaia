@@ -138,12 +138,6 @@
     <ClInclude Include="gooch.h">
       <Filter>Source Files\Shading\Materials</Filter>
     </ClInclude>
-    <ClInclude Include="aabb.h">
-      <Filter>Source Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="bvh.h">
-      <Filter>Source Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="vec4.h">
       <Filter>Source Files\Maths</Filter>
     </ClInclude>
@@ -155,6 +149,21 @@
     </ClInclude>
     <ClInclude Include="matrix4.h">
       <Filter>Source Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh.h">
+      <Filter>Source Files\Accelerators</Filter>
+    </ClInclude>
+    <ClInclude Include="aabb.h">
+      <Filter>Source Files\Accelerators</Filter>
+    </ClInclude>
+    <ClInclude Include="translate.h">
+      <Filter>Source Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="rotate.h">
+      <Filter>Source Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="box.h">
+      <Filter>Source Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

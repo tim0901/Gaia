@@ -53,6 +53,7 @@ vec4 cast(image_parameters *image, const ray& r, object *world, object* light_li
 		}
 		else {
 			//Terminate ray
+			//delete scatter.pdf;
 			return emitteda;
 		}
 
