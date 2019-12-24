@@ -26,23 +26,23 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
 	//Y goes down -> up
 	//Z goes front -> back
 
-	image->nx = 500;
-	image->ny = 500;
-	image->ns = 100;
+	image->nx = 3000;
+	image->ny = 3000;
+	image->ns = 1000;
 	image->iterative_mode = false;
 	image->z_depth_pass = false;
-	image->edge_line_pass = true;
+	image->edge_line_pass = false;
 
 	image->min_z_depth = 2;
 	image->max_z_depth = 3.5;
 	image->montecarlo = true;
 	image->stratify_divisions = 1;
 
-	image->maxlevel = 0;
+	image->maxlevel = 1;
 
 	image->saveHDR = false;
 	image->savePPM = false;
-	image->save_name = "bunnycornell2";
+	image->save_name = "minibox";
 
 	//Camera
 	vec3 look_from(0.5, 0.5, -2);
@@ -59,6 +59,8 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
 	int i = 0;
 	object **list = new object*[50];
 
+	vec3 *pointat = new vec3(0.5, 0.9999, 0.5);
+
 	//Materials
 	diffuse_light *light = new diffuse_light(new vec3(10, 10, 10));
 	lambertian *white = new lambertian(vec3(0.73, 0.73, 0.73));
@@ -66,13 +68,19 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
 	lambertian *red = new lambertian(vec3(0.65, 0.05, 0.05));
 	lambertian *blue = new lambertian(vec3(0.05, 0.05, 0.65));
 	lambertian *yellow = new lambertian(vec3(0.8, 0.8, 0));
+	lambertian* black = new lambertian(vec3(0.05, 0.05, 0.05));
 	lambertian *racinggreen = new lambertian(vec3(0.0, 66.0 / 255.0, 37.0 / 255.0));
 	metal *redmetal = new metal(vec3(0.65, 0.05, 0.05), 0.3);
 	metal *whitemetal = new metal(vec3(0.65, 0.65, 0.65), 0);
 	metal *minigreen = new metal(vec3(28.0 / 255.0, 54.0 / 255.0, 50.0 / 255.0), 0);
 	metal *purplemetal = new metal(vec3(28.0 / 255.0, 4.0 / 255.0, 50.0 / 255.0), 0);
+	gooch* goochtest = new gooch(0.4, 0.4, 0.2, 0.6, pointat, white);
 	metal *minigreen3 = new metal(vec3(6.0 / 255.0, 33.0 / 255.0, 10.0 / 255.0), 0.3);
 	dielectric* glass = new dielectric(1.5, vec3(1.0, 1.0, 1.0));
+	metal* chrome = new metal(vec3(0.4, 0.4, 0.4), 0.9);
+	dielectric* redglass = new dielectric(1.5, vec3(0.65, 0.05, 0.05));
+	lambertian* beige = new lambertian(vec3(207.0 / 255.0, 185.0 / 255.0, 151.0 / 255.0));
+
 
 	//Object list
 	
@@ -108,22 +116,47 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
 //	list[i++] = new triangle(i, 0, new vec3(0, 0, 1), new vec3(0, 0, 0), new vec3(0, 1, 0), green, new vec3(1, 0, 0), new vec3(1, 0, 0), new vec3(1, 0, 0));
 //	list[i++] = new triangle(i, 0, new vec3(0, 0, 1), new vec3(0, 1, 0), new vec3(0, 1, 1), green, new vec3(1, 0, 0), new vec3(1, 0, 0), new vec3(1, 0, 0));
 	
-	list[i++] = new sphere(i, 0, vec3(0.3, 0.2, 0.5), 0.2, glass);
+	list[i++] = new translate(new sphere(i, 0, vec3(0.3, 0.2, 0.5), 0.2, glass),vec3(0,0,0));
+//	list[i++] = new translate(new sphere(i, 0, vec3(0.3, 0.2, 0.5), -0.199, glass),vec3(0,0,0));
 
-	list[i++] = new rotate_y(new box(i, vec3(0.6, 0, 0.6), vec3(0.8, 0.2, 0.8), purplemetal),10);
+	list[i++] = new rotate_y(new box(i, vec3(0.6, 0, 0.7), vec3(0.8, 0.2, 0.9), whitemetal),10);
 	
-
 
 	//Stanford bunny mesh
 	material** matlist = new material * [50];
 	int m = 0;
-	matlist[m++] = white;
-	mesh* bunnymesh = new mesh(load_mesh(i, image, "bunny.obj", matlist));
-	list[i++] = new translate( new rotate_y(bunnymesh, -120), vec3(0.7, -0.04, 0.3));
+	//matlist[m++] = goochtest;
+
+	matlist[0] = chrome;
+	matlist[1] = black;
+	matlist[2] = black;
+	matlist[3] = beige;
+	matlist[4] = minigreen3;
+	matlist[5] = glass;
+	matlist[6] = redglass;
 
 
 
-	//list[i++] = new sphere(i, 0, vec3(0.3, 0.2, 0.5), 0.2, purplemetal);
+	//Load raw mesh from file
+//	raw_mesh* raw_bunny = &load_mesh(i, image, "bunny.obj", matlist);
+
+	//Initialize mesh
+//	mesh* bunnymesh = new mesh(raw_bunny, 0, 0.8);
+
+	//Add mesh to scene
+//	list[i++] = new translate( new rotate_y(bunnymesh, -120), vec3(0.3, 0.2, 0.5));
+
+	raw_mesh* raw_mini = &load_mesh(i, image, "minitest.obj", matlist);
+
+	mesh* minimesh = new mesh(raw_mini, 0, 0.0025);
+	list[i++] = new translate( new rotate_y(new rotate_z(new rotate_y(minimesh, 90), 90),145), vec3(0.7, 0.075, 0.2));
+
+
+	//list[i++] = new sphere(0, 0, vec3(0, 0, 0), 0.1, white);
+
+//	list[i++] = new translate( new rotate_y(bunnymesh, -120), vec3(0.7, -0.04, 0.3));
+
+
 
 	//i is still used for object id so must assign world list now
 	*world = new object_list(list, i);
@@ -200,7 +233,8 @@ void bunny_test(object** world, object** light_list, image_parameters* image, ca
 	material** matlist = new material * [50];
 	int m = 0;
 	matlist[m++] = white;
-	mesh* bunnymesh = new mesh(load_mesh(0, image, "bunny.obj", matlist));
+	raw_mesh* raw = &load_mesh(0, image, "bunny.obj", matlist);
+	mesh* bunnymesh = new mesh(raw, 0, 1.0);
 
 	list[i++] = new triangle(i, 0, new vec3(-0.2, 0.3, -0.2), new vec3(0.2, 0.3, 0.2), new vec3(-0.2, 0.3, 0.2), light, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
 	list[i++] = new triangle(i, 0, new vec3(-0.2, 0.3, -0.2), new vec3(0.2, 0.3, -0.2), new vec3(0.2, 0.3, 0.2), light, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
@@ -302,11 +336,11 @@ void mini(object **world, object **light_list, image_parameters *image, camera *
 	lambertian *minigreen2 = new lambertian(vec3(28.0 / 255.0, 54.0 / 255.0, 50.0 / 255.0));
 	lambertian *racinggreen = new lambertian(vec3(0.0, 66.0 / 255.0, 37.0 / 255.0));
 	lambertian *grey = new lambertian(vec3(0.4, 0.4, 0.4));
-	lambertian *beige = new lambertian(vec3(207.0/255.0, 185.0/255.0, 151.0/255.0));
 	metal *chrome = new metal(vec3(0.4, 0.4, 0.4),0.9);
 
 	dielectric *glass = new dielectric(1.0, vec3(1, 1, 1));
 	dielectric *redglass = new dielectric(1.5, vec3(0.65, 0.05, 0.05));
+	lambertian* beige = new lambertian(vec3(207.0 / 255.0, 185.0 / 255.0, 151.0 / 255.0));
 
 	material **matlist = new material*[50];
 	matlist[0] = chrome;
@@ -319,8 +353,10 @@ void mini(object **world, object **light_list, image_parameters *image, camera *
 
 	//Objects
 
-	mesh *test = new mesh(load_mesh(0, image,"minitest.obj", matlist));
-	list[i++] = test;
+	raw_mesh* raw = &load_mesh(0, image, "minitest.obj", matlist);
+
+	mesh *mini_mesh = new mesh(raw, 0, 1.0);
+	list[i++] = mini_mesh;
 //	list[i++] = new xy_rect(1, 0, -5000, 5000, -5000, 5000, 0, vec3(0, 0, 1), red);
 
 	list[i++] = new sphere(1, 0, vec3(0, 0, -10000), 10000, grey);
@@ -344,7 +380,7 @@ void mini(object **world, object **light_list, image_parameters *image, camera *
 	object** llist = new object * [50];
 
 	llist[j++] = new xy_rect(2, 0, -100, 100, -100, 100, 100, vec3(0, 0, -1), 0);
-	llist[j++] = test;
+	llist[j++] = mini_mesh;
 
 	*light_list = new object_list(llist, j);
 
@@ -395,7 +431,9 @@ void teapot(object **world, /*object **light_list, */image_parameters *image, ca
 
 	//Objects
 
-	mesh *test = new mesh(load_mesh(i + 1, image, "rolling_Teapot.obj", matlist));
+	raw_mesh* raw = &load_mesh(i + 1, image, "rolling_Teapot.obj", matlist);
+
+	mesh *test = new mesh(raw, new vec3(0,0,0), 1.0);
 	object **meshlist = new object*[1];
 	meshlist[0] = test;
 	list[i++] = new bvh_node(meshlist, 1, 0, 1);
