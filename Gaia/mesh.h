@@ -64,7 +64,6 @@ public:
 		}
 
 		free(raw->vertexList);
-		free(raw->normalsList);
 		free(raw->trianglesList);
 		free(raw->materialsList);
 

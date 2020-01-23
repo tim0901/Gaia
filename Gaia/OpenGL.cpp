@@ -53,7 +53,10 @@ int initialise_window(image_parameters* image, bool *windowOpen) {
 
 	GLFWwindow* window;
 	//This creates a window object
-	window = glfwCreateWindow(xDim, yDim, "Gaia", NULL, NULL);
+
+	std::string windowname = "Gaia - " + image->save_name;
+
+	window = glfwCreateWindow(xDim, yDim, windowname.c_str(), NULL, NULL);
 
 
 	if (window == NULL)

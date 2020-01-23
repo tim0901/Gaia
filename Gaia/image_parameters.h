@@ -34,7 +34,7 @@ struct image_parameters {
 
 	///Chunk order
 	bool spiral = true;
-	bool spiral_in = false;
+	bool spiral_in = true;
 
 	///Chunk storage vector
 	std::vector<chunk> chunk_vector;
@@ -46,7 +46,6 @@ struct image_parameters {
 	int yChunks;
 
 	///Pass Options
-	bool montecarlo = false;
 	bool edge_line_pass = false;
 	bool z_depth_pass = false;
 
@@ -62,7 +61,7 @@ struct image_parameters {
 	bool invert_z_colours = false;
 	
 	///Iterative mode settings
-	bool iterative_mode = true;
+	bool iterative_mode = false;
 	int sample_number = 1;
 	int previous_samples = 0;
 	int* chunks_remaining = new int(0);

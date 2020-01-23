@@ -139,7 +139,6 @@ bool triangle::hit(const ray& r, float tmin, float tmax, hit_record& rec) const 
 	//rec.v = uvHit.v();
 	rec.normal = vec3(unit_vector(cross(dp02, dp12)));
 
-
 	//broken?
 	/*if (normal0 != (0,0,0)) {
 		rec.normal = unit_vector(b0* *normal0 + b1 * *normal1 + b2 * *normal2);

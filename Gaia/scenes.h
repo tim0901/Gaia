@@ -26,23 +26,22 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
 	//Y goes down -> up
 	//Z goes front -> back
 
-	image->nx = 3000;
-	image->ny = 3000;
-	image->ns = 1000;
+	image->nx = 300;
+	image->ny = 300;
+	image->ns = 200;
 	image->iterative_mode = false;
 	image->z_depth_pass = false;
 	image->edge_line_pass = false;
 
 	image->min_z_depth = 2;
 	image->max_z_depth = 3.5;
-	image->montecarlo = true;
 	image->stratify_divisions = 1;
 
-	image->maxlevel = 1;
+	image->maxlevel = 0;
 
 	image->saveHDR = false;
 	image->savePPM = false;
-	image->save_name = "minibox";
+	image->save_name = "highresnomodel";
 
 	//Camera
 	vec3 look_from(0.5, 0.5, -2);
@@ -66,15 +65,14 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
 	lambertian *white = new lambertian(vec3(0.73, 0.73, 0.73));
 	lambertian *green = new lambertian(vec3(0.12, 0.45, 0.15));
 	lambertian *red = new lambertian(vec3(0.65, 0.05, 0.05));
-	lambertian *blue = new lambertian(vec3(0.05, 0.05, 0.65));
-	lambertian *yellow = new lambertian(vec3(0.8, 0.8, 0));
+	//lambertian *blue = new lambertian(vec3(0.05, 0.05, 0.65));
+	//lambertian *yellow = new lambertian(vec3(0.8, 0.8, 0));
 	lambertian* black = new lambertian(vec3(0.05, 0.05, 0.05));
-	lambertian *racinggreen = new lambertian(vec3(0.0, 66.0 / 255.0, 37.0 / 255.0));
-	metal *redmetal = new metal(vec3(0.65, 0.05, 0.05), 0.3);
+	//lambertian *racinggreen = new lambertian(vec3(0.0, 66.0 / 255.0, 37.0 / 255.0));
+	//metal *redmetal = new metal(vec3(0.65, 0.05, 0.05), 0.3);
 	metal *whitemetal = new metal(vec3(0.65, 0.65, 0.65), 0);
-	metal *minigreen = new metal(vec3(28.0 / 255.0, 54.0 / 255.0, 50.0 / 255.0), 0);
-	metal *purplemetal = new metal(vec3(28.0 / 255.0, 4.0 / 255.0, 50.0 / 255.0), 0);
-	gooch* goochtest = new gooch(0.4, 0.4, 0.2, 0.6, pointat, white);
+	//metal *purplemetal = new metal(vec3(28.0 / 255.0, 4.0 / 255.0, 50.0 / 255.0), 0);
+	//gooch* goochtest = new gooch(0.4, 0.4, 0.2, 0.6, pointat, white);
 	metal *minigreen3 = new metal(vec3(6.0 / 255.0, 33.0 / 255.0, 10.0 / 255.0), 0.3);
 	dielectric* glass = new dielectric(1.5, vec3(1.0, 1.0, 1.0));
 	metal* chrome = new metal(vec3(0.4, 0.4, 0.4), 0.9);
@@ -138,18 +136,18 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
 
 
 	//Load raw mesh from file
-//	raw_mesh* raw_bunny = &load_mesh(i, image, "bunny.obj", matlist);
+	//raw_mesh* raw_bunny = &load_mesh(i, image, "bunny.obj", matlist);
 
 	//Initialize mesh
-//	mesh* bunnymesh = new mesh(raw_bunny, 0, 0.8);
+	//mesh* bunnymesh = new mesh(raw_bunny, 0, 0.8);
 
 	//Add mesh to scene
-//	list[i++] = new translate( new rotate_y(bunnymesh, -120), vec3(0.3, 0.2, 0.5));
+	//list[i++] = new translate( new rotate_y(bunnymesh, -120), vec3(0.3, 0.2, 0.5));
 
-	raw_mesh* raw_mini = &load_mesh(i, image, "minitest.obj", matlist);
+	//raw_mesh* raw_mini = &load_mesh(i, image, "minitest.obj", matlist);
 
-	mesh* minimesh = new mesh(raw_mini, 0, 0.0025);
-	list[i++] = new translate( new rotate_y(new rotate_z(new rotate_y(minimesh, 90), 90),145), vec3(0.7, 0.075, 0.2));
+	//mesh* minimesh = new mesh(raw_mini, 0, 0.0025);
+	//list[i++] = new translate( new rotate_y(new rotate_z(new rotate_y(minimesh, 90), 90),145), vec3(0.7, 0.075, 0.2));
 
 
 	//list[i++] = new sphere(0, 0, vec3(0, 0, 0), 0.1, white);
@@ -189,7 +187,6 @@ void bunny_test(object** world, object** light_list, image_parameters* image, ca
 	image->z_depth_pass = false;
 	image->min_z_depth = 2;
 	image->max_z_depth = 3.5;
-	image->montecarlo = true;
 
 	image->saveHDR = true;
 	image->savePPM = false;
@@ -257,7 +254,6 @@ void furnace_test(object **world, object** light_list, image_parameters *image, 
 	image->nx = 500;
 	image->ny = 500;
 	image->ns = 100;
-	image->montecarlo = true;
 	image->iterative_mode = true;
 
 	image->saveHDR = true;
@@ -306,7 +302,6 @@ void mini(object **world, object **light_list, image_parameters *image, camera *
 	image->saveHDR = true;
 	image->save_name = "mini OSD";
 	image->background_colour = new vec3(0,0,0);
-	image->montecarlo = true;
 
 	//Camera
 	vec3 look_from(-100, -150, 50);
@@ -454,7 +449,6 @@ void three_spheres(object **world, /*object **light_list, */image_parameters *im
 
 	image->z_depth_pass = false;
 	image->iterative_mode = false;
-	image->montecarlo = false;
 
 	//Camera
 	vec3 look_from(0, 0, 2);
@@ -502,7 +496,6 @@ void three_spheres(object **world, /*object **light_list, */image_parameters *im
 //Stores various scenes for testing
 void goochtest(object **world, /*object **light_list, */image_parameters *image, camera **cam) {
 
-	image->montecarlo = true;
 	image->background_colour = new vec3(1, 1, 1);
 
 	//Set image size
@@ -610,7 +603,6 @@ void random_scene(object **world, /*object **light_list, */image_parameters *ima
 	image->saveHDR = false;
 	image->save_name = "v 0.1 z depth test 2";
 	image->z_depth_pass = false;
-	image->montecarlo = false;
 	float min_z_depth = 5;
 	float max_z_depth = 25;
 	image->background_colour = new vec3(1, 1, 1);
