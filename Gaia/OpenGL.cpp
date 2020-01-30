@@ -12,14 +12,14 @@
 #include "stb_image.h"
 
 //OpenGL Defines
-int initialise_window(image_parameters* image, bool *windowOpen);
+int initialise_window(bool* windowOpen, image_parameters* image);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 bool processInput(GLFWwindow *window, bool windowOpen);
 void CheckForGLError();
 bool WGLExtensionSupported(const char *extension_name);
 void terminate_window();
 
-int initialise_window(image_parameters* image, bool *windowOpen) {
+int initialise_window(bool* windowOpen, image_parameters* image) {
 
 	//initialize GLFW
 	glfwInit();

@@ -18,7 +18,6 @@
 #include "mesh.h"
 #include "aabb.h"
 #include "box.h"
-#include "bvh.h"
 
 void cornell_box(object **world, object **light_list, image_parameters *image, camera **cam) {
 
@@ -26,9 +25,9 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
 	//Y goes down -> up
 	//Z goes front -> back
 
-	image->nx = 300;
-	image->ny = 300;
-	image->ns = 200;
+	image->nx = 512;
+	image->ny = 512;
+	image->ns = 256;
 	image->iterative_mode = false;
 	image->z_depth_pass = false;
 	image->edge_line_pass = false;
@@ -41,7 +40,7 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
 
 	image->saveHDR = false;
 	image->savePPM = false;
-	image->save_name = "highresnomodel";
+	image->save_name = "miniOSXtest";
 
 	//Camera
 	vec3 look_from(0.5, 0.5, -2);
@@ -58,8 +57,7 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
 	int i = 0;
 	object **list = new object*[50];
 
-	vec3 *pointat = new vec3(0.5, 0.9999, 0.5);
-
+	
 	//Materials
 	diffuse_light *light = new diffuse_light(new vec3(10, 10, 10));
 	lambertian *white = new lambertian(vec3(0.73, 0.73, 0.73));
@@ -72,8 +70,11 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
 	//metal *redmetal = new metal(vec3(0.65, 0.05, 0.05), 0.3);
 	metal *whitemetal = new metal(vec3(0.65, 0.65, 0.65), 0);
 	//metal *purplemetal = new metal(vec3(28.0 / 255.0, 4.0 / 255.0, 50.0 / 255.0), 0);
-	//gooch* goochtest = new gooch(0.4, 0.4, 0.2, 0.6, pointat, white);
-	metal *minigreen3 = new metal(vec3(6.0 / 255.0, 33.0 / 255.0, 10.0 / 255.0), 0.3);
+    
+    //vec3 *pointat = new vec3(0.5, 0.9999, 0.5);
+    //gooch* goochtest = new gooch(0.4, 0.4, 0.2, 0.6, pointat, white);
+	
+    metal *minigreen3 = new metal(vec3(6.0 / 255.0, 33.0 / 255.0, 10.0 / 255.0), 0.3);
 	dielectric* glass = new dielectric(1.5, vec3(1.0, 1.0, 1.0));
 	metal* chrome = new metal(vec3(0.4, 0.4, 0.4), 0.9);
 	dielectric* redglass = new dielectric(1.5, vec3(0.65, 0.05, 0.05));
@@ -122,9 +123,6 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
 
 	//Stanford bunny mesh
 	material** matlist = new material * [50];
-	int m = 0;
-	//matlist[m++] = goochtest;
-
 	matlist[0] = chrome;
 	matlist[1] = black;
 	matlist[2] = black;
@@ -136,18 +134,18 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
 
 
 	//Load raw mesh from file
-	//raw_mesh* raw_bunny = &load_mesh(i, image, "bunny.obj", matlist);
+	//raw_mesh raw_bunny = load_mesh(i, image, "bunny.obj", matlist);
 
 	//Initialize mesh
-	//mesh* bunnymesh = new mesh(raw_bunny, 0, 0.8);
+	//mesh* bunnymesh = new mesh(&raw_bunny, 0, 0.8);
 
 	//Add mesh to scene
 	//list[i++] = new translate( new rotate_y(bunnymesh, -120), vec3(0.3, 0.2, 0.5));
 
-	//raw_mesh* raw_mini = &load_mesh(i, image, "minitest.obj", matlist);
+	raw_mesh raw_mini = load_mesh(i, image, "minitest.obj", matlist);
 
-	//mesh* minimesh = new mesh(raw_mini, 0, 0.0025);
-	//list[i++] = new translate( new rotate_y(new rotate_z(new rotate_y(minimesh, 90), 90),145), vec3(0.7, 0.075, 0.2));
+    mesh* minimesh = new mesh(&raw_mini, 0, 0.0025);
+	list[i++] = new translate( new rotate_y(new rotate_z(new rotate_y(minimesh, 90), 90),145), vec3(0.7, 0.075, 0.2));
 
 
 	//list[i++] = new sphere(0, 0, vec3(0, 0, 0), 0.1, white);
@@ -230,13 +228,13 @@ void bunny_test(object** world, object** light_list, image_parameters* image, ca
 	material** matlist = new material * [50];
 	int m = 0;
 	matlist[m++] = white;
-	raw_mesh* raw = &load_mesh(0, image, "bunny.obj", matlist);
-	mesh* bunnymesh = new mesh(raw, 0, 1.0);
+//	raw_mesh* raw = &load_mesh(0, image, "bunny.obj", matlist);
+//	mesh* bunnymesh = new mesh(raw, 0, 1.0);
 
 	list[i++] = new triangle(i, 0, new vec3(-0.2, 0.3, -0.2), new vec3(0.2, 0.3, 0.2), new vec3(-0.2, 0.3, 0.2), light, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
 	list[i++] = new triangle(i, 0, new vec3(-0.2, 0.3, -0.2), new vec3(0.2, 0.3, -0.2), new vec3(0.2, 0.3, 0.2), light, new vec3(0, -1, 0), new vec3(0, -1, 0), new vec3(0, -1, 0));
 
-	list[i++] = bunnymesh;
+//	list[i++] = bunnymesh;
 	*world = new object_list(list, i);
 
 	//Light List
@@ -348,9 +346,9 @@ void mini(object **world, object **light_list, image_parameters *image, camera *
 
 	//Objects
 
-	raw_mesh* raw = &load_mesh(0, image, "minitest.obj", matlist);
+	raw_mesh raw = load_mesh(0, image, "minitest.obj", matlist);
 
-	mesh *mini_mesh = new mesh(raw, 0, 1.0);
+	mesh *mini_mesh = new mesh(&raw, 0, 1.0);
 	list[i++] = mini_mesh;
 //	list[i++] = new xy_rect(1, 0, -5000, 5000, -5000, 5000, 0, vec3(0, 0, 1), red);
 
@@ -375,7 +373,7 @@ void mini(object **world, object **light_list, image_parameters *image, camera *
 	object** llist = new object * [50];
 
 	llist[j++] = new xy_rect(2, 0, -100, 100, -100, 100, 100, vec3(0, 0, -1), 0);
-	llist[j++] = mini_mesh;
+//	llist[j++] = mini_mesh;
 
 	*light_list = new object_list(llist, j);
 
@@ -426,11 +424,11 @@ void teapot(object **world, /*object **light_list, */image_parameters *image, ca
 
 	//Objects
 
-	raw_mesh* raw = &load_mesh(i + 1, image, "rolling_Teapot.obj", matlist);
+//	raw_mesh* raw = &load_mesh(i + 1, image, "rolling_Teapot.obj", matlist);
 
-	mesh *test = new mesh(raw, new vec3(0,0,0), 1.0);
+//	mesh *test = new mesh(raw, new vec3(0,0,0), 1.0);
 	object **meshlist = new object*[1];
-	meshlist[0] = test;
+//	meshlist[0] = test;
 	list[i++] = new bvh_node(meshlist, 1, 0, 1);
 
 	*world = new object_list(list, i);
@@ -603,8 +601,8 @@ void random_scene(object **world, /*object **light_list, */image_parameters *ima
 	image->saveHDR = false;
 	image->save_name = "v 0.1 z depth test 2";
 	image->z_depth_pass = false;
-	float min_z_depth = 5;
-	float max_z_depth = 25;
+	image->min_z_depth = 5;
+	image->max_z_depth = 25;
 	image->background_colour = new vec3(1, 1, 1);
 
 	vec3 look_from(13, 2, 3);
@@ -663,4 +661,4 @@ void random_scene(object **world, /*object **light_list, */image_parameters *ima
 	*light_list = new hitable_list(a, j);*/
 }
 
-#endif // !RANDOM_SCENE_H
+#endif // !SCENES_H

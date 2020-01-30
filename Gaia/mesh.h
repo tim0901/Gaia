@@ -52,12 +52,10 @@ public:
 		int j = 0;
 		for (j; j < raw->ntris; j++) {
 
-			object** temp = new object * [1];
 			int x = raw->trianglesList[j].x();
 			int y = raw->trianglesList[j].y();
 			int z = raw->trianglesList[j].z();
 
-			//std::cout << x << " " << y << " " << z << " " << raw->vertexList[x] * scale << std::endl;
 			list[j] = new triangle(raw->oid, j, new vec3((raw->vertexList[x] - *origin) * scale), new vec3((raw->vertexList[y] - *origin) * scale), new vec3((raw->vertexList[z] - *origin) * scale), raw->mat[raw->materialsList[j]], &raw->normalsList[x], &raw->normalsList[y], &raw->normalsList[z]);
 //			list[j] = new triangle(raw->oid, j, &(raw->vertexList[x]), &(raw->vertexList[y]), &(raw->vertexList[z]), raw->mat[raw->materialsList[j]], &raw->normalsList[x], &raw->normalsList[y], &raw->normalsList[z]);
 			
@@ -188,7 +186,7 @@ raw_mesh load_mesh(int oid, image_parameters* image, std::string input_file, mat
 
 				//vertex.color = { 1.0f, 1.0f, 1.0f };
 
-				/*if (uniqueVertices.count(vertex) == 0) {
+				if (uniqueVertices.count(vertex) == 0) {
 					uniqueVertices[vertex] = static_cast<uint32_t>(vertices.size());
 					vertices.push_back(vertex);
 				}

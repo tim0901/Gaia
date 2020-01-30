@@ -37,6 +37,9 @@
     <Filter Include="Source Files\Shading\Materials">
       <UniqueIdentifier>{72581749-95e1-4762-974f-3cffd263111c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Metal">
+      <UniqueIdentifier>{b6e9fd2a-75eb-4eb0-bf49-3d5844090dd3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenGL.h">
@@ -165,6 +168,9 @@
     <ClInclude Include="box.h">
       <Filter>Source Files\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="metalView.h">
+      <Filter>Source Files\Metal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Gaia.cpp">
@@ -186,6 +192,9 @@
     </None>
     <None Include="shader.vert">
       <Filter>Source Files\OpenGL</Filter>
+    </None>
+    <None Include="metalView.mm">
+      <Filter>Source Files\Metal</Filter>
     </None>
   </ItemGroup>
 </Project>

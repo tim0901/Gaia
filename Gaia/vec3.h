@@ -138,10 +138,10 @@ inline vec3 permute(const vec3 &v, int x, int y, int z) {
 //Creates local coordinate system from a single normalized 3D vector
 inline void coordinate_system(const vec3& v1, vec3* v2, vec3* v3) {
 	if (std::abs(v1[0]) > std::abs(v1[1])) {
-		*v2 = vec3(-v1[2], 0, v1[0]) / std::sqrt(v1[0] * v1[0] + v1[2] * v1[2]);
+		*v2 = vec3(-v1[2], 0, v1[0]) / sqrt(v1[0] * v1[0] + v1[2] * v1[2]);
 	}
 	else {
-		*v2 = vec3(0, v1[2], -v1[1]) / std::sqrt(v1[1] * v1[1] + v1[2] * v1[2]);
+		*v2 = vec3(0, v1[2], -v1[1]) / sqrt(v1[1] * v1[1] + v1[2] * v1[2]);
 	}
 	*v3 = cross(v1, *v2);
 }
@@ -210,4 +210,4 @@ inline vec3 de_nan(const vec3& c) {
 	return temp;
 }
 
-#endif VEC3_H
+#endif //VEC3_H

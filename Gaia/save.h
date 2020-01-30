@@ -7,7 +7,13 @@
 #include <algorithm>
 #include "image_parameters.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#define STBI_MSC_SECURE_CRT
+
+//Additional argument needed for Windows
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
+    #define STBI_MSC_SECURE_CRT
+#endif
+
+
 #include "stb_image_write.h"
 #include <string>
 

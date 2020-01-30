@@ -9,10 +9,13 @@
 
 //All random distribution functions
 
+//drand48 for windows
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
 inline float drand48() {
 
 	return (rand() / (RAND_MAX + 1.0));
 }
+#endif
 
 inline vec3 random_to_sphere(float radius, float distance_squared) {
 	float r1 = drand48();

@@ -11,8 +11,9 @@
 class pdf {
 	public:
 		virtual float pdf_value(const vec3& direction) const = 0;
-		virtual vec3 generate() const = 0;
-
+        virtual ~pdf() {};
+        virtual vec3 generate() const = 0;
+    
 };
 
 inline vec3 random_cosine_direction() {

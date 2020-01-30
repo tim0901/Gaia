@@ -161,6 +161,10 @@ LICENSE
 #endif
 #endif
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#pragma clang diagnostic push
+
 #ifndef STB_IMAGE_WRITE_STATIC  // C++ forbids static forward declarations
 extern int stbi_write_tga_with_rle;
 extern int stbi_write_png_compression_level;
@@ -739,6 +743,7 @@ STBIWDEF int stbi_write_hdr(char const *filename, int x, int y, int comp, const 
 //
 
 #ifndef STBIW_ZLIB_COMPRESS
+//I don't use PNG so this is commented out to stop xCode from complaining at me
 // stretchy buffer; stbiw__sbpush() == vector<>::push_back() -- stbiw__sbcount() == vector<>::size()
 #define stbiw__sbraw(a) ((int *) (a) - 2)
 #define stbiw__sbm(a)   stbiw__sbraw(a)[0]

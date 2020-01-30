@@ -188,6 +188,7 @@
     <ClInclude Include="materials.h" />
     <ClInclude Include="matrix4.h" />
     <ClInclude Include="metal.h" />
+    <ClInclude Include="metalView.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="object_list.h" />
     <ClInclude Include="onb.h" />
@@ -228,6 +229,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="metalView.mm" />
     <None Include="shader.frag" />
     <None Include="shader.vert" />
   </ItemGroup>

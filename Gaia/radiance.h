@@ -10,7 +10,7 @@
 #include "plane.h"
 #include "sphere.h"
 #include "triangle.h"
-
+#include "image_parameters.h"
 
 
 //object* light_shape = new xz_rect(999, 0, 0.3, 0.7, 0.3, 0.7, 0.98, vec3(0, -1, 0), 0);
