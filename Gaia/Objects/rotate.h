@@ -14,11 +14,16 @@ public:
 	virtual bool bounding_box(float t0, float t1, aabb& box) const {
 		box = bbox; return hasbox;
 	}
+    
+    float object_id = -4;
+    float primitive_id = -4;
+    
 	object* obj_ptr;
 	float sin_theta;
 	float cos_theta;
 	bool hasbox;
 	aabb bbox;
+    std::string type = "rotate";
 };
 
 rotate_x::rotate_x(object* p, float angle) : obj_ptr(p) {

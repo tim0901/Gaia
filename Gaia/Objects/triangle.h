@@ -52,6 +52,7 @@ public:
 	vec3* normal1;
 	vec3* normal2;
 	material *mat_ptr;
+    std::string type = "triangle";
 };
 
 bool triangle::hit(const ray& r, float tmin, float tmax, hit_record& rec) const {
@@ -138,6 +139,7 @@ bool triangle::hit(const ray& r, float tmin, float tmax, hit_record& rec) const 
 	//rec.u = uvHit.u();
 	//rec.v = uvHit.v();
 	rec.normal = vec3(unit_vector(cross(dp02, dp12)));
+    rec.type = type;
 
 	//broken?
 	/*if (normal0 != (0,0,0)) {

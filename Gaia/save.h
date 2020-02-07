@@ -23,7 +23,7 @@ void save(image_parameters* image) {
 		return;
 	}
 
-	std::cout << "Saving..." << std::endl;
+	std::cout << " Saving...";
 
 	if (image->saveHDR == true) {
 

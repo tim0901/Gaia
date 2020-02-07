@@ -27,7 +27,7 @@ public:
 
 	virtual bool scatter(const ray &incident, const hit_record &rec, scattering_record &scatter) const {
 		scatter.is_specular = false;
-        scatter.specular_ray;
+        scatter.specular_ray = scatter.specular_ray;
 		scatter.brdf = albedo;
 		scatter.pdf = new cosine_pdf(rec.normal);
 		return true;

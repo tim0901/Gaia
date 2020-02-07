@@ -3,7 +3,8 @@
 #ifndef GLSHADER_H
 #define GLSHADER_H
 
-#include <glad/glad.h>
+//#include <glad/glad.h>
+//#include <OpenGL/gl3.h>
 
 #include <string>
 #include <fstream>

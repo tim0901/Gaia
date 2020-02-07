@@ -12,6 +12,7 @@
 #include <vector>
 
 #define TINYOBJLOADER_IMPLEMENTATION
+
 #include "tiny_obj_loader.h"
 #include "pi.h"
 #include "vec2.h"
@@ -25,9 +26,10 @@
 #include "save.h"
 
 #if __APPLE__
-#include "metalView.h"//include Metal stuff
+//#include "metalView.h"//include Metal stuff
+#include "OpenGL.h"  //Include openGL stuff
 #else
-#include "matrix4.h" 
+#include "matrix4.h" //this isn't used or finished yet
 #include "OpenGL.h"  //Include openGL stuff
 #endif
 
@@ -35,7 +37,7 @@
 void render(bool *window_open, image_parameters *image, int k, object **world, object **light_list, camera **cam_Ptr);
 
 //Defines number of threads of system
-unsigned const int nthreads = 6;// std::thread::hardware_concurrency();
+unsigned const int nthreads = std::thread::hardware_concurrency();
 
 std::string version_number = "0.3";
 
@@ -90,15 +92,13 @@ int main()
 	//Initialise viewport on the last thread, using correct API for platform
 	if (image->show_viewport == true) {
         #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
-        t[nthreads] = std::thread(initialise_window, window_open, image);
+        //t[nthreads] = std::thread(initialise_window, window_open, image);
         #else
-        //t[nthreads] = std::thread(initialiseMetalWindow, window_open, image, argv);
-        initialiseMetalWindow(window_open, image, argv);
+        //OS X doesn't allow UI to be altered from a non-main thread...
         #endif
+        *window_open = true;
     }
     
-	*window_open = true;
-
 	//End timer - setup
 	auto end = std::chrono::steady_clock::now();
 	auto diff = end - start;
@@ -107,41 +107,52 @@ int main()
 	//Start timer - frame
 	start = std::chrono::steady_clock::now();
 
-	//Renders out the chunks
+	//Spawn render threads
 	for (int k = 0; k < (nthreads); k++) {
 		//t[k] = std::thread(render, image, k, image->chunks_remaining, window_open, &world, &light_list, &cam);
-		t[k] = std::thread(render, window_open, image, k, &world, &light_list, &cam);
+        image->currentActiveThreads++;//add 1 to the number of active threads
+		std::thread(render, window_open, image, k, &world, &light_list, &cam).detach();
 	}
+    
+    std::cout << image->currentActiveThreads << " threads spawned" << std::endl;
 
+    if(image->show_viewport){
+        *window_open = true;
+        initialise_window(window_open,image);
+    }
+    
+    /*
 	//Joins rendering threads
 	for (int k = 0; k < nthreads; ++k) {
+        std::cout << k << " joined" << std::endl;
 		t[k].join();
-	}
-
+	}*/
+    /*
 	//Saves only if the render completed
 	if (*image->chunks_remaining == 0 || image->previous_samples == image->ns) {
 		t[0] = std::thread(save, image);
 		t[0].join();
-	}
+	}*/
 
 	//End timer - frame
 	end = std::chrono::steady_clock::now();
 	diff = end - start;
 
-	//Breaks if PPM saving is enabled cause reasons
-	
+    //Output render time
 	std::cout << "Frame render time: " << std::chrono::duration <double>(diff).count() << "s" << std::endl;
 	
+    /*
 	//Closes OpenGL render thread
 	if (image->show_viewport == true) {
 		#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
 		t[nthreads].join();
 		#endif
-	}
+	}*/
 
+    
 	//Cleanup
-	terminate_window();
-	delete[] world;
+	//terminate_window();
+//	delete[] world;
 	delete[] image->output_array;
 	delete[] image->sample_reciprocals;
 	delete window_open;
@@ -674,6 +685,21 @@ void render(bool *window_open, image_parameters *image, int k, object **world, o
 
 	//Close thread
 	console_mutex.lock();
-	std::cout << "Thread: " << k << " finished." << std::endl;
-	console_mutex.unlock();
+    std::cout << "Thread: " << k << ", rendering finished.";
+    
+    //Check if this is final thread alive. If so, call save function.
+    if(image->currentActiveThreads == 1 && (*image->chunks_remaining == 0 || image->previous_samples == image->ns)){ // Only saves if render completes
+        console_mutex.unlock();
+        save(image);
+        console_mutex.lock();
+        std::cout << "Thread terminating." << std::endl;
+        console_mutex.unlock();
+    }
+    else{
+        std::cout << " Thread terminating." << std::endl;
+        console_mutex.unlock();
+    }
+    
+    //Kill thread
+    image->currentActiveThreads--; //Reduce number of active threads
 }

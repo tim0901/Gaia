@@ -11,8 +11,12 @@ public:
 	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
 	virtual bool bounding_box(float t0, float t1, aabb& box) const;
 
+    float object_id = -3;
+    float primitive_id = -3;
+    
 	object* obj_ptr;
 	vec3 displacement;
+    std::string type = "translate";
 };
 
 bool translate::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {

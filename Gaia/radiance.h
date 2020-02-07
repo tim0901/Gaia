@@ -12,29 +12,34 @@
 #include "triangle.h"
 #include "image_parameters.h"
 
-
-//object* light_shape = new xz_rect(999, 0, 0.3, 0.7, 0.3, 0.7, 0.98, vec3(0, -1, 0), 0);
-
 vec4 cast(image_parameters *image, const ray& r, object *world, object* light_list, int depth) {
 	hit_record rec;
+    scattering_record scatter;
 	
 	if (world->hit(r, 0.001, FLT_MAX, rec)) {
-		scattering_record scatter;
 
-		vec3 emitted;
+		vec3 emitted(0,0,0);
 		
 		//Will reflect up to a depth of 50 times before it gives up
 		//std::cout << scatter.is_specular << std::endl;
+        
+        //These shouldn't be here. Object id = -1, type hit_record, material type "M"??? or ""
+        if(rec.object_id == -1){
+            //std::cout << "Phantom object: ignored." << std::endl;
+            //std::cout << rec.object_id << " " << rec.type << " " << rec.mat_ptr->type << std::endl;
+            return vec4(0,0,0,1); //Therefore we remove them to prevent segfaults.
+        }
+        
 		bool hit = rec.mat_ptr->scatter(r, rec, scatter);
 		emitted = rec.mat_ptr->emitted(r, rec, rec.u, rec.v, rec.p);
 
 		vec4 emitteda = vec4(emitted.r(), emitted.g(), emitted.b(), 1);
 		vec4 brdf = vec4(scatter.brdf.r(), scatter.brdf.g(), scatter.brdf.b(), 1);
 
-		if (depth < 50 && hit) {
+        if (depth < image->maxDepth && hit) {
 			if (scatter.is_specular) {
 				vec4 temp = brdf * cast(image, scatter.specular_ray, world, light_list, depth + 1);
-				delete scatter.pdf;
+                delete scatter.pdf;
 				return vec4(temp.r(), temp.g(), temp.b(), 1);
 			}
 			else {
@@ -44,8 +49,9 @@ vec4 cast(image_parameters *image, const ray& r, object *world, object* light_li
 				mixture_pdf mix_pdf(&lights_pdf, scatter.pdf);
 				ray scattered = ray(rec.p, mix_pdf.generate());
 				float pdf = mix_pdf.pdf_value(scattered.direction());
-
-				delete scatter.pdf;
+                
+                delete scatter.pdf;
+                
 				vec4 temp = emitteda + brdf * rec.mat_ptr->scattering_pdf(r, rec, scattered) * cast(image, scattered, world, light_list, depth + 1) / pdf;
 				return vec4(temp.r(), temp.g(), temp.b(), 1);
 			}
@@ -53,7 +59,6 @@ vec4 cast(image_parameters *image, const ray& r, object *world, object* light_li
 		}
 		else {
 			//Terminate ray
-			//delete scatter.pdf;
 			return emitteda;
 		}
 

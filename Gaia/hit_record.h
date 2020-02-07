@@ -16,6 +16,7 @@ struct hit_record {
 	float u, v;
 	vec3 normal;//Normal vector of hit point
 	material *mat_ptr;//A pointer to the material of the object hit
+    std::string type = "hit_record";
 };
 
 #endif // !HIT_RECORD_H

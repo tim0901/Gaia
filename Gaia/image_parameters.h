@@ -13,6 +13,9 @@ struct image_parameters {
 	bool show_viewport = true;
 	bool progress_monitoring = false; // Prints chunks remaining in non-iterative mode
 
+    
+    //Thread iterator
+    int currentActiveThreads = 0;
 	
 
 	//Render Options
@@ -20,6 +23,8 @@ struct image_parameters {
 	///Image dimensions
 	int nx = 1000;
 	int ny = 500;
+    
+    int maxDepth = 10; // maximum number of bounces in the scene.oen
 
 	///Samples per pixel
 	int ns = 100;

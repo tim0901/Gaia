@@ -50,7 +50,7 @@ public:
 		//all points are defined wr
 
 		int j = 0;
-		for (j; j < raw->ntris; j++) {
+		for (j=j; j < raw->ntris; j++) {
 
 			int x = raw->trianglesList[j].x();
 			int y = raw->trianglesList[j].y();
@@ -61,9 +61,9 @@ public:
 			
 		}
 
-		free(raw->vertexList);
-		free(raw->trianglesList);
-		free(raw->materialsList);
+//		free(raw->vertexList);
+//		free(raw->trianglesList);
+//		free(raw->materialsList);
 
 		list_ptr = new bvh_node(list, j, 0, 0);
 		std::cout << "Mesh loaded." << std::endl;
@@ -80,6 +80,7 @@ public:
 	object* list_ptr;
 	vec3 pmin;
 	vec3 pmax;
+    std::string type = "mesh";
 };
 
 bool mesh::bounding_box(float t0, float t1, aabb& box) const {
