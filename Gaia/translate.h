@@ -3,7 +3,7 @@
 #ifndef TRANSLATE_H
 #define TRANSLATE_H
 
-#include "object.h"
+#include "Objects/object.h"
 
 class translate : public object {
 public:

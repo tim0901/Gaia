@@ -4,12 +4,11 @@
 #define SCENES_H
 
 #include "vec3.h"
-#include "object.h"
-#include "object_list.h"
+#include "Objects/object.h"
+#include "Objects/objects.h"
+#include "Objects/object_list.h"
 #include "image_parameters.h"
 #include "camera.h"
-#include "sphere.h"
-#include "plane.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"
@@ -17,12 +16,9 @@
 #pragma clang diagnostic pop
 
 #include "materials.h"
-#include "triangle.h"
 #include "translate.h"
 #include "rotate.h"
-#include "mesh.h"
 #include "aabb.h"
-#include "box.h"
 
 void cornell_box(object **world, object **light_list, image_parameters *image, camera **cam) {
 
@@ -32,7 +28,7 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
 
 	image->nx = 1000;
 	image->ny = 1000;
-	image->ns = 500;
+	image->ns = 20;
     
     image->chunk_size = 25;
     
@@ -46,7 +42,7 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
 
 	image->maxlevel = 0;
 
-	image->saveHDR = true;
+	image->saveHDR = false;
 	image->savePPM = false;
 	image->save_name = "miniOSXtest";
 
@@ -125,12 +121,12 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
 //	list[i++] = new triangle(i, 0, new vec3(0, 0, 1), new vec3(0, 1, 0), new vec3(0, 1, 1), green, new vec3(1, 0, 0), new vec3(1, 0, 0), new vec3(1, 0, 0));
 	
     //Glass Sphere
-	list[i++] = new translate(new sphere(oid++, 0, vec3(0.3, 0.2, 0.5), 0.2, glass),vec3(0,0,0));
+//	list[i++] = new translate(new sphere(oid++, 0, vec3(0.3, 0.2, 0.5), 0.2, glass),vec3(0,0,0));
 //	list[i++] = new translate(new sphere(i, 0, vec3(0.3, 0.2, 0.5), -0.199, glass),vec3(0,0,0));
 
     
     //Metal cube
-	list[i++] = new rotate_y(new box(oid++, vec3(0.6, 0, 0.7), vec3(0.8, 0.2, 0.9), whitemetal),10);
+//	list[i++] = new rotate_y(new box(oid++, vec3(0.6, 0, 0.7), vec3(0.8, 0.2, 0.9), whitemetal),10);
 	
 
 	//Mini coopr mesh materials
@@ -144,16 +140,18 @@ void cornell_box(object **world, object **light_list, image_parameters *image, c
     matList[6] = redglass;
 
     //Load raw mesh from file
-    raw_mesh rawMini = load_mesh(oid++, image, "minitest.obj", matList);
+    //raw_mesh rawMini = load_mesh(oid++, image, "minitest.obj", matList);
 
-    mesh* miniMesh = new mesh(&rawMini, 0, 0.0025);
+    //mesh* miniMesh = new mesh(&rawMini, 0, 0.0025);
     
-    mesh* miniMesh2 = new mesh(&rawMini, 0, 0.001);
+    //mesh* miniMesh2 = new mesh(&rawMini, 0, 0.001);
     
-    list[i++] = new translate( new rotate_y(new rotate_z(new rotate_y(miniMesh, 90), 90),145), vec3(0.7, 0.075, 0.2));
+    //list[i++] = new translate( new rotate_y(new rotate_z(new rotate_y(miniMesh, 90), 90),145), vec3(0.7, 0.075, 0.2));
     
-    list[i++] = new translate( new rotate_y(new rotate_z(new rotate_y(miniMesh2, 90), 90),55), vec3(0.3, 0.2, 0.5));
+    //list[i++] = new translate( new rotate_y(new rotate_z(new rotate_y(miniMesh2, 90), 90),55), vec3(0.3, 0.2, 0.5));
     
+	list[i++] = new ellipse(oid++, 0, vec3(0.5, 0.5, 0.5), vec3(0.4, 0.5, 0.5), vec3(0.5, 0.6, 0.5), red);
+
     
 	//Load raw mesh from file
 //	raw_mesh raw_bunny = load_mesh(oid++, image, "bunny.obj", matList);

@@ -259,7 +259,9 @@ int initialise_window(bool* windowOpen, image_parameters* image) {
 		//
 		//Generate texture
 		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, image->nx, image->ny, GL_RGBA, GL_FLOAT, (GLvoid*)*image->output_array_ptr);
-//		glGenerateMipmap(GL_TEXTURE_2D);
+#ifndef __APPLE__
+		glGenerateMipmap(GL_TEXTURE_2D);
+#endif // !__APPLE__
 
 		//Resets window every cycle, stops previous iteration's results being seen
 		//Decides colour to be used

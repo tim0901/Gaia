@@ -3,7 +3,7 @@
 #ifndef PLANE_H
 #define PLANE_H
 
-#include "object.h"
+#include "Objects/object.h"
 
 //Defines non axis-aligned quads
 

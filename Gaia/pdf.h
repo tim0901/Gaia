@@ -5,7 +5,7 @@
 
 #include "random.h"
 #include "pi.h"
-#include "object.h"
+#include "Objects/object.h"
 #include "onb.h"
 
 class pdf {

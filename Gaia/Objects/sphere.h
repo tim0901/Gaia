@@ -54,7 +54,7 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record &rec) const 
 	
 	//Test for intersection
 	if (discriminant > 0) {
-		float temp = (-b - sqrt(discriminant)) / a;
+		float temp = (-b - sqrt(discriminant));
 		if (temp < t_max && temp > t_min) {
 			rec.object_id = object_id;
 			rec.primitive_id = primitive_id;
@@ -67,7 +67,7 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record &rec) const 
             rec.type = type;
 			return true;
 		}
-		temp = (-b + sqrt(discriminant)) / a;
+		temp = (-b + sqrt(discriminant));
 		if (temp < t_max && temp > t_min) {
 			rec.object_id = object_id;
 			rec.primitive_id = primitive_id;

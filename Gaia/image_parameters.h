@@ -39,7 +39,7 @@ struct image_parameters {
 
 	///Chunk order
 	bool spiral = true;
-	bool spiral_in = true;
+	bool spiral_in = false;
 
 	///Chunk storage vector
 	std::vector<chunk> chunk_vector;

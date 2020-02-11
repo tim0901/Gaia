@@ -7,9 +7,9 @@
 #include <opensubdiv/far/primvarRefiner.h>
 
 #include "image_parameters.h"
-#include "object.h"
+#include "Objects/object.h"
 #include "bvh.h"
-#include "triangle.h"
+#include "Objects/triangle.h"
 #include "tiny_obj_loader.h"
 
 struct raw_mesh {

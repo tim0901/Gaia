@@ -4,7 +4,7 @@
 #define ROTATE_H
 
 #include "pi.h"
-#include "object.h"
+#include "Objects/object.h"
 
 
 class rotate_x : public object {

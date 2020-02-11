@@ -44,8 +44,6 @@ std::string version_number = "0.3";
 //Declares thread array
 std::vector<std::thread> t(nthreads + 1);
 
-//std::thread t[nthreads + 1];
-
 std::mutex console_mutex;
 std::mutex chunk_list_mutex;
 
@@ -69,14 +67,14 @@ int main()
 	object* light_list;
 	camera* cam;
 
-	//Fetch scene
+	//Fetch scene - must be called before initialise
 	cornell_box(&world, &light_list, image, &cam);
 
 	//Initialise image container
 	initialise(image);
 	
 	std::cout << image->save_name << std::endl;
-
+	
 	std::cout << image->nx << "x" << image->ny << " at " << image->ns << " samples per pixel" << std::endl;
 
 	if (image->saveHDR == false && image->savePPM == false) {
@@ -89,16 +87,6 @@ int main()
 	//For checking if the program should end
 	bool *window_open = new bool(true);
 
-	//Initialise viewport on the last thread, using correct API for platform
-	if (image->show_viewport == true) {
-        #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
-        //t[nthreads] = std::thread(initialise_window, window_open, image);
-        #else
-        //OS X doesn't allow UI to be altered from a non-main thread...
-        #endif
-        *window_open = true;
-    }
-    
 	//End timer - setup
 	auto end = std::chrono::steady_clock::now();
 	auto diff = end - start;
@@ -117,22 +105,8 @@ int main()
     std::cout << image->currentActiveThreads << " threads spawned" << std::endl;
 
     if(image->show_viewport){
-        *window_open = true;
         initialise_window(window_open,image);
     }
-    
-    /*
-	//Joins rendering threads
-	for (int k = 0; k < nthreads; ++k) {
-        std::cout << k << " joined" << std::endl;
-		t[k].join();
-	}*/
-    /*
-	//Saves only if the render completed
-	if (*image->chunks_remaining == 0 || image->previous_samples == image->ns) {
-		t[0] = std::thread(save, image);
-		t[0].join();
-	}*/
 
 	//End timer - frame
 	end = std::chrono::steady_clock::now();
@@ -140,15 +114,6 @@ int main()
 
     //Output render time
 	std::cout << "Frame render time: " << std::chrono::duration <double>(diff).count() << "s" << std::endl;
-	
-    /*
-	//Closes OpenGL render thread
-	if (image->show_viewport == true) {
-		#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
-		t[nthreads].join();
-		#endif
-	}*/
-
     
 	//Cleanup
 	//terminate_window();

@@ -4,12 +4,23 @@
 #define RADIANCE_H
 
 #include "ray.h"
+
+#ifndef __APPLE__
+#include "Objects/object.h"
+#include "pdf.h"
+#include "hit_record.h"
+#include "Objects/plane.h"
+#include "Objects/sphere.h"
+#include "Objects/triangle.h"
+#else
 #include "object.h"
 #include "pdf.h"
 #include "hit_record.h"
 #include "plane.h"
 #include "sphere.h"
 #include "triangle.h"
+#endif // !__APPLE__
+
 #include "image_parameters.h"
 
 vec4 cast(image_parameters *image, const ray& r, object *world, object* light_list, int depth) {
