@@ -13,6 +13,12 @@ struct image_parameters {
 	bool show_viewport = true;
 	bool progress_monitoring = false; // Prints chunks remaining in non-iterative mode
 
+<<<<<<< HEAD
+=======
+    
+    //Thread iterator
+    int currentActiveThreads = 0;
+>>>>>>> Nightly
 	
 
 	//Render Options
@@ -20,6 +26,8 @@ struct image_parameters {
 	///Image dimensions
 	int nx = 1000;
 	int ny = 500;
+    
+    int maxDepth = 10; // maximum number of bounces in the scene.oen
 
 	///Samples per pixel
 	int ns = 100;
@@ -46,7 +54,10 @@ struct image_parameters {
 	int yChunks;
 
 	///Pass Options
+<<<<<<< HEAD
 	bool montecarlo = false;
+=======
+>>>>>>> Nightly
 	bool edge_line_pass = false;
 	bool z_depth_pass = false;
 
@@ -62,7 +73,11 @@ struct image_parameters {
 	bool invert_z_colours = false;
 	
 	///Iterative mode settings
+<<<<<<< HEAD
 	bool iterative_mode = true;
+=======
+	bool iterative_mode = false;
+>>>>>>> Nightly
 	int sample_number = 1;
 	int previous_samples = 0;
 	int* chunks_remaining = new int(0);

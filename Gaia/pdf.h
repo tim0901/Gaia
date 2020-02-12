@@ -5,14 +5,24 @@
 
 #include "random.h"
 #include "pi.h"
+<<<<<<< HEAD
 #include "object.h"
+=======
+#include "Objects/object.h"
+>>>>>>> Nightly
 #include "onb.h"
 
 class pdf {
 	public:
 		virtual float pdf_value(const vec3& direction) const = 0;
+<<<<<<< HEAD
 		virtual vec3 generate() const = 0;
 
+=======
+        virtual ~pdf() {};
+        virtual vec3 generate() const = 0;
+    
+>>>>>>> Nightly
 };
 
 inline vec3 random_cosine_direction() {
@@ -71,4 +81,8 @@ public:
 
 	pdf* p[2];
 };
+<<<<<<< HEAD
 #endif // !PDF_H
+=======
+#endif // !PDF_H
+>>>>>>> Nightly

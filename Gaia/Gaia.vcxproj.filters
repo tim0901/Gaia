@@ -37,6 +37,9 @@
     <Filter Include="Source Files\Shading\Materials">
       <UniqueIdentifier>{72581749-95e1-4762-974f-3cffd263111c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Metal">
+      <UniqueIdentifier>{b6e9fd2a-75eb-4eb0-bf49-3d5844090dd3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenGL.h">
@@ -66,12 +69,6 @@
     <ClInclude Include="stb_image.h">
       <Filter>Source Files\Dependencies</Filter>
     </ClInclude>
-    <ClInclude Include="mesh.h">
-      <Filter>Source Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="triangle.h">
-      <Filter>Source Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="vec2.h">
       <Filter>Source Files\Maths</Filter>
     </ClInclude>
@@ -92,18 +89,6 @@
     </ClInclude>
     <ClInclude Include="GLshader.h">
       <Filter>Source Files\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="object.h">
-      <Filter>Source Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="hit_record.h">
-      <Filter>Source Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="sphere.h">
-      <Filter>Source Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="object_list.h">
-      <Filter>Source Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="material.h">
       <Filter>Source Files\Shading</Filter>
@@ -132,9 +117,6 @@
     <ClInclude Include="radiance.h">
       <Filter>Source Files\Shading</Filter>
     </ClInclude>
-    <ClInclude Include="plane.h">
-      <Filter>Source Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="gooch.h">
       <Filter>Source Files\Shading\Materials</Filter>
     </ClInclude>
@@ -149,6 +131,7 @@
     </ClInclude>
     <ClInclude Include="matrix4.h">
       <Filter>Source Files\Maths</Filter>
+<<<<<<< HEAD
     </ClInclude>
     <ClInclude Include="bvh.h">
       <Filter>Source Files\Accelerators</Filter>
@@ -161,6 +144,50 @@
     </ClInclude>
     <ClInclude Include="rotate.h">
       <Filter>Source Files\Maths</Filter>
+=======
+    </ClInclude>
+    <ClInclude Include="bvh.h">
+      <Filter>Source Files\Accelerators</Filter>
+    </ClInclude>
+    <ClInclude Include="aabb.h">
+      <Filter>Source Files\Accelerators</Filter>
+    </ClInclude>
+    <ClInclude Include="translate.h">
+      <Filter>Source Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="rotate.h">
+      <Filter>Source Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="metalView.h">
+      <Filter>Source Files\Metal</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\object_list.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\objects.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\plane.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\sphere.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\triangle.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\box.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\ellipse.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\mesh.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\object.h">
+      <Filter>Source Files\Objects</Filter>
+>>>>>>> Nightly
     </ClInclude>
     <ClInclude Include="box.h">
       <Filter>Source Files\Objects</Filter>
@@ -186,6 +213,9 @@
     </None>
     <None Include="shader.vert">
       <Filter>Source Files\OpenGL</Filter>
+    </None>
+    <None Include="metalView.mm">
+      <Filter>Source Files\Metal</Filter>
     </None>
   </ItemGroup>
 </Project>

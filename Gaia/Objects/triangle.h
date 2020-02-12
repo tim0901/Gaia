@@ -52,6 +52,7 @@ public:
 	vec3* normal1;
 	vec3* normal2;
 	material *mat_ptr;
+    std::string type = "triangle";
 };
 
 bool triangle::hit(const ray& r, float tmin, float tmax, hit_record& rec) const {
@@ -123,12 +124,12 @@ bool triangle::hit(const ray& r, float tmin, float tmax, hit_record& rec) const 
 	uv[2] = vec2(1, 1);
 
 	// Compute deltas for triangle partial derivatives
-	vec2 duv02 = uv[0] - uv[2], duv12 = uv[1] - uv[2];
+	//vec2 duv02 = uv[0] - uv[2], duv12 = uv[1] - uv[2];
 	vec3 dp02 = *point0 - *point2, dp12 = *point1 - *point2;
 	
 	// Interpolate $(u,v)$ parametric coordinates and hit point
 	vec3 pHit = b0 * *point0 + b1 * *point1 + b2 * *point2;
-	vec2 uvHit = b0 * uv[0] + b1 * uv[1] + b2 * uv[2];
+	//vec2 uvHit = b0 * uv[0] + b1 * uv[1] + b2 * uv[2];
 
 	rec.object_id = object_id;
 	rec.primitive_id = primitive_id;
@@ -138,7 +139,7 @@ bool triangle::hit(const ray& r, float tmin, float tmax, hit_record& rec) const 
 	//rec.u = uvHit.u();
 	//rec.v = uvHit.v();
 	rec.normal = vec3(unit_vector(cross(dp02, dp12)));
-
+    rec.type = type;
 
 	//broken?
 	/*if (normal0 != (0,0,0)) {

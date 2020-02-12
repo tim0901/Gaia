@@ -1,4 +1,5 @@
 #pragma once
+
 #ifndef OBJECT_LIST_H
 #define OBJECT_LIST_H
 
@@ -16,6 +17,12 @@ public:
 	virtual float pdf_value(const vec3& o, const vec3& v) const;
 	virtual vec3 random(const vec3& o) const;
 
+<<<<<<< HEAD:Gaia/object_list.h
+=======
+    float object_id = -2;
+    float primitive_id = -2;
+    std::string type = "object_list";
+>>>>>>> Nightly:Gaia/Objects/object_list.h
 	object **list;
 	int list_size;
 };

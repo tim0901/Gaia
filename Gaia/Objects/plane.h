@@ -3,7 +3,7 @@
 #ifndef PLANE_H
 #define PLANE_H
 
-#include "object.h"
+#include "Objects/object.h"
 
 //Defines non axis-aligned quads
 
@@ -23,6 +23,7 @@ public:
 	vec3 pointb;
 	vec3 pointc;
 	material *mat_ptr;
+    std::string type = "plane";
 };
 
 //Ray-rectangle intersection test
@@ -73,6 +74,7 @@ bool rectangle::hit(const ray& r, float t_min, float t_max, hit_record &rec) con
 	rec.mat_ptr = mat_ptr;
 	rec.p = p;
 	rec.normal = normal;
+    rec.type = type;
 	return true;
 }
 
@@ -201,6 +203,9 @@ bool xy_rect::hit(const ray &r, float t_min, float t_max, hit_record &rec) const
 	}
 
 	//Fill in hit record
+    rec.object_id = object_id;
+    rec.primitive_id = primitive_id;
+    rec.type = type;
 	rec.u = (x - x0) / (x1 - x0);
 	rec.v = (y - y0) / (y1 - y0);
 	rec.t = t;
@@ -227,6 +232,9 @@ bool xz_rect::hit(const ray &r, float t_min, float t_max, hit_record &rec) const
 	}
 
 	//Fill in hit record
+    rec.object_id = object_id;
+    rec.primitive_id = primitive_id;
+    rec.type = type;
 	rec.u = (x - x0) / (x1 - x0);
 	rec.v = (z - z0) / (z1 - z0);
 	rec.t = t;
@@ -253,6 +261,9 @@ bool yz_rect::hit(const ray &r, float t_min, float t_max, hit_record &rec) const
 	}
 
 	//Fill in hit record
+    rec.object_id = object_id;
+    rec.primitive_id = primitive_id;
+    rec.type = type;
 	rec.u = (y - y0) / (y1 - y0);
 	rec.v = (z - z0) / (z1 - z0);
 	rec.t = t;

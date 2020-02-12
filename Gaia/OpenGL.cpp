@@ -1,41 +1,83 @@
-#pragma once
 
 #include "pch.h"
+
+#ifndef __APPLE__
+
 #include <glad/glad.h>
 #include <GLFW\glfw3.h>
 #include <Windows.h>
 #include <gl\wglext.h>
 #include "glad.c"
+
+#else
+
+#include <glad.h>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+
+#include <glfw3.h>
+
+#pragma clang diagnostic pop
+
+//#include <wglext.h>
+//#include "glad.c"
+
+#endif
+
 #include "GLshader.h"
 #include "image_parameters.h"
 #define STB_IMAGE_IMPLEMENTATION
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
 #include "stb_image.h"
+#pragma clang diagnostic pop
 
 //OpenGL Defines
-int initialise_window(image_parameters* image, bool *windowOpen);
+void error_callback(int error, const char* description);
+int initialise_window(bool* windowOpen, image_parameters* image);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 bool processInput(GLFWwindow *window, bool windowOpen);
 void CheckForGLError();
 bool WGLExtensionSupported(const char *extension_name);
 void terminate_window();
 
-int initialise_window(image_parameters* image, bool *windowOpen) {
 
-	//initialize GLFW
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+//GLFW error callback
+void error_callback(int error, const char* description)
+{
+    fprintf(stderr, "Error: %s\n", description);
+    std::cout << "test" << std::endl;
+    std::cout << description << std::endl;
+
+}
+
+
+
+int initialise_window(bool* windowOpen, image_parameters* image) {
+    
+    
+    GLFWwindow* window; //This creates a window object
+    
+    //initialize GLFW
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	//Deals with parameter required for compilation on OS X 
 #ifdef __APPLE__
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // uncomment this statement to fix compilation on OS X
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);// uncomment this statement to fix compilation on OS X
 #endif
 
 	//Scales window size to image size, but not larger than monitor's resolution
-	int xDim = GetSystemMetrics(SM_CXSCREEN);
-	int yDim = GetSystemMetrics(SM_CYSCREEN);
+	//int xDim = GetSystemMetrics(SM_CXSCREEN);
+	//int yDim = GetSystemMetrics(SM_CYSCREEN);
 
+    int xDim = 0;
+    int yDim = 0;
+    
 	if (image->nx > xDim)
 	{
 
@@ -51,20 +93,30 @@ int initialise_window(image_parameters* image, bool *windowOpen) {
 		yDim = image->ny;
 	}
 
-	GLFWwindow* window;
-	//This creates a window object
-	window = glfwCreateWindow(xDim, yDim, "Gaia", NULL, NULL);
+	std::string windowname = "Gaia - " + image->save_name;
 
+    xDim = 1000;
+    yDim = 1000;
+    
+	window = glfwCreateWindow(xDim, yDim, windowname.c_str(), NULL, NULL);
+
+    glfwMakeContextCurrent(window);
 
 	if (window == NULL)
 	{
+        if(!glfwInit()){
+            std::cout << "it was me... GLFW!" << std::endl;
+            glfwSetErrorCallback(error_callback); //retrieve GLFW errors
+        }
+        
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
 		return -1;
 	}
-	glfwMakeContextCurrent(window);
 
-	int x(0), y(0), n(NULL);
+    
+    
+	int n(NULL);
 
 	GLFWimage icons[1];
 	icons[0].pixels = stbi_load("icon.png", &icons->width, &icons->height, &n, 4);
@@ -75,10 +127,11 @@ int initialise_window(image_parameters* image, bool *windowOpen) {
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	glfwSetWindowAspectRatio(window, image->nx, image->ny);
-
+    
 	//Initializes GLAD which manages function pointers for OpenGL
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
+        
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return -1;
 	}
@@ -139,7 +192,7 @@ int initialise_window(image_parameters* image, bool *windowOpen) {
 	//Assigns vertex attribute 0 to the previously defined VBO
 	glEnableVertexAttribArray(2);
 
-
+#ifndef __APPLE__
 	//VSYNC - to stop the window running at 1000fps
 	//
 	PFNWGLSWAPINTERVALEXTPROC       wglSwapIntervalEXT = NULL;
@@ -153,10 +206,16 @@ int initialise_window(image_parameters* image, bool *windowOpen) {
 		// this is another function from WGL_EXT_swap_control extension
 		wglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC)wglGetProcAddress("wglGetSwapIntervalEXT");
 	}
-
-	//Enables vsync
-	wglSwapIntervalEXT(1);
-
+    //Enables vsync
+    wglSwapIntervalEXT(1);
+#else
+    //Enables vsync
+    glfwSwapInterval(1);
+#endif
+ 
+    
+    glfwMakeContextCurrent(window);
+    
 	//Texture
 	//
 	//Texture 1
@@ -200,7 +259,9 @@ int initialise_window(image_parameters* image, bool *windowOpen) {
 		//
 		//Generate texture
 		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, image->nx, image->ny, GL_RGBA, GL_FLOAT, (GLvoid*)*image->output_array_ptr);
+#ifndef __APPLE__
 		glGenerateMipmap(GL_TEXTURE_2D);
+#endif // !__APPLE__
 
 		//Resets window every cycle, stops previous iteration's results being seen
 		//Decides colour to be used
@@ -218,10 +279,10 @@ int initialise_window(image_parameters* image, bool *windowOpen) {
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		//GLFW: swap buffers and poll IO events
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+        glfwSwapBuffers(window);
+        glfwPollEvents();
 	}
-
+    return 0;
 }
 
 //When the user resizes the window, this adjusts the viewport respectively
@@ -233,15 +294,16 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 //IO events
 bool processInput(GLFWwindow *window, bool windowOpen) {
 	//Kills window on ESC
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, true);
+        std::cout << "ESCAPE" << std::endl;
 		windowOpen = false;
 	}
 
 	return windowOpen;
 
 }
-
+#ifndef __APPLE__
 //Does this PC support the pointers required to use VSYNC?
 bool WGLExtensionSupported(const char *extension_name)
 {
@@ -260,6 +322,7 @@ bool WGLExtensionSupported(const char *extension_name)
 	// extension is supported
 	return true;
 }
+#endif
 
 //Reads shader details from files
 std::string readFile(const char *filePath) {
@@ -293,8 +356,8 @@ void CheckForGLError()
 			std::cout << "GL_INVALID_VALUE";
 		if (error == GL_INVALID_OPERATION)
 			std::cout << "GL_INVALID_OPERATION";
-		if (error == GL_INVALID_FRAMEBUFFER_OPERATION)
-			std::cout << "GL_INVALID_FRAMEBUFFER_OPERATION";
+		//if (error == GL_INVALID_FRAMEBUFFER_OPERATION)
+			//std::cout << "GL_INVALID_FRAMEBUFFER_OPERATION";
 		if (error == GL_OUT_OF_MEMORY)
 			std::cout << "GL_OUT_OF_MEMORY";
 		if (error == GL_STACK_UNDERFLOW)
