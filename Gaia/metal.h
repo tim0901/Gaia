@@ -10,7 +10,7 @@ class metal :public material {
 public:
 	metal(const vec3& a, float f) :albedo(a) { if (f < 1) fuzz = f; else fuzz = 1; }
 	//Describes how a ray is scattered
-
+    ~metal(){}
 	float scattering_pdf(const ray &incident, const hit_record &rec, const ray &scattered) const {
 		return 0;
 	}

@@ -10,7 +10,7 @@
 class gooch :public material {
 public:
 	gooch(float b, float y, float al, float be, vec3 *p, const material *m) : warm(b), cool(y), alpha(al), beta(be), pointat(p) { mat = m; type = mat->type; }
-
+    ~gooch(){}
 	//B and Y determine the strength of the overall temperature shift
 	//α determines the prominence of the object colour 
 	//β determines the strength of the luminance shift

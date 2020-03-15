@@ -16,16 +16,6 @@ class pdf {
     
 };
 
-inline vec3 random_cosine_direction() {
-	float r1 = drand48();
-	float r2 = drand48();
-	float z = sqrt(1 - r2);
-	float phi = 2 * M_PI * r1;
-	float x = cos(phi) * sqrt(r2);
-	float y = sin(phi) * sqrt(r2);
-	return vec3(x, y, z);
-}
-
 class cosine_pdf :public pdf {
 public:
 	cosine_pdf(const vec3& w) { uvw.build_from_w(w); }

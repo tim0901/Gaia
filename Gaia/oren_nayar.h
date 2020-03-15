@@ -11,7 +11,7 @@
 class oren_nayar : public material {
 public:
 	oren_nayar(const vec3& a, float r) : albedo(a), roughness(r) {}
-
+    ~oren_nayar(){}
 	//Unsure if correct
 	float scattering_pdf(const ray &incident, const hit_record &rec, const ray &scattered) const {
 		float cosine = dot(rec.normal, unit_vector(scattered.direction()));

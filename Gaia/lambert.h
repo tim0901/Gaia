@@ -5,17 +5,17 @@
 
 #include "material.h"
 #include "random.h"
-#include "onb.h"
 
 class lambertian :public material {
 public:
 	lambertian(const vec3& a) :albedo(a) {}
+    ~lambertian(){}
 	//Describes how a ray is scattered
 	float scattering_pdf(const ray &incident, const hit_record &rec, const ray &scattered) const {
 		float cosine = dot(rec.normal, unit_vector(scattered.direction()));
 		if (cosine < 0) {
 			cosine = 0;
-			return 0;
+			return cosine;
 		}
 		return cosine/M_PI;
 	}

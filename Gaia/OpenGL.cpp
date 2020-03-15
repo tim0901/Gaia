@@ -53,8 +53,6 @@ void error_callback(int error, const char* description)
 
 }
 
-
-
 int initialise_window(bool* windowOpen, image_parameters* image) {
     
     
@@ -282,6 +280,14 @@ int initialise_window(bool* windowOpen, image_parameters* image) {
         glfwSwapBuffers(window);
         glfwPollEvents();
 	}
+    
+    
+    // Delete resources now they've outlived their purpose
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+
+    // glfw: terminate, clears all previously allocated GLFW resources.
+    glfwTerminate();
     return 0;
 }
 

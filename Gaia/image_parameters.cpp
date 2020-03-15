@@ -9,7 +9,6 @@ void bottomleft(image_parameters *image, std::vector<chunk> *temp_chunk_vector, 
 
 void initialise(image_parameters *image) {
 
-
 	//We use a single sample per pixel for edge lines, so ns = 1.
 	if (image->edge_line_pass == true) {
 
@@ -68,6 +67,9 @@ void initialise(image_parameters *image) {
 
 	//Initialise iterator
 	image->vec_iter = image->chunk_vector.begin();
+    
+    //Set image as initialized
+    image->isInitialized = true;
 }
 
 

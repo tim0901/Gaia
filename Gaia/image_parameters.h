@@ -9,6 +9,10 @@
 
 struct image_parameters {
 
+    
+    //Is this struct initialized?
+    bool isInitialized = false;
+    
 	//Viewport
 	bool show_viewport = true;
 	bool progress_monitoring = false; // Prints chunks remaining in non-iterative mode
@@ -16,7 +20,6 @@ struct image_parameters {
     
     //Thread iterator
     int currentActiveThreads = 0;
-	
 
 	//Render Options
 
@@ -24,7 +27,7 @@ struct image_parameters {
 	int nx = 1000;
 	int ny = 500;
     
-    int maxDepth = 10; // maximum number of bounces in the scene.oen
+    int maxDepth = 50; // maximum number of bounces in the scene.
 
 	///Samples per pixel
 	int ns = 100;
@@ -93,6 +96,18 @@ struct image_parameters {
 	std::string save_name = "random edge";
 	bool savePPM = false;
 	bool saveHDR = false;
+    
+    //Destructor
+    ~image_parameters(){
+        std::cout << "Delete image" << std::endl;
+        delete background_colour;
+        delete chunks_remaining;
+        if(isInitialized == true){
+            free(sample_reciprocals);
+            free(output_array);
+        }
+    }
+    
 };
 
 void initialise(image_parameters *image);

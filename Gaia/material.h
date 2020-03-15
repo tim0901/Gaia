@@ -7,8 +7,22 @@
 #include "ray.h"
 
 //Forward declaration
-struct hit_record;
 class pdf;
+
+class material;
+
+//Stores information about the object the ray just hit
+struct hit_record {
+    float object_id = -1;
+    float primitive_id = -1;
+    float t; //t from p(t) = A + t*B
+    vec3 p; //3D position of ray hit
+    float u, v;
+    vec3 normal;//Normal vector of hit point
+    material *mat_ptr;//A pointer to the material of the object hit
+    std::string type = "hit_record";
+};
+
 
 struct scattering_record {
 	ray specular_ray;
@@ -20,6 +34,7 @@ struct scattering_record {
 //Defines a material
 class material {
 public:
+    virtual ~material(){}
 	//Scatter function
 	virtual bool scatter(const ray& r_in, const hit_record& rec, scattering_record &scatter) const = 0;
 	virtual vec3 emitted(const ray& r_in, const hit_record& rec, float u, float v, const vec3& p) const { return vec3(0, 0, 0); }
@@ -30,24 +45,9 @@ public:
 };
 
 //Describes a perfect reflection as used by metals and glasses
-vec3 reflect(const vec3 &v, const vec3 &n) {
-	return v - 2 * dot(v, n)*n;
-}
+vec3 reflect(const vec3 &v, const vec3 &n);
 
 //Determines whether a ray is refracted or not
-bool refract(const vec3 &v, const vec3 &n, float ni_over_nt, vec3 &refracted) {
-	vec3 uv = unit_vector(v);
-	float dt = dot(uv, n);
-	float discriminant = 1.0 - ni_over_nt * ni_over_nt*(1 - dt * dt);
-	if (discriminant > 0) {
-		//Refracted
-		refracted = ni_over_nt * (uv - n * dt) - n * sqrt(discriminant);
-		return true;
-	}
-	else {
-		return false;
-	}
-
-}
+bool refract(const vec3 &v, const vec3 &n, float ni_over_nt, vec3 &refracted);
 
 #endif // !MATERIAL_H

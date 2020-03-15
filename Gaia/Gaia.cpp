@@ -24,14 +24,14 @@
 #include "radiance.h"
 #include "scenes.h"
 #include "save.h"
+//#include "matrix4.h" //this isn't used or finished yet
 
+#include "OpenGL.h"  //Include openGL stuff
+/*
 #if __APPLE__
-//#include "metalView.h"//include Metal stuff
-#include "OpenGL.h"  //Include openGL stuff
-#else
-#include "matrix4.h" //this isn't used or finished yet
-#include "OpenGL.h"  //Include openGL stuff
+//#include "metalView.h" //include Metal stuff - unfinished!
 #endif
+*/
 
 //Forward declarations
 void render(bool *window_open, image_parameters *image, int k, object **world, object **light_list, camera **cam_Ptr);
@@ -39,7 +39,7 @@ void render(bool *window_open, image_parameters *image, int k, object **world, o
 //Defines number of threads of system
 unsigned const int nthreads = std::thread::hardware_concurrency();
 
-std::string version_number = "0.3";
+std::string version_number = "0.3.1";
 
 //Declares thread array
 std::vector<std::thread> t(nthreads + 1);
@@ -65,10 +65,11 @@ int main()
 	//Container for objects to hit
 	object* world;
 	object* light_list;
+    material** matList = new material * [50];
 	camera* cam;
 
 	//Fetch scene - must be called before initialise
-	cornell_box(&world, &light_list, image, &cam);
+	cornell_box(&world, &light_list, matList, image, &cam);
 
 	//Initialise image container
 	initialise(image);
@@ -93,7 +94,7 @@ int main()
 	std::cout << "Setup time: " << std::chrono::duration <double, std::milli>(diff).count() << "ms" << std::endl;
 
 	//Start timer - frame
-	start = std::chrono::steady_clock::now();
+    start = std::chrono::steady_clock::now();
 
 	//Spawn render threads
 	for (int k = 0; k < (nthreads); k++) {
@@ -116,10 +117,19 @@ int main()
 	std::cout << "Frame render time: " << std::chrono::duration <double>(diff).count() << "s" << std::endl;
     
 	//Cleanup
-	//terminate_window();
-//	delete[] world;
-	delete[] image->output_array;
-	delete[] image->sample_reciprocals;
+    if(world){
+        delete world;
+    }
+    if(light_list){
+        delete light_list;
+    }
+    if(matList){
+        delete[] matList;
+    }
+    if(cam){
+        delete cam;
+    }
+    delete image;
 	delete window_open;
 }
 
@@ -654,10 +664,11 @@ void render(bool *window_open, image_parameters *image, int k, object **world, o
     
     //Check if this is final thread alive. If so, call save function.
     if(image->currentActiveThreads == 1 && (*image->chunks_remaining == 0 || image->previous_samples == image->ns)){ // Only saves if render completes
+        std::cout << " Saving.";
         console_mutex.unlock();
         save(image);
         console_mutex.lock();
-        std::cout << "Thread terminating." << std::endl;
+        std::cout << " Thread terminating." << std::endl;
         console_mutex.unlock();
     }
     else{

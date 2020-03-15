@@ -282,3 +282,8 @@ __pycache__/
 /Gaia/1k1k2ks.png
 /Gaia/bunnycornell.png
 /Gaia/bunnycornell_comp.png
+
+
+#macOS .DS_Store
+.DS_Store
+/Gaia/.DS_Store

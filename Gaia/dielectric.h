@@ -14,7 +14,7 @@ float schlick_approximation(float cosine, float ref_idx);
 class dielectric :public material {
 public:
 	dielectric(float ref_ind, const vec3& a) :ref_indx(ref_ind), albedo(a) {}
-
+    ~dielectric(){}
 	virtual bool scatter(const ray &incident, const hit_record &rec, scattering_record &scatter) const {
 		vec3 outward_normal;
 		vec3 reflected = reflect(incident.direction(), rec.normal);
@@ -63,11 +63,5 @@ public:
 	vec3 albedo;
 	float ref_indx;
 };
-
-float schlick_approximation(float cosine, float ref_idx) {
-	float r0 = (1 - ref_idx) / (1 + ref_idx);
-	r0 = r0 * r0;
-	return r0 + (1 - r0)*pow((1 - cosine), 5);
-}
 
 #endif // !DIELECTRIC_H
