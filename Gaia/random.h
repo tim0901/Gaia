@@ -9,22 +9,9 @@
 
 //All random distribution functions
 
-//drand48 for windows
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
 inline float drand48() {
 
 	return (rand() / (RAND_MAX + 1.0));
-}
-#endif
-
-inline vec3 random_to_sphere(float radius, float distance_squared) {
-	float r1 = drand48();
-	float r2 = drand48();
-	float z = 1 + r2 * (sqrt(1 - radius * radius / distance_squared) - 1);
-	float phi = 2 * M_PI * r1;
-	float x = cos(phi) * sqrt(1 - z * z);
-	float y = sin(phi) * sqrt(1 - z * z);
-	return vec3(x, y, z);
 }
 
 inline vec3 random_to_sphere(float radius, float distance_squared) {

@@ -3,6 +3,7 @@
 #ifndef BVH_H
 #define BVH_H
 
+
 #include "aabb.h"
 #include "random.h"
 #include "object.h"
@@ -13,14 +14,11 @@ public:
 	bvh_node(object **l, int n, float time0, float time1);
 	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
 	virtual bool bounding_box(float t0, float t1, aabb& box) const;
-	float object_id = -2;
-	float primitive_id = -2;
+	float object_id = -1;
+	float primitive_id = -1;
 	object *left;
 	object *right;
 	aabb box;
-    
-    std::string type = "bvh_node";
-    
 };
 
 
@@ -31,7 +29,6 @@ bool bvh_node::bounding_box(float t0, float t1, aabb& b) const {
 
 bool bvh_node::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
 	if (box.hit(r, t_min, t_max)) {
-        rec.object_id = object_id;
 		hit_record left_rec, right_rec;
 		bool hit_left = left->hit(r, t_min, t_max, left_rec);
 		bool hit_right = right->hit(r, t_min, t_max, right_rec);

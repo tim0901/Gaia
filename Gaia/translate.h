@@ -3,11 +3,7 @@
 #ifndef TRANSLATE_H
 #define TRANSLATE_H
 
-<<<<<<< HEAD
 #include "object.h"
-=======
-#include "Objects/object.h"
->>>>>>> Nightly
 
 class translate : public object {
 public:
@@ -15,17 +11,8 @@ public:
 	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
 	virtual bool bounding_box(float t0, float t1, aabb& box) const;
 
-<<<<<<< HEAD
 	object* obj_ptr;
 	vec3 displacement;
-=======
-    float object_id = -3;
-    float primitive_id = -3;
-    
-	object* obj_ptr;
-	vec3 displacement;
-    std::string type = "translate";
->>>>>>> Nightly
 };
 
 bool translate::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {

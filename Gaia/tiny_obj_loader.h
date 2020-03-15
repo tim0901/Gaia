@@ -54,11 +54,7 @@ THE SOFTWARE.
 namespace tinyobj {
 
 #ifdef __clang__
-
 #pragma clang diagnostic push
-
-#pragma clang diagnostic ignored "-Weverything"
-
 #if __has_warning("-Wzero-as-null-pointer-constant")
 #pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
 #endif

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef LAMBERT_H
 #define LAMBERT_H
@@ -27,11 +27,7 @@ public:
 
 	virtual bool scatter(const ray &incident, const hit_record &rec, scattering_record &scatter) const {
 		scatter.is_specular = false;
-<<<<<<< HEAD
 		scatter.specular_ray;
-=======
-        scatter.specular_ray = scatter.specular_ray;
->>>>>>> Nightly
 		scatter.brdf = albedo;
 		scatter.pdf = new cosine_pdf(rec.normal);
 		return true;

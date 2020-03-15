@@ -37,7 +37,6 @@ public:
 	float radius;
 	vec3 centre;
 	material *mat_ptr;
-    std::string type = "sphere";
 };
 
 
@@ -54,7 +53,7 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record &rec) const 
 	
 	//Test for intersection
 	if (discriminant > 0) {
-		float temp = (-b - sqrt(discriminant));
+		float temp = (-b - sqrt(discriminant)) / a;
 		if (temp < t_max && temp > t_min) {
 			rec.object_id = object_id;
 			rec.primitive_id = primitive_id;
@@ -64,10 +63,9 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record &rec) const 
 			rec.mat_ptr = mat_ptr;
 			rec.u = 1 - (atan2(rec.p.z(), rec.p.x()) + M_PI) / (2 * M_PI);
 			rec.v = (asin(rec.p.y()) + M_PI / 2) / M_PI;
-            rec.type = type;
 			return true;
 		}
-		temp = (-b + sqrt(discriminant));
+		temp = (-b + sqrt(discriminant)) / a;
 		if (temp < t_max && temp > t_min) {
 			rec.object_id = object_id;
 			rec.primitive_id = primitive_id;
@@ -77,7 +75,6 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record &rec) const 
 			rec.mat_ptr = mat_ptr;
 			rec.u = 1 - (atan2(rec.p.z(), rec.p.x()) + M_PI) / (2 * M_PI);
 			rec.v = (asin(rec.p.y()) + M_PI / 2) / M_PI;
-            rec.type = type;
 			return true;
 		}
 	}

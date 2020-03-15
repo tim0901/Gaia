@@ -8,7 +8,7 @@
 #include "random.h"
 
 //An incorrect implementation of the Phong shading model
-/*
+
 class phong :public material {
 public:
 	phong(const vec3& a) :albedo(a) {}
@@ -42,5 +42,5 @@ public:
 
 	vec3 albedo;
 };
-*/
+
 #endif // !BLINN_PHONG_H

@@ -184,35 +184,21 @@
     <ClInclude Include="gooch.h" />
     <ClInclude Include="lambert.h" />
     <ClInclude Include="material.h" />
+    <ClInclude Include="hit_record.h" />
     <ClInclude Include="materials.h" />
     <ClInclude Include="matrix4.h" />
     <ClInclude Include="metal.h" />
-<<<<<<< HEAD
     <ClInclude Include="object.h" />
     <ClInclude Include="object_list.h" />
     <ClInclude Include="onb.h" />
     <ClInclude Include="oren_nayar.h" />
     <ClInclude Include="pdf.h" />
     <ClInclude Include="plane.h" />
-=======
-    <ClInclude Include="metalView.h" />
-    <ClInclude Include="Objects\box.h" />
-    <ClInclude Include="Objects\ellipse.h" />
-    <ClInclude Include="Objects\mesh.h" />
-    <ClInclude Include="Objects\object.h" />
-    <ClInclude Include="Objects\objects.h" />
-    <ClInclude Include="Objects\object_list.h" />
-    <ClInclude Include="Objects\plane.h" />
-    <ClInclude Include="Objects\sphere.h" />
-    <ClInclude Include="Objects\triangle.h" />
-    <ClInclude Include="onb.h" />
-    <ClInclude Include="oren_nayar.h" />
-    <ClInclude Include="pdf.h" />
->>>>>>> Nightly
     <ClInclude Include="random.h" />
     <ClInclude Include="ray.h" />
     <ClInclude Include="rotate.h" />
     <ClInclude Include="save.h" />
+    <ClInclude Include="mesh.h" />
     <ClInclude Include="pi.h" />
     <ClInclude Include="image_parameters.h" />
     <ClInclude Include="OpenGL.h" />
@@ -220,14 +206,12 @@
     <ClInclude Include="scenes.h" />
     <ClInclude Include="GLshader.h" />
     <ClInclude Include="radiance.h" />
+    <ClInclude Include="sphere.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="stb_image_write.h" />
     <ClInclude Include="tiny_obj_loader.h" />
     <ClInclude Include="translate.h" />
-<<<<<<< HEAD
     <ClInclude Include="triangle.h" />
-=======
->>>>>>> Nightly
     <ClInclude Include="vec2.h" />
     <ClInclude Include="vec3.h" />
     <ClInclude Include="vec4.h" />
@@ -244,7 +228,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="metalView.mm" />
     <None Include="shader.frag" />
     <None Include="shader.vert" />
   </ItemGroup>

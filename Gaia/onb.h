@@ -1,8 +1,4 @@
 #pragma once
-<<<<<<< HEAD
-=======
-
->>>>>>> Nightly
 #ifndef ONB_H
 #define ONB_H
 

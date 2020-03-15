@@ -7,63 +7,42 @@
 #include <opensubdiv/far/primvarRefiner.h>
 
 #include "image_parameters.h"
-#include "Objects/object.h"
+#include "object.h"
 #include "bvh.h"
-#include "Objects/triangle.h"
+#include "triangle.h"
 #include "tiny_obj_loader.h"
-
-struct raw_mesh {
-	float oid;
-	int ntris;
-	int nverts;
-	vec3* vertexList;
-	vec3* trianglesList;
-	vec3* normalsList;
-	int* materialsList;
-	material** mat;
-};
 
 class mesh : public object {
 public:
 	mesh() {}
-	//mesh(float oid, int ntris, int nverts, vec3* vertexList, vec3* trianglesList, vec3* normalsList, int* materialsList, material** mat) : object_id(oid), nTris(ntris), nVerts(nverts), vertices(vertexList), normals(normalsList), triangles(trianglesList), materials(materialsList), mat_list_ptr(mat) {
-	mesh(raw_mesh* raw, vec3* ori, float s): origin(ori), scale(s){
-
-		pmin = pmax = raw->vertexList[0];
-
-		for (int i = 1; i < raw->nverts; i++) {
-
-
-			pmin = vec3(std::min(raw->vertexList[i].x(), pmin.x()), std::min(raw->vertexList[i].y(), pmin.y()), std::min(raw->vertexList[i].z(), pmin.z()));
-			pmax = vec3(std::max(raw->vertexList[i].x(), pmax.x()), std::max(raw->vertexList[i].y(), pmax.y()), std::max(raw->vertexList[i].z(), pmax.z()));
-			
-		}
+	mesh(float oid, int ntris, int nverts, vec3* vertexList, vec3* trianglesList, vec3* normalsList, int* materialsList, material** mat) : object_id(oid), nTris(ntris), nVerts(nverts), vertices(vertexList), normals(normalsList), triangles(trianglesList), materials(materialsList), mat_list_ptr(mat) {
 		
-		if (!origin) {
-			//No defined origin - set to centre point of mesh.
-			origin = new vec3(pmin.x() + (pmax.x() - pmin.x())*0.5, pmin.y() + (pmax.y() - pmin.y())*0.5, pmin.z() + (pmax.z() - pmin.z())*0.5);
+		pmin = pmax = vertices[0];
+
+		for (int i = 1; i < nVerts; i++) {
+
+
+			pmin = vec3(std::min(vertices[i].x(), pmin.x()), std::min(vertices[i].y(), pmin.y()), std::min(vertices[i].z(), pmin.z()));
+			pmax = vec3(std::max(vertices[i].x(), pmax.x()), std::max(vertices[i].y(), pmax.y()), std::max(vertices[i].z(), pmax.z()));
+
 		}
 
-		object** list = new object * [raw->ntris];
-
-
-		//all points are defined wr
+		object** list = new object * [nTris];
 
 		int j = 0;
-		for (j=j; j < raw->ntris; j++) {
+		for (j; j < nTris; j++) {
 
-			int x = raw->trianglesList[j].x();
-			int y = raw->trianglesList[j].y();
-			int z = raw->trianglesList[j].z();
+			object** temp = new object * [1];
+			int x = triangles[j].x();
+			int y = triangles[j].y();
+			int z = triangles[j].z();
 
-			list[j] = new triangle(raw->oid, j, new vec3((raw->vertexList[x] - *origin) * scale), new vec3((raw->vertexList[y] - *origin) * scale), new vec3((raw->vertexList[z] - *origin) * scale), raw->mat[raw->materialsList[j]], &raw->normalsList[x], &raw->normalsList[y], &raw->normalsList[z]);
-//			list[j] = new triangle(raw->oid, j, &(raw->vertexList[x]), &(raw->vertexList[y]), &(raw->vertexList[z]), raw->mat[raw->materialsList[j]], &raw->normalsList[x], &raw->normalsList[y], &raw->normalsList[z]);
-			
+			list[j] = new triangle(object_id, j, &vertices[x], &vertices[y], &vertices[z], mat_list_ptr[materials[j]], &normals[x], &normals[y], &normals[z]);
+
 		}
 
-//		free(raw->vertexList);
-//		free(raw->trianglesList);
-//		free(raw->materialsList);
+		free(trianglesList);
+		free(materialsList);
 
 		list_ptr = new bvh_node(list, j, 0, 0);
 		std::cout << "Mesh loaded." << std::endl;
@@ -73,14 +52,18 @@ public:
 	virtual bool bounding_box(float t0, float t1, aabb& box) const;
 
 	float object_id;
-	float primitive_id = -1; //A mesh is not a primitive
+	float primitive_id = -1;
 
-	vec3* origin;
-	float scale;
+	int nTris;
+	int nVerts;
+	vec3* normals;
+	vec3* triangles;
+	vec3* vertices;
+	int* materials;
+	material** mat_list_ptr;
 	object* list_ptr;
 	vec3 pmin;
 	vec3 pmax;
-    std::string type = "mesh";
 };
 
 bool mesh::bounding_box(float t0, float t1, aabb& box) const {
@@ -129,7 +112,7 @@ private:
 	float _position[3];
 };
 
-raw_mesh load_mesh(int oid, image_parameters* image, std::string input_file, material** mat) {
+mesh load_mesh(int oid, image_parameters* image, std::string input_file, material** mat) {
 
 	std::string inputfile = input_file;
 
@@ -187,7 +170,7 @@ raw_mesh load_mesh(int oid, image_parameters* image, std::string input_file, mat
 
 				//vertex.color = { 1.0f, 1.0f, 1.0f };
 
-				if (uniqueVertices.count(vertex) == 0) {
+				/*if (uniqueVertices.count(vertex) == 0) {
 					uniqueVertices[vertex] = static_cast<uint32_t>(vertices.size());
 					vertices.push_back(vertex);
 				}
@@ -230,6 +213,9 @@ raw_mesh load_mesh(int oid, image_parameters* image, std::string input_file, mat
 
 	//Extract old materials data from shape, stored in materialsList
 	for (int i = 0; i < nTris; i++) {
+
+		//trianglesList[i] = vec3(indiciesList[3 * i], indiciesList[3 * i + 1], indiciesList[3 * i + 2]);
+
 		//Load the associated material for the triangle
 
 		if (nTris > shapes[0].mesh.material_ids.size()) {
@@ -356,19 +342,6 @@ raw_mesh load_mesh(int oid, image_parameters* image, std::string input_file, mat
 	free(tempmatlist);
 
 	std::cout << "Subdivision complete." << std::endl;
-
-	raw_mesh* raw = new raw_mesh;
-	raw->oid = oid;
-	raw->ntris= nTris;
-	raw->nverts = nVerts;
-	raw->vertexList = vertexList;
-	raw->trianglesList = trianglesList;
-	raw->normalsList = normalsList;
-	raw->materialsList = materialsList;
-	raw->mat = mat;
-
-	return *raw;
-
-	//return raw_mesh(oid, nTris, nVerts, vertexList, trianglesList, normalsList, materialsList, mat);
+	return mesh(oid, nTris, nVerts, vertexList, trianglesList, normalsList, materialsList, mat);
 }
 #endif // !MESH_H

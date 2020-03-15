@@ -16,6 +16,5 @@ public:
 	virtual vec3 random(const vec3& o) const { return vec3(1, 0, 0); }
 	float object_id = -1;
 	float primitive_id = -1;
-    std::string type = "undefined";
 };
 #endif // !OBJECT_H

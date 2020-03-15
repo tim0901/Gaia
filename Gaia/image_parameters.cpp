@@ -1,5 +1,6 @@
-#include "pch.h"
+#pragma once
 
+#include "pch.h"
 #include "image_parameters.h"
 
 void spiral(image_parameters* image);

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef GOOCH_H
 #define GOOCH_H
@@ -44,7 +44,7 @@ public:
 		return true;
 	}
 
-	std::string type = "gooch";
+	std::string type;
 
 	float cool, warm, alpha, beta;
 	vec3 *pointat;
