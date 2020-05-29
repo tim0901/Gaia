@@ -107,7 +107,7 @@ raw_mesh load_mesh(int oid, image_parameters* image, std::string input_file, mat
         //normalsList[i] = vec3(attrib.normals[3 * i], attrib.normals[3 * i + 1], attrib.normals[3 * i + 2]);
     }*/
 
-    static int nTris = 0;
+    int nTris = 0;
     for (const auto& shape : shapes) {
 
         for (int i = 0; i < shape.mesh.indices.size(); i++) {
@@ -195,7 +195,8 @@ raw_mesh load_mesh(int oid, image_parameters* image, std::string input_file, mat
 
         materialsList = (int*)realloc(materialsList, nTris * sizeof(int));
         tempmatlist = (int*)realloc(tempmatlist, nTris * sizeof(int));
-        
+		normalsList = (vec3*)realloc(normalsList, nTris * sizeof(vec3)); //The normals list is resized, but the new normals are not calculated. TODO.
+
         //Extract per-face materials
         for (int i = 0; i < nTris; i++) {
 

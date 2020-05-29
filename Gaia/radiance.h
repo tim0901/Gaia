@@ -12,7 +12,7 @@
 #include "vec4.h"
 #include "image_parameters.h"
 
-vec4 cast(image_parameters *image, const ray& r, object *world, object* light_list, int depth);
+vec4 cast(image_parameters *image, const ray& r, object *world, object* light_list, int depth, float& numberOfPrimitiveIntersectionTests);
 
 hit_record edge_cast(image_parameters *image, const ray& r, object *world, int depth);
 #endif // !RADIANCE_H

@@ -21,6 +21,8 @@ struct hit_record {
     vec3 normal;//Normal vector of hit point
     material *mat_ptr;//A pointer to the material of the object hit
     std::string type = "hit_record";
+	bool primitive = false; //Have I hit a primitive? eg: Tri, Sphere, XY plane
+	int numberOfIntersectionTests = 0; //Number of intersection tests performed, used for heat maps 
 };
 
 

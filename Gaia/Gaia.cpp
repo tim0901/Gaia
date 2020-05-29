@@ -37,9 +37,9 @@
 void render(bool *window_open, image_parameters *image, int k, object **world, object **light_list, camera **cam_Ptr);
 
 //Defines number of threads of system
-unsigned const int nthreads = std::thread::hardware_concurrency();
+unsigned const int nthreads = 6; //std::thread::hardware_concurrency();
 
-std::string version_number = "0.3.1";
+std::string version_number = "0.3.2";
 
 //Declares thread array
 std::vector<std::thread> t(nthreads + 1);
@@ -52,7 +52,7 @@ int main()
 	std::cout << "Gaia version: " << &version_number[0u] << std::endl;
     
 	//Start timer - setup
-	auto start = std::chrono::steady_clock::now();
+	std::chrono::time_point<std::chrono::steady_clock> start = std::chrono::steady_clock::now();
 
 	if(nthreads == std::thread::hardware_concurrency())
 		std::cout << nthreads << " threads detected." << std::endl;
@@ -69,32 +69,24 @@ int main()
 	camera* cam;
 
 	//Fetch scene - must be called before initialise
-	cornell_box(&world, &light_list, matList, image, &cam);
+	mini(&world, &light_list, matList, image, &cam);
 
 	//Initialise image container
 	initialise(image);
 	
-	std::cout << image->save_name << std::endl;
-	
-	std::cout << image->nx << "x" << image->ny << " at " << image->ns << " samples per pixel" << std::endl;
-
-	if (image->saveHDR == false && image->savePPM == false) {
-		std::cout << "No save mode selected." << std::endl;
-	}
-
 	//Seed random number generator
 	srand(time(0));
-    const char * argv[5];
+
 	//For checking if the program should end
 	bool *window_open = new bool(true);
 
 	//End timer - setup
-	auto end = std::chrono::steady_clock::now();
-	auto diff = end - start;
+	std::chrono::time_point<std::chrono::steady_clock> end = std::chrono::steady_clock::now();
+	std::chrono::duration<double> diff = end - start;
 	std::cout << "Setup time: " << std::chrono::duration <double, std::milli>(diff).count() << "ms" << std::endl;
 
 	//Start timer - frame
-    start = std::chrono::steady_clock::now();
+    image->timerStartPoint = std::chrono::steady_clock::now();
 
 	//Spawn render threads
 	for (int k = 0; k < (nthreads); k++) {
@@ -109,13 +101,6 @@ int main()
         initialise_window(window_open,image);
     }
 
-	//End timer - frame
-	end = std::chrono::steady_clock::now();
-	diff = end - start;
-
-    //Output render time
-	std::cout << "Frame render time: " << std::chrono::duration <double>(diff).count() << "s" << std::endl;
-    
 	//Cleanup
     if(world){
         delete world;
@@ -467,9 +452,18 @@ void render(bool *window_open, image_parameters *image, int k, object **world, o
 
 							ray r = cam.get_ray(u, v);
 
+							float numberOfPrimitiveIntersectionTests;
+
 							//Cast ray, gets colour
-							col += de_nan(cast(image, r, *world, *light_list, 0));
+							col += de_nan(cast(image, r, *world, *light_list, 0, numberOfPrimitiveIntersectionTests));
 							//col += (cast(image, r, *world, 0));
+
+							//Generate heat map
+							if(image->generateHeatMap) {
+								//We just need to store the additional number of rays sent in this array. The colour gradient is created by the save function.
+								image->heatMapArray[(i + (image->nx * j))] += numberOfPrimitiveIntersectionTests;
+							}
+							numberOfPrimitiveIntersectionTests = 0; // Reset this value for next sample. 
 
 							if (*window_open == false) {
 								break;
@@ -603,8 +597,19 @@ void render(bool *window_open, image_parameters *image, int k, object **world, o
 						//float u = float(i + drand48()) / float(image->nx);
 						//float v = float(j + drand48()) / float(image->ny);
 
+						float numberOfPrimitiveIntersectionTests = 0;
+
 						ray r = cam.get_ray(u, v);
-						col += de_nan(cast(image, r, *world, *light_list, 0));
+						col += de_nan(cast(image, r, *world, *light_list, 0, numberOfPrimitiveIntersectionTests));
+
+						//Generate heat map
+						if(image->generateHeatMap) {
+							//We just need to store the additional number of rays sent in this array. The colour gradient is created by the save function.
+							image->heatMapArray[(i + (image->nx * j))] += numberOfPrimitiveIntersectionTests;
+						}
+
+						numberOfPrimitiveIntersectionTests = 0; // Reset this value for next sample. 
+
 
 						//Divide col by number of samples the pixel has had
 						col[0] *= image->sample_reciprocals[chunk_sample_number];
@@ -660,21 +665,34 @@ void render(bool *window_open, image_parameters *image, int k, object **world, o
 
 	//Close thread
 	console_mutex.lock();
-    std::cout << "Thread: " << k << ", rendering finished.";
-    
+	std::cout << "Thread: " << k << ", rendering finished.";
+
     //Check if this is final thread alive. If so, call save function.
     if(image->currentActiveThreads == 1 && (*image->chunks_remaining == 0 || image->previous_samples == image->ns)){ // Only saves if render completes
-        std::cout << " Saving.";
         console_mutex.unlock();
         save(image);
         console_mutex.lock();
-        std::cout << " Thread terminating." << std::endl;
+        std::cout << "Thread terminating." << std::endl;
         console_mutex.unlock();
     }
     else{
         std::cout << " Thread terminating." << std::endl;
         console_mutex.unlock();
     }
+
+	//Check if this is final thread alive. If so, output render time
+	if (image->currentActiveThreads == 1) {
+
+		//End timer - frame
+		image->timerEndPoint = std::chrono::steady_clock::now();
+		image->duration = image->timerEndPoint - image->timerStartPoint;
+
+		//Output render time
+		console_mutex.lock();
+		std::cout << "Frame render time: " << image->duration.count() << "s" << std::endl;
+		console_mutex.unlock();
+	}
+
     
     //Kill thread
     image->currentActiveThreads--; //Reduce number of active threads

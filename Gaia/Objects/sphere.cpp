@@ -5,6 +5,7 @@
 //  Created by Alex Richardson on 15/03/2020.
 //  Copyright © 2020 Alex Richardson. All rights reserved.
 //
+#include "pch.h"
 
 #include"sphere.h"
 
@@ -31,6 +32,7 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record &rec) const 
             rec.u = 1 - (atan2(rec.p.z(), rec.p.x()) + M_PI) / (2 * M_PI);
             rec.v = (asin(rec.p.y()) + M_PI / 2) / M_PI;
             rec.type = type;
+            rec.primitive = true;
             return true;
         }
         temp = (-b + sqrt(discriminant))/a;
@@ -44,6 +46,7 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record &rec) const 
             rec.u = 1 - (atan2(rec.p.z(), rec.p.x()) + M_PI) / (2 * M_PI);
             rec.v = (asin(rec.p.y()) + M_PI / 2) / M_PI;
             rec.type = type;
+            rec.primitive = true;
             return true;
         }
     }

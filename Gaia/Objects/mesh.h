@@ -3,6 +3,7 @@
 #ifndef MESH_H
 #define MESH_H
 
+#include "pi.h"
 #include <opensubdiv/far/topologyDescriptor.h>
 #include <opensubdiv/far/primvarRefiner.h>
 

@@ -122,6 +122,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>C:\Users\alexa\source\repos\Gaia\Gaia;C:\Users\alexa\source\repos\Gaia\Gaia\Objects;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -163,6 +164,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>C:\Users\alexa\source\repos\Gaia\Gaia;C:\Users\alexa\source\repos\Gaia\Gaia\Objects;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -181,6 +183,7 @@
     <ClInclude Include="blinnphong.h" />
     <ClInclude Include="diffuse_light.h" />
     <ClInclude Include="gooch.h" />
+    <ClInclude Include="colourGradient.h" />
     <ClInclude Include="lambert.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="materials.h" />
@@ -219,8 +222,20 @@
     <ClInclude Include="vec4.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="aabb.cpp" />
+    <ClCompile Include="bvh.cpp" />
+    <ClCompile Include="dielectric.cpp" />
     <ClCompile Include="image_parameters.cpp" />
     <ClCompile Include="Gaia.cpp" />
+    <ClCompile Include="material.cpp" />
+    <ClCompile Include="Objects\box.cpp" />
+    <ClCompile Include="Objects\ellipse.cpp" />
+    <ClCompile Include="Objects\mesh.cpp" />
+    <ClCompile Include="Objects\object_list.cpp" />
+    <ClCompile Include="Objects\plane.cpp" />
+    <ClCompile Include="Objects\sphere.cpp" />
+    <ClCompile Include="Objects\triangle.cpp" />
+    <ClCompile Include="onb.cpp" />
     <ClCompile Include="OpenGL.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -228,6 +243,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="radiance.cpp" />
+    <ClCompile Include="random.cpp" />
+    <ClCompile Include="rotate.cpp" />
+    <ClCompile Include="translate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="metalView.mm" />

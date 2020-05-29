@@ -75,6 +75,8 @@ int initialise_window(bool* windowOpen, image_parameters* image) {
 
     int xDim = 0;
     int yDim = 0;
+	xDim = 1000;
+	yDim = 1000;
     
 	if (image->nx > xDim)
 	{
@@ -93,8 +95,6 @@ int initialise_window(bool* windowOpen, image_parameters* image) {
 
 	std::string windowname = "Gaia - " + image->save_name;
 
-    xDim = 1000;
-    yDim = 1000;
     
 	window = glfwCreateWindow(xDim, yDim, windowname.c_str(), NULL, NULL);
 

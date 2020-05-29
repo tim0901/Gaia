@@ -6,10 +6,15 @@
 #include "vec3.h"
 #include"chunk.h"
 #include <vector>
+#include <chrono>
 
 struct image_parameters {
 
-    
+    //Render timer
+	std::chrono::time_point<std::chrono::steady_clock> timerStartPoint;
+	std::chrono::time_point<std::chrono::steady_clock> timerEndPoint;
+	std::chrono::duration<double> duration;
+
     //Is this struct initialized?
     bool isInitialized = false;
     
@@ -56,6 +61,7 @@ struct image_parameters {
 	///Pass Options
 	bool edge_line_pass = false;
 	bool z_depth_pass = false;
+	bool generateHeatMap = true;
 
 	///Edge Line Pass Options
 	int edge_line_quality_n = 3; //+ve integer, min N=1
@@ -85,6 +91,9 @@ struct image_parameters {
 	float *output_array = { 0 };
 	float **output_array_ptr = &output_array;
 
+	float* heatMapArray = { 0 };
+	float** heatMapArrayPtr = &heatMapArray;
+
 	///Isolate output channels - only for beauty renders. 
 	bool red_channel = true;
 	bool green_channel = true;
@@ -99,12 +108,15 @@ struct image_parameters {
     
     //Destructor
     ~image_parameters(){
-        std::cout << "Delete image" << std::endl;
+        std::cout << "Delete image arrays" << std::endl;
         delete background_colour;
         delete chunks_remaining;
         if(isInitialized == true){
             free(sample_reciprocals);
             free(output_array);
+			if (generateHeatMap) {
+				free(heatMapArray);
+			}
         }
     }
     

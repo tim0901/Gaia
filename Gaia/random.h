@@ -6,6 +6,7 @@
 #include <random>
 
 #include "vec3.h"
+#include "pi.h"
 
 //All random distribution functions
 

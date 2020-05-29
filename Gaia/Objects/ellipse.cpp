@@ -33,6 +33,7 @@ bool ellipse::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
             rec.p = r.p_at_t(rec.t);
             rec.normal = cross(radius1, radius2);
             rec.mat_ptr = mat_ptr;
+            rec.primitive = true;
             return true;
         }
         temp = (-b + sqrt(discriminant)) / a;
@@ -44,6 +45,7 @@ bool ellipse::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
             rec.p = r.p_at_t(rec.t);
             rec.normal = cross(radius1, radius2);
             rec.mat_ptr = mat_ptr;
+            rec.primitive = true;
             return true;
         }
     }

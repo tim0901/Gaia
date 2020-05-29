@@ -5,6 +5,7 @@
 //  Created by Alex Richardson on 15/03/2020.
 //  Copyright © 2020 Alex Richardson. All rights reserved.
 //
+#include "pch.h"
 
 #include "plane.h"
 
@@ -57,6 +58,7 @@ bool rectangle::hit(const ray& r, float t_min, float t_max, hit_record &rec) con
     rec.p = p;
     rec.normal = normal;
     rec.type = type;
+    rec.primitive = true;
     return true;
 }
 
@@ -86,6 +88,7 @@ bool xy_rect::hit(const ray &r, float t_min, float t_max, hit_record &rec) const
     rec.mat_ptr = mat_ptr;
     rec.p = r.p_at_t(t);
     rec.normal = normal; //Should be vec3(0, 0, +/-1)
+    rec.primitive = true;
     return true;
 }
 
@@ -115,6 +118,7 @@ bool xz_rect::hit(const ray &r, float t_min, float t_max, hit_record &rec) const
     rec.mat_ptr = mat_ptr;
     rec.p = r.p_at_t(t);
     rec.normal = normal; //Should be vec3(0, +/-1, 0)
+    rec.primitive = true;
     return true;
 }
 
@@ -144,5 +148,6 @@ bool yz_rect::hit(const ray &r, float t_min, float t_max, hit_record &rec) const
     rec.mat_ptr = mat_ptr;
     rec.p = r.p_at_t(t);
     rec.normal = normal; //Should be vec3(+/-1, 0, 0)
+    rec.primitive = true;
     return true;
 }

@@ -5,13 +5,17 @@
 //  Created by Alex Richardson on 15/03/2020.
 //  Copyright © 2020 Alex Richardson. All rights reserved.
 //
+#include "pch.h"
 
 #include "radiance.h"
 
-vec4 cast(image_parameters *image, const ray& r, object *world, object* light_list, int depth) {
+vec4 cast(image_parameters *image, const ray& r, object *world, object* light_list, int depth, float& numberOfIntersectionTests) {
     hit_record rec;
     scattering_record scatter;
     
+    //To generate a heat map, we add the number of primitive intersection tests to the number of traversal steps for each primary ray. 
+    numberOfIntersectionTests++; //Therefore we iterate this value by one each time cast() is called, to account for the number of traversal steps. 
+
     if (world->hit(r, 0.001, FLT_MAX, rec)) {
 
         vec3 emitted(0,0,0);
@@ -29,12 +33,14 @@ vec4 cast(image_parameters *image, const ray& r, object *world, object* light_li
         bool hit = rec.mat_ptr->scatter(r, rec, scatter);
         emitted = rec.mat_ptr->emitted(r, rec, rec.u, rec.v, rec.p);
 
+        numberOfIntersectionTests += rec.numberOfIntersectionTests; // Add the number of intersection tests performed to the overall counter for this primary ray. 
+
         vec4 emitteda = vec4(emitted.r(), emitted.g(), emitted.b(), 1);
         vec4 brdf = vec4(scatter.brdf.r(), scatter.brdf.g(), scatter.brdf.b(), 1);
 
         if (depth < image->maxDepth && hit) {
             if (scatter.is_specular) {
-                vec4 temp = brdf * cast(image, scatter.specular_ray, world, light_list, depth + 1);
+                vec4 temp = brdf * cast(image, scatter.specular_ray, world, light_list, depth + 1, numberOfIntersectionTests);
                 delete scatter.pdf;
                 return vec4(temp.r(), temp.g(), temp.b(), 1);
             }
@@ -47,8 +53,8 @@ vec4 cast(image_parameters *image, const ray& r, object *world, object* light_li
                 float pdf = mix_pdf.pdf_value(scattered.direction());
                 
                 delete scatter.pdf;
-                
-                vec4 temp = emitteda + brdf * rec.mat_ptr->scattering_pdf(r, rec, scattered) * cast(image, scattered, world, light_list, depth + 1) / pdf;
+
+                vec4 temp = emitteda + brdf * rec.mat_ptr->scattering_pdf(r, rec, scattered) * cast(image, scattered, world, light_list, depth + 1, numberOfIntersectionTests) / pdf;
                 return vec4(temp.r(), temp.g(), temp.b(), 1);
             }
             

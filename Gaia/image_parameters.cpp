@@ -26,6 +26,11 @@ void initialise(image_parameters *image) {
 	//Defines array for output
 	*image->output_array_ptr = (float*)calloc((image->nx + 2) * (image->ny + 2) * 4, sizeof(float));
 
+	if (image->generateHeatMap) {
+		*image->heatMapArrayPtr = (float*)calloc((image->nx + 2) * (image->ny + 2), sizeof(float));
+	}
+
+
 
 	//Splits the image into n*n squares, each to be rendered by an independent thread
 
@@ -67,6 +72,23 @@ void initialise(image_parameters *image) {
 
 	//Initialise iterator
 	image->vec_iter = image->chunk_vector.begin();
+
+	std::cout << image->nx << "x" << image->ny << " at " << image->ns << " samples per pixel" << std::endl;
+
+	if (image->saveHDR == false && image->savePPM == false) {
+		std::cout << "No save mode selected" << std::endl;
+	}
+	else {
+		std::cout << "File name: " << image->save_name << std::endl;
+		std::cout << "Format(s): ";
+		if(image->saveHDR) {
+			std::cout << ".hdr ";
+		}
+		if (image->savePPM) {
+			std::cout << ".ppm ";
+		}
+		std::cout << " " << std::endl;
+	}
     
     //Set image as initialized
     image->isInitialized = true;

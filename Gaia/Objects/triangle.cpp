@@ -5,6 +5,7 @@
 //  Created by Alex Richardson on 15/03/2020.
 //  Copyright © 2020 Alex Richardson. All rights reserved.
 //
+#include "pch.h"
 
 #include "triangle.h"
 
@@ -93,6 +94,7 @@ bool triangle::hit(const ray& r, float tmin, float tmax, hit_record& rec) const 
     //rec.v = uvHit.v();
     rec.normal = vec3(unit_vector(cross(dp02, dp12)));
     rec.type = type;
+    rec.primitive = true;
 
     //broken?
     /*if (normal0 != (0,0,0)) {

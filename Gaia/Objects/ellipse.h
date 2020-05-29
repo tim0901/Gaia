@@ -3,6 +3,8 @@
 #ifndef ELLIPSE_H
 #define ELLIPSE_H
 
+#include "pi.h"
+#include "random.h"
 #include "object.h"
 #include <cfloat>
 

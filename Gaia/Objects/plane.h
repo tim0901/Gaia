@@ -3,6 +3,8 @@
 #ifndef PLANE_H
 #define PLANE_H
 
+#include "pi.h"
+#include "random.h"
 #include "object.h"
 #include <cfloat>
 
