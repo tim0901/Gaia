@@ -287,3 +287,4 @@ __pycache__/
 #macOS .DS_Store
 .DS_Store
 /Gaia/.DS_Store
+Gaia/Gaia.xcodeproj/project.xcworkspace/xcuserdata/alexrichardson.xcuserdatad/UserInterfaceState.xcuserstate
