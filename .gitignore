@@ -268,25 +268,14 @@ __pycache__/
 #Input Meshes
 *.obj
 *.mtl
-/Gaia/random colour temp.png
-/Gaia/random edge.png
-/Gaia/v003 gooch render.png
-/Gaia/gooch colour.png
-/Gaia/gooch outline.png
-/Gaia/random colour.png
-/Gaia/multicolour_mini_test.png
-/Gaia/mini_dark_10k_5k_supersampled.png
-/Gaia/mini_dark_10k_5k.png
-/Gaia/furnace test.png
-/Gaia/mini OSD.png
-/Gaia/1k1k2ks.png
-/Gaia/bunnycornell.png
-/Gaia/bunnycornell_comp.png
 
 # General
 .DS_Store
 .AppleDouble
 .LSOverride
+*.xcuserstate
+*.xcuserdatad
+
 
 # Thumbnails
 ._*
@@ -306,4 +295,3 @@ __pycache__/
 Network Trash Folder
 Temporary Items
 .apdisk
-Gaia/Gaia.xcodeproj/project.xcworkspace/xcuserdata/alexrichardson.xcuserdatad/UserInterfaceState.xcuserstate
