@@ -5,8 +5,6 @@
 //  Created by Alex Richardson on 15/03/2020.
 //  Copyright © 2020 Alex Richardson. All rights reserved.
 //
-#include "pch.h"
-
 #include "triangle.h"
 
 bool triangle::hit(const ray& r, float tmin, float tmax, hit_record& rec) const {

@@ -5,8 +5,6 @@
 //  Created by Alex Richardson on 15/03/2020.
 //  Copyright © 2020 Alex Richardson. All rights reserved.
 //
-#include "pch.h"
-
 #include "translate.h"
 
 bool translate::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {

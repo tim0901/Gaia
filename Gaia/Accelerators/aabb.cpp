@@ -5,8 +5,6 @@
 //  Created by Alex Richardson on 15/03/2020.
 //  Copyright © 2020 Alex Richardson. All rights reserved.
 //
-#include "pch.h"
-
 #include "aabb.h"
 
 //Returns a bounding box that surrounds two bounding boxes given to it.

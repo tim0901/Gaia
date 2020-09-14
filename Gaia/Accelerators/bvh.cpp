@@ -5,8 +5,6 @@
 //  Created by Alex Richardson on 15/03/2020.
 //  Copyright © 2020 Alex Richardson. All rights reserved.
 //
-#include "pch.h"
-
 #include "bvh.h"
 
 bool bvh_node::bounding_box(float t0, float t1, aabb& b) const {

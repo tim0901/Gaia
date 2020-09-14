@@ -5,8 +5,6 @@
 //  Created by Alex Richardson on 15/03/2020.
 //  Copyright © 2020 Alex Richardson. All rights reserved.
 //
-#include "pch.h"
-
 #include "dielectric.h"
 
 float schlick_approximation(float cosine, float ref_idx) {

@@ -26,7 +26,7 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 
 	image->nx = 1000;
 	image->ny = 1000;
-	image->ns = 25;
+	image->ns = 500;
     
     image->chunk_size = 25;
     
@@ -40,10 +40,10 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 
 	image->maxlevel = 0;
 
-	image->saveHDR = true;
-	image->savePPM = true;
+	image->saveHDR = false;
+	image->savePPM = false;
     image->generateHeatMap = false;
-    image->save_name = "MacSaveTest";
+    image->save_name = "save";
 
 	//Camera
 	vec3 look_from(0.5, 0.5, -2);
@@ -107,8 +107,24 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 	llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.7), vec3(0.3, 0.999, 0.7), 0, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
 	llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.3), vec3(0.7, 0.999, 0.7), 0, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
 	//llist[j++] = new sphere(oid++, 0, vec3(0.3, 0.2, 0.5), 0.2, 0);
-	//	llist[j++] = new xy_rect(i++, 0, 0.3, 0.7, 0.3, 0.7, 0.99999, vec3(0, 0, 1), 0);
-	//	llist[j++] = new rotate_y(new box(i++, vec3(0.6, 0, 0.6), vec3(0.8, 0.2, 0.8), 0), 10);
+	//llist[j++] = new xy_rect(i++, 0, 0.3, 0.7, 0.3, 0.7, 0.99999, vec3(0, 0, 1), 0);
+	//llist[j++] = new rotate_y(new box(i++, vec3(0.6, 0, 0.6), vec3(0.8, 0.2, 0.8), 0), 10);
+
+	/*
+	vec3 p0 = vec3(0.6, 0, 0.6);
+	vec3 p1 = vec3(0.8, 0.2, 0.8);
+	
+	llist[j++] = new rotate_y(new xy_rect(oid++, 0, p0.x(), p1.x(), p0.y(), p1.y(), p1.z(), vec3(0, 0, -1), 0), 10);
+	llist[j++] = new rotate_y(new xy_rect(oid++, 0, p0.x(), p1.x(), p0.y(), p1.y(), p0.z(), vec3(0, 0, 1), 0), 10);
+
+	llist[j++] = new rotate_y(new xz_rect(oid++, 0, p0.x(), p1.x(), p0.z(), p1.z(), p1.y(), vec3(0, 1, 0), 0), 10);
+	llist[j++] = new rotate_y(new xz_rect(oid++, 0, p0.x(), p1.x(), p0.z(), p1.z(), p0.y(), vec3(0, -1, 0), 0), 10);
+
+	llist[j++] = new rotate_y(new yz_rect(oid++, 0, p0.y(), p1.y(), p0.z(), p1.z(), p1.x(), vec3(1, 0, 0), 0), 10);
+	llist[j++] = new rotate_y(new yz_rect(oid++, 0, p0.y(), p1.y(), p0.z(), p1.z(), p0.x(), vec3(-1, 0, 0), 0), 10);
+	*/
+
+	llist[j++] = new ellipse(oid++, 0, vec3(0.5, 0.25, 0.995), vec3(0.1, 0, 0), vec3(0, 0.2, 0), 0);
 
 		//Assign light list
 	*light_list = new object_list(llist, j);
@@ -153,7 +169,7 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 
     
     //Metal cube
-	list[i++] = new rotate_y(new box(oid++, vec3(0.6, 0, 0.7), vec3(0.8, 0.2, 0.9), whitemetal),10);
+	//list[i++] = new rotate_y(new box(oid++, vec3(0.6, 0, 0.7), vec3(0.8, 0.2, 0.9), whitemetal),10);
 	
 	//Mini cooper mesh materials
 	material** miniMatList = new material* [50];
@@ -168,6 +184,7 @@ void cornell_box(object **world, object **light_list, material** matList, image_
     material** bunnyMatList = new material* [5];
 	bunnyMatList[0] = metalgooch;
 
+	/*
 	//Load raw mesh from file
 	raw_mesh raw_bunny = load_mesh(oid++, image, "stanfordbunny.obj", bunnyMatList);
 
@@ -190,10 +207,13 @@ void cornell_box(object **world, object **light_list, material** matList, image_
     
     //list[i++] = new translate( new rotate_y(new rotate_z(new rotate_y(miniMesh2, 90), 90),55), vec3(0.3, 0.2, 0.5));
     
-	//list[i++] = new ellipse(oid++, 0, vec3(0.5, 0.5, 0.5), vec3(0.4, 0.5, 0.5), vec3(0.5, 0.6, 0.5), red);
+    */
 
-    
+	//list[i++] = new sphere(oid++, 0, vec3(0.8, 0.1, 0.8), 0.1, whitemetal);
 
+	//list[i++] = new ellipse(oid++, 0, vec3(0.3, 0.2, 0.5), vec3(0.2, 0, 0.1), vec3(0, 0.15, -0.3), red);
+
+	list[i++] = new ellipse(oid++, 0, vec3(0.5, 0.25, 0.995), vec3(0.1, 0, 0), vec3(0, 0.2, 0), whitemetal);
 
     //Assign world list
 	*world = new object_list(list, i);
@@ -398,7 +418,6 @@ void bunny_cornell_box(object **world, object **light_list, material** matList, 
 
 }
 
-
 void furnace_test(object **world, object** light_list, image_parameters *image, camera **cam) {
 
 	image->nx = 500;
@@ -535,7 +554,6 @@ void mini(object** world, object** light_list, material** matList, image_paramet
 
 }
 
-
 void teapot(object **world, /*object **light_list, */image_parameters *image, camera **cam) {
 
 	image->edge_line_pass = false;
@@ -589,9 +607,6 @@ void teapot(object **world, /*object **light_list, */image_parameters *image, ca
 	*world = new object_list(list, i);
 }
 
-
-
-//Stores various scenes for testing
 void three_spheres(object **world, /*object **light_list, */image_parameters *image, camera **cam) {
 
 	//Set image size
@@ -647,7 +662,6 @@ void three_spheres(object **world, /*object **light_list, */image_parameters *im
 	*/
 }
 
-//Stores various scenes for testing
 void goochtest(object **world, object **light_list, image_parameters *image, camera **cam) {
 
 	image->background_colour = new vec3(1, 1, 1);
@@ -837,5 +851,71 @@ void random_scene(object **world, /*object **light_list, */image_parameters *ima
 	a[j++] = new xz_rect(3, 5, 1, 3, -2, 0);
 	*light_list = new hitable_list(a, j);*/
 }
+
+
+void ellipse_test(object** world, object** light_list, material** matList, image_parameters* image, camera** cam) {
+
+
+	//X goes right -> left
+	//Y goes down -> up
+	//Z goes front -> back
+
+	image->nx = 1000;
+	image->ny = 1000;
+	image->ns = 100;
+
+	image->chunk_size = 25;
+
+	image->saveHDR = false;
+	image->savePPM = false;
+	image->save_name = "ellipseTest";
+
+	//Camera
+	vec3 look_from(0, 0, 1);
+	vec3 look_at(0, 0, 0);
+	vec3 up(0, 1, 0); // vector that is "up" for the camera
+	float focal_length = (look_from - look_at).length();
+	int fov = 45;
+	float aperture = 0.0;
+	float aspect_ratio = float(image->nx) / float(image->ny);
+	*cam = new camera(look_from, look_at, up, fov, aspect_ratio, aperture, focal_length);
+
+	image->background_colour = new vec3(0, 0, 0);
+
+	//Iterators
+	int i = 0;
+	int oid = 0;
+	int matNo = 0;
+	object** list = new object * [50];
+
+	//Materials
+	diffuse_light* light = new diffuse_light(new vec3(10, 10, 10));
+	matList[matNo++] = light;
+	lambertian* red = new lambertian(vec3(0.65, 0.05, 0.05));
+	matList[matNo++] = red;
+	lambertian* white = new lambertian(vec3(0.73, 0.73, 0.73));
+	matList[matNo++] = white;
+
+	//Light List. Remember to remove objects from Light list, can cause issues when rendering lambertians 
+	int j = 0;
+	object** llist = new object * [50];
+	llist[j++] = new sphere(oid++, 0, vec3(0, 0, 2), 0.5, 0);
+
+	//Assign light list
+	*light_list = new object_list(llist, j);
+
+	//Object list
+	list[i++] = new sphere(oid++, 0, vec3(0, 0, 2), 0.5, light);
+
+	list[i++] = new ellipse(oid++, 0, vec3(0, 0, 0), vec3(0.15, 0, 0), vec3(0, -0.1, 0), red);
+
+	list[i++] = new xy_rect(oid++, 0, -0.5, 0.5, -0.5, 0.5, -0.1, vec3(0, 0, 1), white);
+
+
+
+	//Assign world list
+	*world = new object_list(list, i);
+}
+
 
 #endif // !SCENES_H

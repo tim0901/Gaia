@@ -5,8 +5,6 @@
 //  Created by Alex Richardson on 15/03/2020.
 //  Copyright © 2020 Alex Richardson. All rights reserved.
 //
-#include "pch.h"
-
 #include "rotate.h"
 
 rotate_x::rotate_x(object* p, float angle) : obj_ptr(p) {

@@ -96,7 +96,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
@@ -104,8 +104,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia;;C:\Users\alexa\source\repos\Gaia\Gaia\Accelerators;C:\Users\alexa\source\repos\Gaia\Gaia\Core;C:\Users\alexa\source\repos\Gaia\Gaia\Dependencies;C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia\Maths;C:\Users\alexa\source\repos\Gaia\Gaia\Metal;C:\Users\alexa\source\repos\Gaia\Gaia\Objects;C:\Users\alexa\source\repos\Gaia\Gaia\OpenGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -115,14 +114,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Users\alexa\source\repos\Gaia\Gaia;C:\Users\alexa\source\repos\Gaia\Gaia\Objects;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia;;C:\Users\alexa\source\repos\Gaia\Gaia\Accelerators;C:\Users\alexa\source\repos\Gaia\Gaia\Core;C:\Users\alexa\source\repos\Gaia\Gaia\Dependencies;C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia\Maths;C:\Users\alexa\source\repos\Gaia\Gaia\Metal;C:\Users\alexa\source\repos\Gaia\Gaia\Objects;C:\Users\alexa\source\repos\Gaia\Gaia\OpenGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,7 +131,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -142,8 +141,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia;;C:\Users\alexa\source\repos\Gaia\Gaia\Accelerators;C:\Users\alexa\source\repos\Gaia\Gaia\Core;C:\Users\alexa\source\repos\Gaia\Gaia\Dependencies;C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia\Maths;C:\Users\alexa\source\repos\Gaia\Gaia\Metal;C:\Users\alexa\source\repos\Gaia\Gaia\Objects;C:\Users\alexa\source\repos\Gaia\Gaia\OpenGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,7 +153,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -164,7 +162,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Users\alexa\source\repos\Gaia\Gaia;C:\Users\alexa\source\repos\Gaia\Gaia\Objects;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia;;C:\Users\alexa\source\repos\Gaia\Gaia\Accelerators;C:\Users\alexa\source\repos\Gaia\Gaia\Core;C:\Users\alexa\source\repos\Gaia\Gaia\Dependencies;C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia\Maths;C:\Users\alexa\source\repos\Gaia\Gaia\Metal;C:\Users\alexa\source\repos\Gaia\Gaia\Objects;C:\Users\alexa\source\repos\Gaia\Gaia\OpenGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -175,21 +173,44 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="aabb.h" />
-    <ClInclude Include="bvh.h" />
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="chunk.h" />
-    <ClInclude Include="dielectric.h" />
-    <ClInclude Include="blinnphong.h" />
-    <ClInclude Include="diffuse_light.h" />
-    <ClInclude Include="gooch.h" />
-    <ClInclude Include="colourGradient.h" />
-    <ClInclude Include="lambert.h" />
-    <ClInclude Include="material.h" />
-    <ClInclude Include="materials.h" />
-    <ClInclude Include="matrix4.h" />
-    <ClInclude Include="metal.h" />
-    <ClInclude Include="metalView.h" />
+    <ClInclude Include="Accelerators\aabb.h" />
+    <ClInclude Include="Accelerators\bvh.h" />
+    <ClInclude Include="Accelerators\chunk.h" />
+    <ClInclude Include="Core\camera.h" />
+    <ClInclude Include="Core\cleanup.h" />
+    <ClInclude Include="Core\colourGradient.h" />
+    <ClInclude Include="Core\image_parameters.h" />
+    <ClInclude Include="Core\radiance.h" />
+    <ClInclude Include="Core\ray.h" />
+    <ClInclude Include="Core\save.h" />
+    <ClInclude Include="Core\scenes.h" />
+    <ClInclude Include="Dependencies\stb_image.h" />
+    <ClInclude Include="Dependencies\stb_image_write.h" />
+    <ClInclude Include="Dependencies\tiny_obj_loader.h" />
+    <ClInclude Include="Materials\blinnphong.h" />
+    <ClInclude Include="Materials\dielectric.h" />
+    <ClInclude Include="Materials\diffuse_light.h" />
+    <ClInclude Include="Materials\gooch.h" />
+    <ClInclude Include="Materials\lambert.h" />
+    <ClInclude Include="Materials\material.h" />
+    <ClInclude Include="Materials\materials.h" />
+    <ClInclude Include="Materials\metal.h" />
+    <ClInclude Include="Materials\oren_nayar.h" />
+    <ClInclude Include="Maths\matrix4.h" />
+    <ClInclude Include="Maths\onb.h" />
+    <ClInclude Include="Maths\pdf.h" />
+    <ClInclude Include="Maths\pi.h" />
+    <ClInclude Include="Maths\random.h" />
+    <ClInclude Include="Maths\rotate.h" />
+    <ClInclude Include="Maths\translate.h" />
+    <ClInclude Include="Maths\vec2.h" />
+    <ClInclude Include="Maths\vec3.h" />
+    <ClInclude Include="Maths\vec4.h" />
+    <ClInclude Include="Metal\AppDelegate.h" />
+    <ClInclude Include="Metal\metalAPI.h" />
+    <ClInclude Include="Metal\MetalRenderer.h" />
+    <ClInclude Include="Metal\MetalShaderTypes.h" />
+    <ClInclude Include="Metal\ViewController.h" />
     <ClInclude Include="Objects\box.h" />
     <ClInclude Include="Objects\ellipse.h" />
     <ClInclude Include="Objects\mesh.h" />
@@ -199,35 +220,22 @@
     <ClInclude Include="Objects\plane.h" />
     <ClInclude Include="Objects\sphere.h" />
     <ClInclude Include="Objects\triangle.h" />
-    <ClInclude Include="onb.h" />
-    <ClInclude Include="oren_nayar.h" />
-    <ClInclude Include="pdf.h" />
-    <ClInclude Include="random.h" />
-    <ClInclude Include="ray.h" />
-    <ClInclude Include="rotate.h" />
-    <ClInclude Include="save.h" />
-    <ClInclude Include="pi.h" />
-    <ClInclude Include="image_parameters.h" />
-    <ClInclude Include="OpenGL.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="scenes.h" />
-    <ClInclude Include="GLshader.h" />
-    <ClInclude Include="radiance.h" />
-    <ClInclude Include="stb_image.h" />
-    <ClInclude Include="stb_image_write.h" />
-    <ClInclude Include="tiny_obj_loader.h" />
-    <ClInclude Include="translate.h" />
-    <ClInclude Include="vec2.h" />
-    <ClInclude Include="vec3.h" />
-    <ClInclude Include="vec4.h" />
+    <ClInclude Include="OpenGL\GLshader.h" />
+    <ClInclude Include="OpenGL\OpenGL.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="aabb.cpp" />
-    <ClCompile Include="bvh.cpp" />
-    <ClCompile Include="dielectric.cpp" />
-    <ClCompile Include="image_parameters.cpp" />
-    <ClCompile Include="Gaia.cpp" />
-    <ClCompile Include="material.cpp" />
+    <ClCompile Include="Accelerators\aabb.cpp" />
+    <ClCompile Include="Accelerators\bvh.cpp" />
+    <ClCompile Include="Core\cleanup.cpp" />
+    <ClCompile Include="Core\Gaia.cpp" />
+    <ClCompile Include="Core\image_parameters.cpp" />
+    <ClCompile Include="Core\radiance.cpp" />
+    <ClCompile Include="Materials\dielectric.cpp" />
+    <ClCompile Include="Materials\material.cpp" />
+    <ClCompile Include="Maths\onb.cpp" />
+    <ClCompile Include="Maths\random.cpp" />
+    <ClCompile Include="Maths\rotate.cpp" />
+    <ClCompile Include="Maths\translate.cpp" />
     <ClCompile Include="Objects\box.cpp" />
     <ClCompile Include="Objects\ellipse.cpp" />
     <ClCompile Include="Objects\mesh.cpp" />
@@ -235,23 +243,19 @@
     <ClCompile Include="Objects\plane.cpp" />
     <ClCompile Include="Objects\sphere.cpp" />
     <ClCompile Include="Objects\triangle.cpp" />
-    <ClCompile Include="onb.cpp" />
-    <ClCompile Include="OpenGL.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="radiance.cpp" />
-    <ClCompile Include="random.cpp" />
-    <ClCompile Include="rotate.cpp" />
-    <ClCompile Include="translate.cpp" />
+    <ClCompile Include="OpenGL\OpenGL.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="metalView.mm" />
-    <None Include="shader.frag" />
-    <None Include="shader.vert" />
+    <None Include="Metal\AppDelegate.mm" />
+    <None Include="Metal\macOS\Gaia.entitlements" />
+    <None Include="Metal\macOS\Info.plist" />
+    <None Include="Metal\macOS\Main.storyboard" />
+    <None Include="Metal\metalAPI.mm" />
+    <None Include="Metal\MetalRenderer.mm" />
+    <None Include="Metal\MetalShaders.metal" />
+    <None Include="Metal\ViewController.mm" />
+    <None Include="OpenGL\shader.frag" />
+    <None Include="OpenGL\shader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
