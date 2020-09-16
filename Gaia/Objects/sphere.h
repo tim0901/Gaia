@@ -36,9 +36,41 @@ public:
 		float distance_squared = direction.squared_length();
 		onb uvw;
 		uvw.build_from_w(direction);
-		return uvw.local(random_to_sphere(radius, distance_squared));
+		return uvw.toGlobal(random_to_sphere(radius, distance_squared));
 	}
 
+	// Given UV coordinates, return the corresponding spatial coords on the surface of this object
+	virtual vec3 UVToPosition(const vec2& uv) const {
+		vec3 pos;
+		pos[0] = cos(uv.u()) * cos(uv.v());
+		pos[1] = cos(uv.u()) * sin(uv.v());
+		pos[2] = sin(uv.u());
+
+		// Scale to size of sphere
+		pos = pos * radius;
+
+		// Move from origin
+		pos = pos + centre;
+
+		return pos;
+	}
+
+	// Given spatial coordinates, return the corresponding local coords
+	// This assumes that the position is a valid point on the surface of the object!
+	virtual vec2 positionToUV(const vec3& p) const {
+		// Move to origin
+		vec3 pos = p - centre;
+
+		// Scale to unit sphere
+		pos = pos / radius;
+
+		vec2 uv;
+		float theta = asin(pos.y());
+		float phi = atan2(pos.z(), pos.x());
+		uv[0] = 1 - (phi + M_PI) / (2 * M_PI);
+		uv[1] = (theta + (0.5 * M_PI)) / (M_PI);
+		return uv;
+	}
 
 	float object_id;
 	float primitive_id;

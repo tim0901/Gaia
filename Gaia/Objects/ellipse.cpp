@@ -17,6 +17,7 @@ bool ellipse::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
 
     float t = (dot(axisTest, axisTest) < 1.0) ? out.x() : -1.0;
 
+
     if (t > 0.0) {
         rec.object_id = object_id;
         rec.primitive_id = primitive_id;
@@ -27,6 +28,15 @@ bool ellipse::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
         vec3 norm = cross(radius1, radius2);
         norm.make_unit_vector();
         rec.normal = norm;
+
+        // Convert the global hit location to the local coordinate system
+        vec3 local = localCoordinateSystem.toLocal(rec.p - centre);
+        
+        // Now transform to cylindrical coords
+        rec.u = sqrt((local.x() * local.x()) + (local.y() * local.y()));
+
+        rec.v = atan2(local.y() , local.x());
+
         rec.mat_ptr = mat_ptr;
         rec.primitive = true;
         return true;

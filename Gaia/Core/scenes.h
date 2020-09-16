@@ -26,7 +26,7 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 
 	image->nx = 1000;
 	image->ny = 1000;
-	image->ns = 500;
+	image->ns = 250;
     
     image->chunk_size = 25;
     
@@ -38,12 +38,12 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 	image->max_z_depth = 3.5;
 	image->stratify_divisions = 1;
 
-	image->maxlevel = 0;
+	image->maxlevel = 1;
 
 	image->saveHDR = false;
 	image->savePPM = false;
     image->generateHeatMap = false;
-    image->save_name = "save";
+    image->save_name = "thinkingwithportals2";
 
 	//Camera
 	vec3 look_from(0.5, 0.5, -2);
@@ -106,6 +106,9 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 
 	llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.7), vec3(0.3, 0.999, 0.7), 0, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
 	llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.3), vec3(0.7, 0.999, 0.7), 0, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
+
+	llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 1.3), vec3(0.7, 0.999, 1.7), vec3(0.3, 0.999, 1.7), 0, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
+	llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 1.3), vec3(0.7, 0.999, 1.3), vec3(0.7, 0.999, 1.7), 0, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
 	//llist[j++] = new sphere(oid++, 0, vec3(0.3, 0.2, 0.5), 0.2, 0);
 	//llist[j++] = new xy_rect(i++, 0, 0.3, 0.7, 0.3, 0.7, 0.99999, vec3(0, 0, 1), 0);
 	//llist[j++] = new rotate_y(new box(i++, vec3(0.6, 0, 0.6), vec3(0.8, 0.2, 0.8), 0), 10);
@@ -114,17 +117,18 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 	vec3 p0 = vec3(0.6, 0, 0.6);
 	vec3 p1 = vec3(0.8, 0.2, 0.8);
 	
-	llist[j++] = new rotate_y(new xy_rect(oid++, 0, p0.x(), p1.x(), p0.y(), p1.y(), p1.z(), vec3(0, 0, -1), 0), 10);
-	llist[j++] = new rotate_y(new xy_rect(oid++, 0, p0.x(), p1.x(), p0.y(), p1.y(), p0.z(), vec3(0, 0, 1), 0), 10);
+	llist[j++] = new translate(new rotate_y(new xy_rect(oid++, 0, p0.x(), p1.x(), p0.y(), p1.y(), p1.z(), vec3(0, 0, -1), 0), -15), vec3(0.3, 0, -0.25));
+	llist[j++] = new translate(new rotate_y(new xy_rect(oid++, 0, p0.x(), p1.x(), p0.y(), p1.y(), p0.z(), vec3(0, 0, 1), 0), -15), vec3(0.3, 0, -0.25));
 
-	llist[j++] = new rotate_y(new xz_rect(oid++, 0, p0.x(), p1.x(), p0.z(), p1.z(), p1.y(), vec3(0, 1, 0), 0), 10);
-	llist[j++] = new rotate_y(new xz_rect(oid++, 0, p0.x(), p1.x(), p0.z(), p1.z(), p0.y(), vec3(0, -1, 0), 0), 10);
+	llist[j++] = new translate(new rotate_y(new xz_rect(oid++, 0, p0.x(), p1.x(), p0.z(), p1.z(), p1.y(), vec3(0, 1, 0), 0), -15), vec3(0.3, 0, -0.25));
+	llist[j++] = new translate(new rotate_y(new xz_rect(oid++, 0, p0.x(), p1.x(), p0.z(), p1.z(), p0.y(), vec3(0, -1, 0), 0), -15), vec3(0.3, 0, -0.25));
 
-	llist[j++] = new rotate_y(new yz_rect(oid++, 0, p0.y(), p1.y(), p0.z(), p1.z(), p1.x(), vec3(1, 0, 0), 0), 10);
-	llist[j++] = new rotate_y(new yz_rect(oid++, 0, p0.y(), p1.y(), p0.z(), p1.z(), p0.x(), vec3(-1, 0, 0), 0), 10);
+	llist[j++] = new translate(new rotate_y(new yz_rect(oid++, 0, p0.y(), p1.y(), p0.z(), p1.z(), p1.x(), vec3(1, 0, 0), 0), -15), vec3(0.3, 0, -0.25));
+	llist[j++] = new translate(new rotate_y(new yz_rect(oid++, 0, p0.y(), p1.y(), p0.z(), p1.z(), p0.x(), vec3(-1, 0, 0), 0), -15), vec3(0.3, 0, -0.25));
 	*/
 
-	llist[j++] = new ellipse(oid++, 0, vec3(0.5, 0.25, 0.995), vec3(0.1, 0, 0), vec3(0, 0.2, 0), 0);
+	//llist[j++] = new ellipse(oid++, 0, vec3(0.5, 0.25, 0.995), vec3(0.1, 0, 0), vec3(0, 0.2, 0), 0);
+	//llist[j++] = new ellipse(oid++, 0, vec3(0.995, 0.25, 0.5), vec3(0, 0, 0.1), vec3(0, 0.2, 0), 0);
 
 		//Assign light list
 	*light_list = new object_list(llist, j);
@@ -169,7 +173,7 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 
     
     //Metal cube
-	//list[i++] = new rotate_y(new box(oid++, vec3(0.6, 0, 0.7), vec3(0.8, 0.2, 0.9), whitemetal),10);
+	list[i++] = new translate(new rotate_y(new box(oid++, vec3(0.6, 0, 0.7), vec3(0.8, 0.2, 0.9), whitemetal), -15), vec3(0.3, 0, -0.25));
 	
 	//Mini cooper mesh materials
 	material** miniMatList = new material* [50];
@@ -184,7 +188,7 @@ void cornell_box(object **world, object **light_list, material** matList, image_
     material** bunnyMatList = new material* [5];
 	bunnyMatList[0] = metalgooch;
 
-	/*
+	
 	//Load raw mesh from file
 	raw_mesh raw_bunny = load_mesh(oid++, image, "stanfordbunny.obj", bunnyMatList);
 
@@ -193,9 +197,9 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 
 	//Add mesh to scene
 //	list[i++] = new translate( new rotate_y(bunnymesh, -120), vec3(0.7, 0.075, 0.2));
-	list[i++] = new translate( new rotate_y(bunnymesh, -120), vec3(0.3, 0.2, 0.5));
+	list[i++] = new translate( new rotate_y(bunnymesh, -120), vec3(0.1, 0.2, 0.5));
 
-
+	
     //Load raw mesh from file
     raw_mesh rawMini = load_mesh(oid++, image, "minitest.obj", miniMatList);
 
@@ -203,18 +207,48 @@ void cornell_box(object **world, object **light_list, material** matList, image_
     
 	//mesh* miniMesh2 = new mesh(&rawMini, 0, 0.001);
     
-	list[i++] = new translate( new rotate_y(new rotate_z(new rotate_y(miniMesh, 90), 90),145), vec3(0.7, 0.075, 0.2));
+	list[i++] = new translate( new rotate_y(new rotate_z(new rotate_y(miniMesh, 90), 90),145), vec3(0.7, 0.075, 0.35));
     
     //list[i++] = new translate( new rotate_y(new rotate_z(new rotate_y(miniMesh2, 90), 90),55), vec3(0.3, 0.2, 0.5));
-    
-    */
 
 	//list[i++] = new sphere(oid++, 0, vec3(0.8, 0.1, 0.8), 0.1, whitemetal);
 
 	//list[i++] = new ellipse(oid++, 0, vec3(0.3, 0.2, 0.5), vec3(0.2, 0, 0.1), vec3(0, 0.15, -0.3), red);
+	/*
+	portal* portal1 = new portal(new xy_rect(0, 0, 0.4, 0.6, 0.1, 0.3, 0.995, vec3(0, 0, -1), 0), new yz_rect(0, 0, 0.1, 0.3, 0.4, 0.6, 0.995, vec3(-1, 0, 0), 0));
+	matList[matNo++] = portal1;
+	portal* portal2 = new portal(new yz_rect(0, 0, 0.1, 0.3, 0.4, 0.6, 0.995, vec3(-1, 0, 0), 0), new xy_rect(0, 0, 0.4, 0.6, 0.1, 0.3, 0.995, vec3(0, 0, -1), 0));
+	matList[matNo++] = portal2;
 
-	list[i++] = new ellipse(oid++, 0, vec3(0.5, 0.25, 0.995), vec3(0.1, 0, 0), vec3(0, 0.2, 0), whitemetal);
+	list[i++] = new xy_rect(oid++, 0, 0.4, 0.6, 0.1, 0.3, 0.995, vec3(0, 0, -1), portal1);
+	list[i++] = new yz_rect(oid++, 0, 0.1, 0.3, 0.4, 0.6, 0.995, vec3(-1, 0, 0), portal2);
+	*/
 
+	ellipse* backWall = new ellipse(oid++, 0, vec3(0.5, 0.25, 0.995), vec3(0.1, 0, 0), vec3(0, 0.2, 0), 0);
+	ellipse* leftWall = new ellipse(oid++, 0, vec3(0.995, 0.25, 0.5), vec3(0, 0, 0.1), vec3(0, 0.2, 0), 0);
+	//ellipse* rightwall = new ellipse(oid++, 0, vec3(0.005, 0.25, 0.5), vec3(0, 0, 0.1), vec3(0, 0.2, 0), 0);
+	
+	portal* portal1 = new portal(backWall, leftWall);
+	matList[matNo++] = portal1;
+	portal* portal2 = new portal(leftWall, backWall);
+	matList[matNo++] = portal2;
+
+	//portal* portal3 = new portal(leftWall, rightwall);
+	//matList[matNo++] = portal3; 
+	//portal* portal4 = new portal(rightwall, leftWall);
+	//matList[matNo++] = portal4;
+
+
+	backWall->mat_ptr = portal1;
+
+	leftWall->mat_ptr = portal2;
+	//rightwall->mat_ptr = portal4;
+
+	list[i++] = leftWall;
+	list[i++] = backWall;
+
+	//list[i++] = new ellipse(oid++, 0, vec3(0.995, 0.25, 0.5), vec3(0, 0, 0.1), vec3(0, 0.2, 0), portal2);
+	
     //Assign world list
 	*world = new object_list(list, i);
 }

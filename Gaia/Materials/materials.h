@@ -12,5 +12,6 @@
 #include "lambert.h"
 #include "metal.h"
 #include "oren_nayar.h"
+#include "portal.h"
 
 #endif // !MATERIALS_H

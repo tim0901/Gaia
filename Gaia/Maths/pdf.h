@@ -27,7 +27,7 @@ public:
 			return 0;
 	}
 	virtual vec3 generate() const {
-		return uvw.local(random_cosine_direction());
+		return uvw.toGlobal(random_cosine_direction());
 	}
 	onb uvw;
 };

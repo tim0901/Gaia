@@ -189,6 +189,9 @@
     <ClInclude Include="Materials\dielectric.h">
       <Filter>Source Files\Materials</Filter>
     </ClInclude>
+    <ClInclude Include="portal.h">
+      <Filter>Source Files\Materials</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Accelerators\bvh.cpp">
@@ -249,6 +252,9 @@
       <Filter>Source Files\Materials</Filter>
     </ClCompile>
     <ClCompile Include="Materials\dielectric.cpp">
+      <Filter>Source Files\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="portal.cpp">
       <Filter>Source Files\Materials</Filter>
     </ClCompile>
   </ItemGroup>

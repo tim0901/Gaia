@@ -222,6 +222,7 @@
     <ClInclude Include="Objects\triangle.h" />
     <ClInclude Include="OpenGL\GLshader.h" />
     <ClInclude Include="OpenGL\OpenGL.h" />
+    <ClInclude Include="portal.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Accelerators\aabb.cpp" />
@@ -244,6 +245,7 @@
     <ClCompile Include="Objects\sphere.cpp" />
     <ClCompile Include="Objects\triangle.cpp" />
     <ClCompile Include="OpenGL\OpenGL.cpp" />
+    <ClCompile Include="portal.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Metal\AppDelegate.mm" />

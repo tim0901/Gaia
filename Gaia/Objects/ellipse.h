@@ -15,7 +15,21 @@
 class ellipse : public object {
 public:
 	ellipse() {}
-	ellipse(float oid, float pid, vec3 c, vec3 r1, vec3 r2, material* mat) :object_id(oid), primitive_id(pid), mat_ptr(mat), centre(c), radius1(r1), radius2(r2) {};
+	ellipse(float oid, float pid, vec3 c, vec3 r1, vec3 r2, material* mat) :object_id(oid), primitive_id(pid), mat_ptr(mat), centre(c), radius1(r1), radius2(r2) {
+
+		// Create a local coordinate system from the surface normal;
+		vec3 norm = cross(radius1, radius2);
+
+		localCoordinateSystem.axis[2] = unit_vector(norm);
+		vec3 a = vec3(0, 1, 0);
+
+		localCoordinateSystem.axis[1] = unit_vector(cross(localCoordinateSystem.w(), a));
+		localCoordinateSystem.axis[0] = cross(localCoordinateSystem.w(), localCoordinateSystem.v());
+
+		localCoordinateSystem.inverseAxis[0] = vec3(localCoordinateSystem.axis[0][0], localCoordinateSystem.axis[1][0], localCoordinateSystem.axis[2][0]);
+		localCoordinateSystem.inverseAxis[1] = vec3(localCoordinateSystem.axis[0][1], localCoordinateSystem.axis[1][1], localCoordinateSystem.axis[2][1]);
+		localCoordinateSystem.inverseAxis[2] = vec3(localCoordinateSystem.axis[0][2], localCoordinateSystem.axis[1][2], localCoordinateSystem.axis[2][2]);
+	};
     ~ellipse(){
         //std::cout << "Delete ellipse" << std::endl;
         if(mat_ptr){
@@ -43,6 +57,12 @@ public:
 			return 0;
 	}
 
+	virtual vec3 normal() const {
+		vec3 norm = cross(radius1, radius2);
+		norm.make_unit_vector();
+		return norm;
+	}
+
 	virtual vec3 random(const vec3& o) const {
 
 		vec3 semiAxis1 = radius1 - centre; //Find semimajor/semiminor axes
@@ -55,11 +75,46 @@ public:
 		return centre + (semiAxis1 * k * cos(theta))+ (semiAxis2 * k * sin(theta));
 	}
 
+	// Convert a local UV coordinate location to the global coordinate system
+	virtual vec3 UVToPosition(const vec2& uv) const {
+		vec3 pos;
+
+		// Convert from cylindrical coordinates
+		vec3 uvw = vec3(uv.x() * cos(uv.y()), uv.x() * sin(uv.y()), 0); 
+
+		// Convert the local uv location to the global coordinate system
+		pos = localCoordinateSystem.toGlobal(uvw);
+
+		// Move from origin
+		pos = pos + centre;
+
+		return pos;
+	}
+
+	// Convert a global coordinate location to the local coordinate system
+	virtual vec2 positionToUV(const vec3& p) const {
+		vec2 uv;
+
+		// Move to origin
+		vec3 local = p - centre;
+
+		// Convert the global location to the local coordinate system
+		local = localCoordinateSystem.toLocal(local);
+
+		// Now transform to cylindrical coords
+		uv[0] = sqrt((local.x() * local.x()) + (local.y() * local.y()));
+		uv[1] = atan2(local.y(), local.x());
+
+		return uv;
+	}
+
 	float object_id;
 	float primitive_id;
 	vec3 radius1;
 	vec3 radius2;
 	vec3 centre;
+
+	onb localCoordinateSystem;
 	material* mat_ptr;
 	std::string type = "ellipse";
 };

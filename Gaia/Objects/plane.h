@@ -4,6 +4,7 @@
 #define PLANE_H
 
 #include "pi.h"
+#include "vec2.h"
 #include "random.h"
 #include "object.h"
 #include <cfloat>
@@ -41,7 +42,7 @@ public:
 class xy_rect :public object {
 public:
 	xy_rect() {}
-	xy_rect(float oid, float pid, float x_0, float x_1, float y_0, float y_1, float con, vec3 n, material *mat) : object_id(oid), primitive_id(pid), x0(x_0), x1(x_1), y0(y_0), y1(y_1), const_axis(con), normal(n), mat_ptr(mat) {};
+	xy_rect(float oid, float pid, float x_0, float x_1, float y_0, float y_1, float con, vec3 n, material *mat) : object_id(oid), primitive_id(pid), x0(x_0), x1(x_1), y0(y_0), y1(y_1), const_axis(con), normalVector(n), mat_ptr(mat) {};
     ~xy_rect(){
         //std::cout << "Delete xy_rect" << std::endl;
         if(mat_ptr){
@@ -72,18 +73,44 @@ public:
 		return random_point - o;
 	}
 
+	// Given UV coordinates, return the corresponding spatial coords on the surface of this object
+	virtual vec3 UVToPosition(const vec2& uv) const {
+		vec3 pos;
+
+		pos[0] = ((x1-x0) * uv.u()) - x0;
+		pos[1] = ((y1-y0) * uv.v()) - y0;
+		pos[2] = const_axis;
+
+		return pos;
+	}
+
+	// Given spatial coordinates, return the corresponding local coords
+	// This assumes that the position is a valid point on the surface of the object!
+	virtual vec2 positionToUV(const vec3& p) const {
+		vec2 uv;
+
+		uv[0] = (p.x() - x0) / (x1 - x0);
+		uv[1] = (p.y() - y0) / (y1 - y0);
+
+		return uv;
+	}
+
+	virtual vec3 normal() const {
+		return normalVector;
+	}
+
 	float object_id;
 	float primitive_id;
 
 	material *mat_ptr;
-	vec3 normal;//Should be vec3(0, 0, +/-1)
+	vec3 normalVector;//Should be vec3(0, 0, +/-1)
 	float x0, x1, y0, y1, const_axis;
 };
 
 class xz_rect :public object {
 public:
 	xz_rect() {}
-	xz_rect(float oid, float pid, float x_0, float x_1, float z_0, float z_1, float con, vec3 n, material *mat) : object_id(oid), primitive_id(pid), x0(x_0), x1(x_1), z0(z_0), z1(z_1), const_axis(con), normal(n), mat_ptr(mat) {};
+	xz_rect(float oid, float pid, float x_0, float x_1, float z_0, float z_1, float con, vec3 n, material *mat) : object_id(oid), primitive_id(pid), x0(x_0), x1(x_1), z0(z_0), z1(z_1), const_axis(con), normalVector(n), mat_ptr(mat) {};
     ~xz_rect(){
         //std::cout << "Delete xz_rect" << std::endl;
         if(mat_ptr){
@@ -114,18 +141,44 @@ public:
 		return random_point - o;
 	}
 
+	// Given UV coordinates, return the corresponding spatial coords on the surface of this object
+	virtual vec3 UVToPosition(const vec2& uv) const {
+		vec3 pos;
+
+		pos[0] = ((x1 - x0) * uv.u()) - x0;
+		pos[1] = const_axis;
+		pos[2] = ((z1 - z0) * uv.v()) - z0;
+
+		return pos;
+	}
+
+	// Given spatial coordinates, return the corresponding local coords
+	// This assumes that the position is a valid point on the surface of the object!
+	virtual vec2 positionToUV(const vec3& p) const {
+		vec2 uv;
+
+		uv[0] = (p.x() - x0) / (x1 - x0);
+		uv[1] = (p.z() - z0) / (z1 - z0);
+
+		return uv;
+	}
+
+	virtual vec3 normal() const {
+		return normalVector;
+	}
+
 	float object_id;
 	float primitive_id;
 
 	material *mat_ptr;
-	vec3 normal;//Should be vec3(0, +/-1, 0)
+	vec3 normalVector;//Should be vec3(0, +/-1, 0)
 	float x0, x1, z0, z1, const_axis;
 };
 
 class yz_rect :public object {
 public:
 	yz_rect() {}
-	yz_rect(float oid, float pid, float y_0, float y_1, float z_0, float z_1, float con, vec3 n, material *mat) : object_id(oid), primitive_id(pid), y0(y_0), y1(y_1), z0(z_0), z1(z_1), const_axis(con), normal(n), mat_ptr(mat) {};
+	yz_rect(float oid, float pid, float y_0, float y_1, float z_0, float z_1, float con, vec3 n, material *mat) : object_id(oid), primitive_id(pid), y0(y_0), y1(y_1), z0(z_0), z1(z_1), const_axis(con), normalVector(n), mat_ptr(mat) {};
     ~yz_rect(){
         //std::cout << "Delete yz_rect" << std::endl;
         if(mat_ptr){
@@ -155,11 +208,37 @@ public:
 		return random_point - o;
 	}
 
+	// Given UV coordinates, return the corresponding spatial coords on the surface of this object
+	virtual vec3 UVToPosition(const vec2& uv) const {
+		vec3 pos;
+
+		pos[0] = const_axis;
+		pos[1] = ((y1 - y0) * uv.u()) - y0;
+		pos[2] = ((z1 - z0) * uv.v()) - z0;
+
+		return pos;
+	}
+
+	// Given spatial coordinates, return the corresponding local coords
+	// This assumes that the position is a valid point on the surface of the object!
+	virtual vec2 positionToUV(const vec3& p) const {
+		vec2 uv;
+
+		uv[0] = (p.y() - y0) / (y1 - y0);
+		uv[1] = (p.z() - z0) / (z1 - z0);
+
+		return uv;
+	}
+
+	virtual vec3 normal() const {
+		return normalVector;
+	}
+
 	float object_id;
 	float primitive_id;
 
 	material *mat_ptr;
-	vec3 normal;//Should be vec3(+/-1, 0, 0)
+	vec3 normalVector;//Should be vec3(+/-1, 0, 0)
 	float y0, y1, z0, z1, const_axis;
 };
 
