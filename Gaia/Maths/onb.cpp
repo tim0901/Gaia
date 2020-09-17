@@ -8,18 +8,24 @@
 #include "onb.h"
 
 void onb::build_from_w(const vec3& n) {
-    axis[2] = unit_vector(n);
+    vec3 norm = unit_vector(n);
     vec3 a;
-    if (fabs(w().x()) > 0.9) {
+    if (fabs(norm.x()) > 0.9) {
         a = vec3(0, 1, 0);
     }
     else {
         a = vec3(1, 0, 0);
     }
-    axis[1] = unit_vector(cross(w(), a));
-    axis[0] = cross(w(), v());
+    vec3 axis1 = unit_vector(cross(norm, a));
+    axes = matrix3(cross(norm, axis1), axis1, norm);
 
-    inverseAxis[0] = vec3(axis[0][0], axis[1][0], axis[2][0]);
-    inverseAxis[1] = vec3(axis[0][1], axis[1][1], axis[2][1]);
-    inverseAxis[2] = vec3(axis[0][2], axis[1][2], axis[2][2]);
+    inverseAxes = axes.returnTranspose();
+}
+
+void onb::build_from_w_with_a(const vec3& n, const vec3& a) {
+    vec3 norm = unit_vector(n);
+    vec3 axis1 = unit_vector(cross(norm, a));
+    axes = matrix3(cross(norm, axis1), axis1, norm);
+
+    inverseAxes = axes.returnTranspose();
 }

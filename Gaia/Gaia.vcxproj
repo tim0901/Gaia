@@ -206,6 +206,8 @@
     <ClInclude Include="Maths\vec2.h" />
     <ClInclude Include="Maths\vec3.h" />
     <ClInclude Include="Maths\vec4.h" />
+    <ClInclude Include="matrix2.h" />
+    <ClInclude Include="matrix3.h" />
     <ClInclude Include="Metal\AppDelegate.h" />
     <ClInclude Include="Metal\metalAPI.h" />
     <ClInclude Include="Metal\MetalRenderer.h" />

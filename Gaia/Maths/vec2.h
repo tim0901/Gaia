@@ -17,6 +17,8 @@ public:
 	inline float y() const { return e[1]; }
 	inline float u() const { return e[0]; }
 	inline float v() const { return e[1]; }
+	inline float rho() const { return e[0]; }
+	inline float theta() const { return e[1]; }
 
 	//Defining vector operators
 	inline const vec2& operator + () const { return *this; }

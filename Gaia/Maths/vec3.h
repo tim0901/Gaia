@@ -23,6 +23,9 @@ public:
 	inline float r() const { return e[0]; }
 	inline float g() const { return e[1]; }
 	inline float b() const { return e[2]; }
+	inline float rho() const { return e[0]; }
+	inline float theta() const { return e[1]; }
+	inline float phi() const { return e[2]; }
 
 	//Defining vector operators
 	inline const vec3& operator + () const { return *this; }
@@ -84,6 +87,9 @@ inline vec3 operator * (const vec3 &v, float t) {
 
 //Scalar division
 inline vec3 operator / (vec3 v, float t) {
+	if (t == 0) {
+		return v;
+	}
 	return vec3(v.e[0] / t, v.e[1] / t, v.e[2] / t);
 }
 
@@ -183,6 +189,10 @@ inline vec3& vec3::operator *=(float t) {
 }
 
 inline vec3& vec3::operator /=(float t) {
+	if (t == 0) {
+		return *this;
+	}
+
 	float k = 1.0 / t;
 
 	e[0] *= k;

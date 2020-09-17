@@ -16,18 +16,20 @@
 #include "vec2.h"
 #include "vec3.h"
 #include "vec4.h"
+#include "matrix2.h"
+#include "matrix3.h"
+#include "matrix4.h" 
 #include "chunk.h"
 #include "camera.h"
 #include "ray.h"
 #include "radiance.h"
 #include "scenes.h"
 #include "save.h"
-//#include "matrix4.h" //this isn't used or finished yet
 
 #if __APPLE__
-#include "metalAPI.h" //include Metal stuff - unfinished!
+#include "metalAPI.h" //include Metal stuff
 #else
-#include "OpenGL.h" //Include openGL stuff
+#include "OpenGL.h" //Include OpenGL stuff
 #include "cleanup.h"
 #endif
 
@@ -37,7 +39,7 @@ void render(bool *window_open, image_parameters *image, int k, object **world, o
 //Defines number of threads of system
 unsigned const int nthreads = std::thread::hardware_concurrency();
 
-std::string version_number = "0.4";
+std::string version_number = "0.4.1";
 
 std::mutex console_mutex;
 std::mutex chunk_list_mutex;

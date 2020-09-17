@@ -20,15 +20,8 @@ public:
 		// Create a local coordinate system from the surface normal;
 		vec3 norm = cross(radius1, radius2);
 
-		localCoordinateSystem.axis[2] = unit_vector(norm);
 		vec3 a = vec3(0, 1, 0);
-
-		localCoordinateSystem.axis[1] = unit_vector(cross(localCoordinateSystem.w(), a));
-		localCoordinateSystem.axis[0] = cross(localCoordinateSystem.w(), localCoordinateSystem.v());
-
-		localCoordinateSystem.inverseAxis[0] = vec3(localCoordinateSystem.axis[0][0], localCoordinateSystem.axis[1][0], localCoordinateSystem.axis[2][0]);
-		localCoordinateSystem.inverseAxis[1] = vec3(localCoordinateSystem.axis[0][1], localCoordinateSystem.axis[1][1], localCoordinateSystem.axis[2][1]);
-		localCoordinateSystem.inverseAxis[2] = vec3(localCoordinateSystem.axis[0][2], localCoordinateSystem.axis[1][2], localCoordinateSystem.axis[2][2]);
+		localCoordinateSystem.build_from_w_with_a(norm, a);
 	};
     ~ellipse(){
         //std::cout << "Delete ellipse" << std::endl;
@@ -80,7 +73,7 @@ public:
 		vec3 pos;
 
 		// Convert from cylindrical coordinates
-		vec3 uvw = vec3(uv.x() * cos(uv.y()), uv.x() * sin(uv.y()), 0); 
+		vec3 uvw = vec3(uv.u() * cos(uv.v()), uv.u() * sin(uv.v()), 0); 
 
 		// Convert the local uv location to the global coordinate system
 		pos = localCoordinateSystem.toGlobal(uvw);

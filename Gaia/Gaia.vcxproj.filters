@@ -192,6 +192,12 @@
     <ClInclude Include="portal.h">
       <Filter>Source Files\Materials</Filter>
     </ClInclude>
+    <ClInclude Include="matrix2.h">
+      <Filter>Source Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix3.h">
+      <Filter>Source Files\Maths</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Accelerators\bvh.cpp">
