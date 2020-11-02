@@ -9,6 +9,7 @@
 class onb {
 public:
 	onb() {}
+	onb(vec3 a, vec3 b, vec3 c) { axes = matrix3(a, b, c); }
 	inline vec3 operator[](int i) const { return axes.row(i); }
 	vec3 u()const { return axes.row(0); }
 	vec3 v()const { return axes.row(1); }

@@ -10,8 +10,9 @@
 
 class oren_nayar : public material {
 public:
-	oren_nayar(const vec3& a, float r) : albedo(a), roughness(r) {}
-    ~oren_nayar(){}
+	oren_nayar(const vec3& a, float r) : albedo(new solid_colour(a)), roughness(r) {}
+	oren_nayar(texture* a, float r) : albedo(a), roughness(r) {}
+	~oren_nayar() { delete albedo; }
 	//Unsure if correct
 	float scattering_pdf(const ray &incident, const hit_record &rec, const ray &scattered) const {
 		float cosine = dot(rec.normal, unit_vector(scattered.direction()));
@@ -44,7 +45,7 @@ public:
 		float phi_r = atan(scadir.x() / scadir.y());;
 		float beta = std::min(phi_i, phi_r);
 		scatter.is_specular = true;
-		scatter.brdf = abs(albedo * (a + (b*std::max(0.f, cos(phi_i - phi_r))*sin(alpha)*tan(beta))) / M_PI);
+		scatter.brdf = abs(albedo->value(vec2(rec.u, rec.v), rec.p) * (a + (b*std::max(0.f, cos(phi_i - phi_r))*sin(alpha)*tan(beta))) / M_PI);
 
 		scatter.pdf = 0;
 
@@ -53,7 +54,7 @@ public:
 
 	std::string type = "oren_nayar";
 
-	vec3 albedo;
+	texture* albedo;
 	float roughness;
 
 };

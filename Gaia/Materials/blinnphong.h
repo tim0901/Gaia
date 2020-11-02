@@ -11,8 +11,9 @@
 
 class phong :public material {
 public:
-	phong(const vec3& a, object* ll, int ll_size, float amb, float diff, float spec, float shin, vec3 cameraPos) :albedo(a), light_list(ll), light_list_size(ll_size), amb_coeff(amb), diff_coeff(diff), spec_coeff(spec), shininess(shin), camPos(cameraPos) {}
-	~phong() {}
+	phong(const vec3& a, object* ll, int ll_size, float amb, float diff, float spec, float shin, vec3 cameraPos) :albedo(new solid_colour(a)), light_list(ll), light_list_size(ll_size), amb_coeff(amb), diff_coeff(diff), spec_coeff(spec), shininess(shin), camPos(cameraPos) {}
+	phong(texture* a, object* ll, int ll_size, float amb, float diff, float spec, float shin, vec3 cameraPos) :albedo(a), light_list(ll), light_list_size(ll_size), amb_coeff(amb), diff_coeff(diff), spec_coeff(spec), shininess(shin), camPos(cameraPos) {}
+	~phong() { delete albedo; }
 
 	float scattering_pdf(const ray& incident, const hit_record& rec, const ray& scattered) const {
 		return 0;
@@ -33,7 +34,7 @@ public:
 		vec3 lightSourceDiffuseDistribution(1, 1, 1);
 
 		//Ambient term
-		scatter.brdf = albedo * amb_coeff * ambientLighting;
+		scatter.brdf = albedo->value(vec2(rec.u, rec.v), rec.p) * amb_coeff * ambientLighting;
 		//Diffuse and Specular Terms
 		
 		//New ray direction is uniformly sampled from a sphere
@@ -62,7 +63,7 @@ public:
 				float diffuseDotProduct = dot(lightDirection, rec.normal);
 				
 				//Add diffuse term to brdf
-				scatter.brdf += albedo * (diff_coeff * diffuseDotProduct * lightSourceDiffuseDistribution);
+				scatter.brdf += albedo->value(vec2(rec.u, rec.v), rec.p) * (diff_coeff * diffuseDotProduct * lightSourceDiffuseDistribution);
 
 				//Specular term should only be included if dot product in diffuse term is positive
 				if (diffuseDotProduct > 0) {
@@ -88,7 +89,7 @@ public:
 
 	object* light_list;
 	int light_list_size;
-	vec3 albedo;
+	texture* albedo;
 	float amb_coeff;
 	float spec_coeff;
 	float diff_coeff;

@@ -25,10 +25,15 @@ bool ellipse::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
         rec.t = t;
         rec.p = r.p_at_t(rec.t);
 
-        vec3 norm = cross(radius1, radius2);
-        norm.make_unit_vector();
-        rec.normal = norm;
-
+        if (normalVec.x() == 0 && normalVec.y() == 0 && normalVec.z() == 0) {
+            vec3 norm = cross(radius1, radius2);
+            norm.make_unit_vector();
+            rec.normal = norm;
+        }
+        else {
+            rec.normal = normalVec;
+        }
+        
         // Convert the global hit location to the local coordinate system
         vec3 local = localCoordinateSystem.toLocal(rec.p - centre);
         

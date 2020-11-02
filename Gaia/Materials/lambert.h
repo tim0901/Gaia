@@ -8,8 +8,9 @@
 
 class lambertian :public material {
 public:
-	lambertian(const vec3& a) :albedo(a) {}
-    ~lambertian(){}
+	lambertian(const vec3& a) :albedo(new solid_colour(a)) {}
+	lambertian(texture* a ) :albedo(a) {}
+	~lambertian() { delete albedo; }
 	//Describes how a ray is scattered
 	float scattering_pdf(const ray &incident, const hit_record &rec, const ray &scattered) const {
 		float cosine = dot(rec.normal, unit_vector(scattered.direction()));
@@ -28,14 +29,14 @@ public:
 	virtual bool scatter(const ray &incident, const hit_record &rec, scattering_record &scatter) const {
 		scatter.is_specular = false;
         scatter.specular_ray = scatter.specular_ray;
-		scatter.brdf = albedo;
+		scatter.brdf = albedo->value(vec2(rec.u, rec.v), rec.p);
 		scatter.pdf = new cosine_pdf(rec.normal);
 		return true;
 	}
 
 	std::string type = "lambertian";
 
-	vec3 albedo;
+	texture* albedo;
 };
 
 #endif // !LAMBERT_H

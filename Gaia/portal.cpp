@@ -30,7 +30,7 @@ bool portal::scatter(const ray& incident, const hit_record& rec, scattering_reco
 	incDir = thereSys.toGlobal(incDir);
 
 	scatter.specular_ray = ray(therePosition, incDir);
-	scatter.brdf = albedo;
+	scatter.brdf = albedo->value(vec2(rec.u, rec.v), rec.p);
 	scatter.is_specular = true;
 	scatter.pdf = 0;
 

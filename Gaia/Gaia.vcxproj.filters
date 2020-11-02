@@ -198,6 +198,9 @@
     <ClInclude Include="matrix3.h">
       <Filter>Source Files\Maths</Filter>
     </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Accelerators\bvh.cpp">

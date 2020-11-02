@@ -13,13 +13,14 @@ float schlick_approximation(float cosine, float ref_idx);
 //Describes a perfectly refractive glass material
 class dielectric :public material {
 public:
-	dielectric(float ref_ind, const vec3& a) :ref_indx(ref_ind), albedo(a) {}
-    ~dielectric(){}
+	dielectric(float ref_ind, const vec3& a) :ref_indx(ref_ind), albedo(new solid_colour(a)) {}
+	dielectric(float ref_ind, texture* a) :ref_indx(ref_ind), albedo(a) {}
+	~dielectric() { delete albedo; }
 	virtual bool scatter(const ray &incident, const hit_record &rec, scattering_record &scatter) const {
 		vec3 outward_normal;
 		vec3 reflected = reflect(incident.direction(), rec.normal);
 		float ni_over_nt;
-		scatter.brdf = albedo;
+		scatter.brdf = albedo->value(vec2(rec.u, rec.v), rec.p);
 		scatter.is_specular = true;
 		scatter.pdf = 0;
 		vec3 refracted;
@@ -60,7 +61,7 @@ public:
 
 	std::string type = "dielectric";
 
-	vec3 albedo;
+	texture* albedo;
 	float ref_indx;
 };
 

@@ -7,6 +7,7 @@
 #include "vec2.h"
 #include "random.h"
 #include "object.h"
+#include "onb.h"
 #include <cfloat>
 
 //Defines non axis-aligned quads
@@ -42,7 +43,9 @@ public:
 class xy_rect :public object {
 public:
 	xy_rect() {}
-	xy_rect(float oid, float pid, float x_0, float x_1, float y_0, float y_1, float con, vec3 n, material *mat) : object_id(oid), primitive_id(pid), x0(x_0), x1(x_1), y0(y_0), y1(y_1), const_axis(con), normalVector(n), mat_ptr(mat) {};
+	xy_rect(float oid, float pid, float x_0, float x_1, float y_0, float y_1, float con, vec3 n, material *mat) : object_id(oid), primitive_id(pid), x0(x_0), x1(x_1), y0(y_0), y1(y_1), const_axis(con), normalVector(n), mat_ptr(mat) {
+		localCoordinateSystem = onb(vec3(1, 0, 0), vec3(0, 1, 0), vec3(0, 0, 1));
+	};
     ~xy_rect(){
         //std::cout << "Delete xy_rect" << std::endl;
         if(mat_ptr){
@@ -75,11 +78,23 @@ public:
 
 	// Given UV coordinates, return the corresponding spatial coords on the surface of this object
 	virtual vec3 UVToPosition(const vec2& uv) const {
-		vec3 pos;
+		vec3 pos = vec3(1-uv.u(), uv.v(), 0);
 
-		pos[0] = ((x1-x0) * uv.u()) - x0;
-		pos[1] = ((y1-y0) * uv.v()) - y0;
+		//pos = localCoordinateSystem.toGlobal(uvw);
+
+		pos[0] = (pos[0] * (x1 - x0));
+		pos[1] = (pos[1] * (y1 - y0));
 		pos[2] = const_axis;
+		//pos[0] = ((uv.u()) * (x1 - x0)) + x0;
+		//pos[0] = (uv.v() * (y1 - y0)) + y0;
+
+		//pos[0] = ((x1-x0) * uv.u()) - x0;
+		//pos[1] = ((y1-y0) * uv.v()) - y0;
+		//pos[2] = const_axis;
+
+		//pos[0] += x0;
+		//pos[1] += y0;
+		//pos[2] += const_axis;
 
 		return pos;
 	}
@@ -89,7 +104,7 @@ public:
 	virtual vec2 positionToUV(const vec3& p) const {
 		vec2 uv;
 
-		uv[0] = (p.x() - x0) / (x1 - x0);
+		uv[0] = 1-((p.x() - x0) / (x1 - x0));
 		uv[1] = (p.y() - y0) / (y1 - y0);
 
 		return uv;
@@ -102,6 +117,7 @@ public:
 	float object_id;
 	float primitive_id;
 
+	onb localCoordinateSystem;
 	material *mat_ptr;
 	vec3 normalVector;//Should be vec3(0, 0, +/-1)
 	float x0, x1, y0, y1, const_axis;
@@ -143,11 +159,17 @@ public:
 
 	// Given UV coordinates, return the corresponding spatial coords on the surface of this object
 	virtual vec3 UVToPosition(const vec2& uv) const {
-		vec3 pos;
+		vec3 pos = vec3(1 - uv.u(), 0, uv.v());
 
-		pos[0] = ((x1 - x0) * uv.u()) - x0;
+		//pos = localCoordinateSystem.toGlobal(uvw);
+
+		pos[0] = (pos[0] * (x1 - x0));
 		pos[1] = const_axis;
-		pos[2] = ((z1 - z0) * uv.v()) - z0;
+		pos[2] = (pos[2] * (z1 - z0));
+
+		//pos[0] = ((x1 - x0) * uv.u()) - x0;
+		//pos[1] = const_axis;
+		//pos[2] = ((z1 - z0) * uv.v()) - z0;
 
 		return pos;
 	}
@@ -156,8 +178,7 @@ public:
 	// This assumes that the position is a valid point on the surface of the object!
 	virtual vec2 positionToUV(const vec3& p) const {
 		vec2 uv;
-
-		uv[0] = (p.x() - x0) / (x1 - x0);
+		uv[0] = 1-((p.x() - x0) / (x1 - x0));
 		uv[1] = (p.z() - z0) / (z1 - z0);
 
 		return uv;
@@ -210,11 +231,17 @@ public:
 
 	// Given UV coordinates, return the corresponding spatial coords on the surface of this object
 	virtual vec3 UVToPosition(const vec2& uv) const {
-		vec3 pos;
+		vec3 pos = vec3(0, 1 - uv.u(), uv.v());
+
+		//pos = localCoordinateSystem.toGlobal(uvw);
 
 		pos[0] = const_axis;
-		pos[1] = ((y1 - y0) * uv.u()) - y0;
-		pos[2] = ((z1 - z0) * uv.v()) - z0;
+		pos[1] = (pos[0] * (y1 - y0)) + y0;
+		pos[2] = (pos[2] * (z1 - z0)) + z0;
+
+		//pos[0] = const_axis;
+		//pos[1] = ((y1 - y0) * uv.u()) - y0;
+		//pos[2] = ((z1 - z0) * uv.v()) - z0;
 
 		return pos;
 	}
@@ -224,7 +251,7 @@ public:
 	virtual vec2 positionToUV(const vec3& p) const {
 		vec2 uv;
 
-		uv[0] = (p.y() - y0) / (y1 - y0);
+		uv[0] = 1-((p.y() - y0) / (y1 - y0));
 		uv[1] = (p.z() - z0) / (z1 - z0);
 
 		return uv;

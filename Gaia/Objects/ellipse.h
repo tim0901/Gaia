@@ -15,7 +15,7 @@
 class ellipse : public object {
 public:
 	ellipse() {}
-	ellipse(float oid, float pid, vec3 c, vec3 r1, vec3 r2, material* mat) :object_id(oid), primitive_id(pid), mat_ptr(mat), centre(c), radius1(r1), radius2(r2) {
+	ellipse(float oid, float pid, vec3 c, vec3 r1, vec3 r2, material* mat, vec3 n = vec3(0,0,0)) :object_id(oid), primitive_id(pid), mat_ptr(mat), centre(c), radius1(r1), radius2(r2), normalVec(n){
 
 		// Create a local coordinate system from the surface normal;
 		vec3 norm = cross(radius1, radius2);
@@ -106,6 +106,7 @@ public:
 	vec3 radius1;
 	vec3 radius2;
 	vec3 centre;
+	vec3 normalVec;
 
 	onb localCoordinateSystem;
 	material* mat_ptr;

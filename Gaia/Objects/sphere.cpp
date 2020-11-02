@@ -7,6 +7,15 @@
 //
 #include"sphere.h"
 
+
+void getSphereUV(const vec3& p, float& u, float& v) {
+    double phi = atan2(p.z(), p.x());
+    double theta = asin(p.y());
+    u = 1 - (phi + M_PI) / (2 * M_PI);
+    v = (theta + M_PI / 2) / M_PI;
+}
+
+
 //Ray-sphere intersection test
 bool sphere::hit(const ray& r, float t_min, float t_max, hit_record &rec) const {
 
@@ -27,8 +36,7 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record &rec) const 
             rec.p = r.p_at_t(rec.t);
             rec.normal = (rec.p - centre) / radius;
             rec.mat_ptr = mat_ptr;
-            rec.u = 1 - (atan2(rec.p.z(), rec.p.x()) + M_PI) / (2 * M_PI);
-            rec.v = (asin(rec.p.y()) + M_PI / 2) / M_PI;
+            getSphereUV((rec.p - centre) / radius, rec.u, rec.v);
             rec.type = type;
             rec.primitive = true;
             return true;
@@ -41,8 +49,7 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record &rec) const 
             rec.p = r.p_at_t(rec.t);
             rec.normal = (rec.p - centre) / radius;
             rec.mat_ptr = mat_ptr;
-            rec.u = 1 - (atan2(rec.p.z(), rec.p.x()) + M_PI) / (2 * M_PI);
-            rec.v = (asin(rec.p.y()) + M_PI / 2) / M_PI;
+            getSphereUV((rec.p - centre) / radius, rec.u, rec.v);
             rec.type = type;
             rec.primitive = true;
             return true;

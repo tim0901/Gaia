@@ -122,6 +122,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia;;C:\Users\alexa\source\repos\Gaia\Gaia\Accelerators;C:\Users\alexa\source\repos\Gaia\Gaia\Core;C:\Users\alexa\source\repos\Gaia\Gaia\Dependencies;C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia\Maths;C:\Users\alexa\source\repos\Gaia\Gaia\Metal;C:\Users\alexa\source\repos\Gaia\Gaia\Objects;C:\Users\alexa\source\repos\Gaia\Gaia\OpenGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -163,6 +164,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia;;C:\Users\alexa\source\repos\Gaia\Gaia\Accelerators;C:\Users\alexa\source\repos\Gaia\Gaia\Core;C:\Users\alexa\source\repos\Gaia\Gaia\Dependencies;C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia\Maths;C:\Users\alexa\source\repos\Gaia\Gaia\Metal;C:\Users\alexa\source\repos\Gaia\Gaia\Objects;C:\Users\alexa\source\repos\Gaia\Gaia\OpenGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -225,6 +227,7 @@
     <ClInclude Include="OpenGL\GLshader.h" />
     <ClInclude Include="OpenGL\OpenGL.h" />
     <ClInclude Include="portal.h" />
+    <ClInclude Include="texture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Accelerators\aabb.cpp" />

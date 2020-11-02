@@ -5,6 +5,7 @@
 
 #include "vec3.h"
 #include "ray.h"
+#include "texture.h"
 
 //Forward declaration
 class pdf;
