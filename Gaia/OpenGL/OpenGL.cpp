@@ -138,7 +138,7 @@ int initialise_window(bool* windowOpen, image_parameters* image) {
 
 	//Shaders
 	//
-	GLshader ourShader("shader.vert", "shader.frag");
+	GLshader ourShader("OpenGL/shader.vert", "OpenGL/shader.frag");
 
 	//Tells OpenGL the size of the rendering window, so OpenGL can display correctly
 	//First 2 ints: coords of lower left corner. Last 2 ints: width and height of window

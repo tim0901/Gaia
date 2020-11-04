@@ -71,7 +71,9 @@ public:
 		free(raw->materialsList);
         free(raw->mat);
         
+		std::cout << "BVH construction start." << std::endl;
 		list_ptr = new bvh_node(triList, j, 0, 0);
+		std::cout << "BVH construction complete." << std::endl;
 		std::cout << "Mesh loaded." << std::endl;
 	};
     ~mesh(){

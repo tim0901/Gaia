@@ -34,7 +34,11 @@ public:
 		return true;
 	}
 
-	std::string type = "lambertian";
+	virtual std::string type(int i = 0) const {
+		return "lambertian";
+	}
+
+	//std::string type = "lambertian";
 
 	texture* albedo;
 };

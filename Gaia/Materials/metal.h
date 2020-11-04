@@ -27,8 +27,9 @@ public:
 		return true;
 	}
 
-	std::string type = "metal";
-
+	virtual std::string type(int i = 0) const {
+		return "metal";
+	}
 	texture* albedo;
 	float fuzz;
 };

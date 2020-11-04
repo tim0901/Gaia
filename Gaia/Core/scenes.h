@@ -447,6 +447,109 @@ void big_cornell_box(object** world, object** light_list, material** matList, im
 }
 
 
+void lucy(object** world, object** light_list, material** matList, image_parameters* image, camera** cam) {
+
+
+	//X goes right -> left
+	//Y goes down -> up
+	//Z goes front -> back
+
+	image->nx = 1000;
+	image->ny = 1000;
+	image->ns = 25;
+
+	image->chunk_size = 25;
+
+	image->iterative_mode = false;
+	image->z_depth_pass = false;
+	image->edge_line_pass = false;
+
+	image->min_z_depth = 2;
+	image->max_z_depth = 3.5;
+	image->stratify_divisions = 1;
+
+	image->maxlevel = 0;
+
+	image->saveHDR = false;
+	image->savePPM = false;
+	image->generateHeatMap = false;
+	image->save_name = "lucytest";
+
+	//Camera
+	vec3 look_from(0.5, 0.5, -2);
+	vec3 look_at(0.5, 0.5, 1);
+	vec3 up(0, 1, 0); // vector that is "up" for the camera
+	float focal_length = (look_from - look_at).length();
+	int fov = 30;
+	float aperture = 0.0;
+	float aspect_ratio = float(image->nx) / float(image->ny);
+	*cam = new camera(look_from, look_at, up, fov, aspect_ratio, aperture, focal_length);
+
+	image->background_colour = new vec3(0, 0, 0);
+
+	//Iterators
+	int i = 0;
+	int oid = 0;
+	int matNo = 0;
+	object** list = new object * [50];
+
+	//Materials
+	diffuse_light* light = new diffuse_light(new vec3(10, 10, 10));
+	matList[matNo++] = light;
+	lambertian* white = new lambertian(vec3(0.73, 0.73, 0.73));
+	matList[matNo++] = white;
+	lambertian* green = new lambertian(vec3(0.12, 0.45, 0.15));
+	matList[matNo++] = green;
+	lambertian* red = new lambertian(vec3(0.65, 0.05, 0.05));
+	matList[matNo++] = red;
+
+	//Light List. Remember to remove objects from Light list, can cause issues when rendering lambertians 
+	int j = 0;
+	object** llist = new object * [50];
+
+	// Main light
+	llist[j++] = new xz_rect(i, 0, 0.3, 0.7, 0.3, 0.7, 0.999, vec3(0, -1, 0), 0);
+
+	//Assign light list
+	*light_list = new object_list(llist, j);
+
+	//Object list
+
+	//Floor
+	list[i++] = new xz_rect(oid++, 0, 0, 1, 0, 1, 0, vec3(0, 1, 0), white);
+
+	//Ceiling
+	list[i++] = new xz_rect(oid++, 0, 0, 1, 0, 1, 1, vec3(0, -1, 0), white);
+
+	//Ceiling light
+	list[i++] = new xz_rect(oid++, 0, 0.3, 0.7, 0.3, 0.7, 0.999, vec3(0, -1, 0), light);
+
+	//Back Wall
+	list[i++] = new xy_rect(oid++, 0, 0, 1, 0, 1, 1, vec3(0, 0, -1), white);
+
+	//Left Wall
+	list[i++] = new yz_rect(oid++, 0, 0, 1, 0, 1, 1, vec3(-1, 0, 0), red);
+
+	//Right Wall
+	list[i++] = new yz_rect(oid++, 0, 0, 1, 0, 1, 0, vec3(1, 0, 0), green);
+
+
+	material** lucyMatList = new material * [5];
+	lucyMatList[0] = white;
+
+	//Load raw mesh from file
+	raw_mesh lucy_raw_mesh = load_mesh(oid++, image, "stanfordbunny.obj", lucyMatList);
+
+	//Initialize mesh
+	mesh* lucyMesh = new mesh(&lucy_raw_mesh, 0, 0.0005);
+
+	//Add mesh to scene
+	list[i++] = new translate(new rotate_y(lucyMesh, 180), vec3(0.5, 0.393, 0.5));
+
+	//Assign world list
+	* world = new object_list(list, i);
+}
+
 
 void bunnyMovie(object **world, object **light_list, image_parameters *image, camera **cam){
     

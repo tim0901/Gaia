@@ -189,17 +189,17 @@
     <ClInclude Include="Materials\dielectric.h">
       <Filter>Source Files\Materials</Filter>
     </ClInclude>
-    <ClInclude Include="portal.h">
+    <ClInclude Include="Materials\portal.h">
       <Filter>Source Files\Materials</Filter>
     </ClInclude>
-    <ClInclude Include="matrix2.h">
+    <ClInclude Include="Maths\matrix2.h">
       <Filter>Source Files\Maths</Filter>
     </ClInclude>
-    <ClInclude Include="matrix3.h">
+    <ClInclude Include="Maths\matrix3.h">
       <Filter>Source Files\Maths</Filter>
     </ClInclude>
-    <ClInclude Include="texture.h">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="Materials\texture.h">
+      <Filter>Source Files\Materials</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -263,7 +263,7 @@
     <ClCompile Include="Materials\dielectric.cpp">
       <Filter>Source Files\Materials</Filter>
     </ClCompile>
-    <ClCompile Include="portal.cpp">
+    <ClCompile Include="Materials\portal.cpp">
       <Filter>Source Files\Materials</Filter>
     </ClCompile>
   </ItemGroup>

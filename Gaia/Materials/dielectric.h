@@ -59,7 +59,9 @@ public:
 		return true;
 	}
 
-	std::string type = "dielectric";
+	virtual std::string type(int i = 0) const {
+		return "dielectric";
+	}
 
 	texture* albedo;
 	float ref_indx;

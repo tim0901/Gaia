@@ -73,13 +73,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\Libraries\OpenGL\include;D:\Libraries\OpenSubdiv-master;</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;D:\Libraries\OpenGL\lib;D:\Libraries\OpenSubdiv-master\cmake\lib\Release;</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;D:\Libraries\OpenGL\lib;D:\Libraries\OpenSubdiv-master\cmake\lib\Debug;</LibraryPath>
     <SourcePath>$(VC_SourcePath);D:\Libraries\OpenGL\src;</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\Libraries\OpenGL\include;D:\Libraries\OpenSubdiv-master;D:\Libraries\glfw-3.3.bin.WIN64\include\GLFW;</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;D:\Libraries\OpenSubdiv-master\cmake\lib\Release;D:\Libraries\glfw-3.3.bin.WIN64\lib-vc2019;</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;D:\Libraries\OpenSubdiv-master\cmake\lib\Debug;D:\Libraries\glfw-3.3.bin.WIN64\lib-vc2019</LibraryPath>
     <SourcePath>$(VC_SourcePath);D:\Libraries\OpenGL\src;</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -198,6 +198,10 @@
     <ClInclude Include="Materials\materials.h" />
     <ClInclude Include="Materials\metal.h" />
     <ClInclude Include="Materials\oren_nayar.h" />
+    <ClInclude Include="Materials\portal.h" />
+    <ClInclude Include="Materials\texture.h" />
+    <ClInclude Include="Maths\matrix2.h" />
+    <ClInclude Include="Maths\matrix3.h" />
     <ClInclude Include="Maths\matrix4.h" />
     <ClInclude Include="Maths\onb.h" />
     <ClInclude Include="Maths\pdf.h" />
@@ -208,8 +212,6 @@
     <ClInclude Include="Maths\vec2.h" />
     <ClInclude Include="Maths\vec3.h" />
     <ClInclude Include="Maths\vec4.h" />
-    <ClInclude Include="matrix2.h" />
-    <ClInclude Include="matrix3.h" />
     <ClInclude Include="Metal\AppDelegate.h" />
     <ClInclude Include="Metal\metalAPI.h" />
     <ClInclude Include="Metal\MetalRenderer.h" />
@@ -226,8 +228,6 @@
     <ClInclude Include="Objects\triangle.h" />
     <ClInclude Include="OpenGL\GLshader.h" />
     <ClInclude Include="OpenGL\OpenGL.h" />
-    <ClInclude Include="portal.h" />
-    <ClInclude Include="texture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Accelerators\aabb.cpp" />
@@ -238,6 +238,7 @@
     <ClCompile Include="Core\radiance.cpp" />
     <ClCompile Include="Materials\dielectric.cpp" />
     <ClCompile Include="Materials\material.cpp" />
+    <ClCompile Include="Materials\portal.cpp" />
     <ClCompile Include="Maths\onb.cpp" />
     <ClCompile Include="Maths\random.cpp" />
     <ClCompile Include="Maths\rotate.cpp" />
@@ -250,7 +251,6 @@
     <ClCompile Include="Objects\sphere.cpp" />
     <ClCompile Include="Objects\triangle.cpp" />
     <ClCompile Include="OpenGL\OpenGL.cpp" />
-    <ClCompile Include="portal.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Metal\AppDelegate.mm" />

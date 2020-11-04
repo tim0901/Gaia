@@ -23,9 +23,11 @@ public:
 		}
 	}
 
+	virtual std::string type(int i = 0) const {
+		return "diffuse_light";
+	}
 	vec3 *emit;
 
-	std::string type = "diffuse_light";
 
 };
 

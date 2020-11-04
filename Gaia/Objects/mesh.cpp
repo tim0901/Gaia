@@ -12,7 +12,6 @@ bool mesh::bounding_box(float t0, float t1, aabb& box) const {
     return true;
 }
 
-
 bool mesh::hit(const ray& r, float t0, float t1, hit_record& rec) const {
     return list_ptr->hit(r, t0, t1, rec);
 }
@@ -27,8 +26,12 @@ raw_mesh load_mesh(int oid, image_parameters* image, std::string input_file, mat
     std::vector<tinyobj::shape_t> shapes;
     std::vector<tinyobj::material_t> materials;
 
-    std::string err;
-    bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, inputfile.c_str(), 0, true);
+    std::string err, warn;
+    bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, inputfile.c_str(), 0, true);
+
+    if (!warn.empty()) { // Output any warnings
+        std::cerr << warn << std::endl;
+    }
 
     if (!err.empty()) { // `err` may contain warning message.
         std::cerr << err << std::endl;
@@ -38,9 +41,21 @@ raw_mesh load_mesh(int oid, image_parameters* image, std::string input_file, mat
         exit(1);
     }
 
+    // Find the total number of indices in the model
+    int indicesCount = 0;
+    for (const auto& shape : shapes) {
+        indicesCount += shape.mesh.indices.size();
+    }
+
     //std::cout << "Verts: " << attrib.vertices.size() << std::endl;
     //std::cout << "Normals: " << attrib.normals.size() << std::endl;
+    //std::cout << "Texture coords: " << attrib.texcoords.size() << std::endl;
+    //std::cout << "Materials: " << materials.size() << std::endl;
     //std::cout << "Shapes: " << shapes.size() << std::endl;
+    //std::cout << "Indices: " << indicesCount << std::endl;
+
+    // Append 'default' material
+    materials.push_back(tinyobj::material_t());
 
     //Allocate space in memory for vectors.
 
@@ -54,7 +69,7 @@ raw_mesh load_mesh(int oid, image_parameters* image, std::string input_file, mat
     trianglesList = (vec3*)calloc(attrib.vertices.size()/3.0, sizeof(vec3));
 
     static int* indiciesList = { 0 };
-    indiciesList = (int*)calloc(attrib.normals.size(), sizeof(int));
+    indiciesList = (int*)calloc(indicesCount, sizeof(int));
 
     int* materialsList = { 0 };
     materialsList = (int*)calloc(attrib.vertices.size(), sizeof(int));
@@ -107,14 +122,13 @@ raw_mesh load_mesh(int oid, image_parameters* image, std::string input_file, mat
 
     int nTris = 0;
     for (const auto& shape : shapes) {
-
         for (int i = 0; i < shape.mesh.indices.size(); i++) {
             indiciesList[nTris++] = shape.mesh.indices[i].vertex_index;
             //std::cout << indiciesList[i] << std::endl;
         }
     }
     //Calculate number of triangles in the mesh
-    nTris = nTris / 3;
+    nTris = indicesCount/3;
 
     //Extract old materials data from shape, stored in materialsList
     for (int i = 0; i < nTris; i++) {
@@ -143,7 +157,7 @@ raw_mesh load_mesh(int oid, image_parameters* image, std::string input_file, mat
 
     static int* vertsperfacelist = { 0 };
     int** vertsperfacelistPtr = &vertsperfacelist;
-    *vertsperfacelistPtr = (int*)calloc(1000000, sizeof(int));
+    *vertsperfacelistPtr = (int*)calloc(nTris, sizeof(int));
 
     for (int i = 0; i < nTris; i++) {
         vertsperfacelist[i] = 3;

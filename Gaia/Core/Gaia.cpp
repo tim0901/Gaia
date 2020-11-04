@@ -79,7 +79,7 @@ int main(int argc, const char * argv[])
 
 
 	//Fetch scene - must be called before initialise
-	big_cornell_box(&world, &light_list, matList, image, &cam);
+	lucy(&world, &light_list, matList, image, &cam);
 
 	//Initialise image container
 	initialise(image);

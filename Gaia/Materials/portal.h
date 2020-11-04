@@ -20,7 +20,10 @@ public:
 
 	virtual bool scatter(const ray& incident, const hit_record& rec, scattering_record& scatter) const;
 
-	std::string type = "portal";
+
+	virtual std::string type(int i = 0) const {
+		return "portal";
+	}
 	object* here;
 	object* there;
 

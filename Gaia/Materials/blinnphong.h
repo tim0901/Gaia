@@ -87,6 +87,10 @@ public:
 		return true;
 	}
 
+	virtual std::string type(int i = 0) const {
+		return "phong";
+	}
+
 	object* light_list;
 	int light_list_size;
 	texture* albedo;
@@ -95,7 +99,6 @@ public:
 	float diff_coeff;
 	float shininess;
 	vec3 camPos;
-	std::string type = "phong";
 };
 
 #endif // !BLINN_PHONG_H

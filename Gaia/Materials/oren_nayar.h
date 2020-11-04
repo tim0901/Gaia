@@ -52,8 +52,9 @@ public:
 		return true;
 	}
 
-	std::string type = "oren_nayar";
-
+	virtual std::string type(int i = 0) const {
+		return "oren_nayar";
+	}
 	texture* albedo;
 	float roughness;
 

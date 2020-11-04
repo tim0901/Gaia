@@ -9,7 +9,8 @@
 
 class gooch :public material {
 public:
-	gooch(float b, float y, float al, float be, vec3 *p, const material *m) : warm(b), cool(y), alpha(al), beta(be), pointat(p) { mat = m; type = mat->type; }
+	gooch(float b, float y, float al, float be, vec3* p, const material* m) : warm(b), cool(y), alpha(al), beta(be), pointat(p) { mat = m; //type = mat->type;
+}
     ~gooch(){}
 	//B and Y determine the strength of the overall temperature shift
 	//α determines the prominence of the object colour 
@@ -44,7 +45,9 @@ public:
 		return true;
 	}
 
-	std::string type = "gooch";
+	virtual std::string type(int i = 0) const {
+		return mat->type();
+	}
 
 	float cool, warm, alpha, beta;
 	vec3 *pointat;
