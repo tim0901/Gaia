@@ -204,7 +204,7 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 
 	
 	//Load raw mesh from file
-	raw_mesh raw_bunny = load_mesh(oid++, image, "stanfordbunny.obj", bunnyMatList);
+	raw_mesh raw_bunny = load_mesh(oid++, image, "Render Assets/stanfordbunny.obj", bunnyMatList);
 
 	//Initialize mesh
 	mesh* bunnymesh = new mesh(&raw_bunny, 0, 0.8);
@@ -215,7 +215,7 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 
 	
     //Load raw mesh from file
-    //raw_mesh rawMini = load_mesh(oid++, image, "minitest.obj", miniMatList);
+    //raw_mesh rawMini = load_mesh(oid++, image, "Render Assets/minitest.obj", miniMatList);
 
     //mesh* miniMesh = new mesh(&rawMini, 0, 0.0025);
     
@@ -242,7 +242,7 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 	list[i++] = leftWall;
 	
 
-	lambertian* earthmap = new lambertian(new image_texture("earthmap.jpg"));
+	lambertian* earthmap = new lambertian(new image_texture("Render Assets/earthmap.jpg"));
 	matList[matNo++] = earthmap;
 	list[i++] = new xy_rect(oid++, 0, 0.25, 0.75, 0.55, 0.95, 0.999, vec3(0, 0, -1), earthmap);
 	//list[i++] = new sphere(oid++, 0, vec3(0.5, 0.2, 0.5), 0.2, earthmap);
@@ -415,7 +415,7 @@ void big_cornell_box(object** world, object** light_list, material** matList, im
 
 
 	//Load raw mesh from file
-	raw_mesh raw_bunny = load_mesh(oid++, image, "stanfordbunny.obj", bunnyMatList);
+	raw_mesh raw_bunny = load_mesh(oid++, image, "Render Assets/stanfordbunny.obj", bunnyMatList);
 
 	//Initialize mesh
 	mesh* bunnymesh = new mesh(&raw_bunny, 0, 0.8 * 256);
@@ -438,7 +438,7 @@ void big_cornell_box(object** world, object** light_list, material** matList, im
 	list[i++] = backWall;
 	
 
-	lambertian* earthmap = new lambertian(new image_texture("earthmap.jpg"));
+	lambertian* earthmap = new lambertian(new image_texture("Render Assets/earthmap.jpg"));
 	matList[matNo++] = earthmap;
 	list[i++] = new xy_rect(oid++, 0, 0.25 * 256, 0.75 * 256, 0.55 * 256, 0.95 * 256, 0.999 * 256, vec3(0, 0, -1), earthmap);
 
@@ -538,7 +538,7 @@ void lucy(object** world, object** light_list, material** matList, image_paramet
 	lucyMatList[0] = white;
 
 	//Load raw mesh from file
-	raw_mesh lucy_raw_mesh = load_mesh(oid++, image, "stanfordbunny.obj", lucyMatList);
+	raw_mesh lucy_raw_mesh = load_mesh(oid++, image, "Render Assets/stanfordbunny.obj", lucyMatList);
 
 	//Initialize mesh
 	mesh* lucyMesh = new mesh(&lucy_raw_mesh, 0, 0.0005);
@@ -616,7 +616,7 @@ void bunnyMovie(object **world, object **light_list, image_parameters *image, ca
     matList[0] = metalgooch;
     
     //Load raw mesh from file
-    raw_mesh raw_bunny = load_mesh(oid++, image, "stanfordbunny.obj", matList);
+    raw_mesh raw_bunny = load_mesh(oid++, image, "Render Assets/stanfordbunny.obj", matList);
 
     //Initialize mesh
     mesh* bunnymesh = new mesh(&raw_bunny, 0, 3.0);
@@ -735,7 +735,7 @@ void bunny_cornell_box(object **world, object **light_list, material** matList, 
     matList[0] = white;
     
     //Load raw mesh from file
-    raw_mesh raw_bunny = load_mesh(oid++, image, "stanfordbunny.obj", matList);
+    raw_mesh raw_bunny = load_mesh(oid++, image, "Render Assets/stanfordbunny.obj", matList);
 
     //Initialize mesh
     mesh* bunnymesh = new mesh(&raw_bunny, 0, 3.0);
@@ -860,7 +860,7 @@ void mini(object** world, object** light_list, material** matList, image_paramet
 
 	//Objects
 
-	raw_mesh raw = load_mesh(0, image, "minitest.obj", miniMatlist);
+	raw_mesh raw = load_mesh(0, image, "Render Assets/minitest.obj", miniMatlist);
 
 	mesh *mini_mesh = new mesh(&raw, 0, 1.0);
 	list[i++] = new translate(mini_mesh, vec3(0,0,31));
@@ -929,7 +929,7 @@ void teapot(object **world, /*object **light_list, */image_parameters *image, ca
 
 	//Objects
 
-//	raw_mesh* raw = &load_mesh(i + 1, image, "rolling_Teapot.obj", matlist);
+//	raw_mesh* raw = &load_mesh(i + 1, image, "Render Assets/rolling_Teapot.obj", matlist);
 
 //	mesh *test = new mesh(raw, new vec3(0,0,0), 1.0);
 	object **meshlist = new object*[1];

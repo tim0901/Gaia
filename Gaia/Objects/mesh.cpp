@@ -16,18 +16,24 @@ bool mesh::hit(const ray& r, float t0, float t1, hit_record& rec) const {
     return list_ptr->hit(r, t0, t1, rec);
 }
 
-raw_mesh load_mesh(int oid, image_parameters* image, std::string input_file, material** mat) {
+static std::string GetBaseDir(const std::string& filepath) {
+    if (filepath.find_last_of("/\\") != std::string::npos)
+        return filepath.substr(0, filepath.find_last_of("/\\"));
+    return "";
+}
 
-    std::string inputfile = input_file;
+raw_mesh load_mesh(int oid, image_parameters* image, std::string filePath, material** mat) {
 
-    std::cout << "Loading: " << input_file << std::endl;
+    std::string base_dir = GetBaseDir(filePath);
+
+    std::cout << "Loading: " << filePath << std::endl;
 
     tinyobj::attrib_t attrib;
     std::vector<tinyobj::shape_t> shapes;
     std::vector<tinyobj::material_t> materials;
 
     std::string err, warn;
-    bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, inputfile.c_str(), 0, true);
+    bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, filePath.c_str(), base_dir.c_str(), true);
 
     if (!warn.empty()) { // Output any warnings
         std::cerr << warn << std::endl;

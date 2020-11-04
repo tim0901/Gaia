@@ -30,7 +30,7 @@ void save(image_parameters* image) {
 
 		//Exports as .hdr - loses alpha channel data 
 		stbi_flip_vertically_on_write(1);
-		std::string hdr_name = image->save_name + ".hdr";
+		std::string hdr_name = "Renders/" + image->save_name + ".hdr";
 		stbi_write_hdr(&hdr_name[0u], image->nx, image->ny, 4, image->output_array);
 
 		std::cout << ".HDR save complete" << std::endl;
@@ -40,7 +40,7 @@ void save(image_parameters* image) {
 		//Exports as .PPM - loses alpha channel data
 
 		//Sends console output to file 
-		std::string ppm_name = image->save_name + ".ppm";
+		std::string ppm_name = "Renders/" + image->save_name + ".ppm";
 		
 		//Stream for writing to file
 		std::ofstream ofs;
@@ -98,7 +98,7 @@ void save(image_parameters* image) {
 		vec3 rgb;
 
 		//Send console output to file 
-		std::string ppm_name = image->save_name + "_heat_map.ppm";
+		std::string ppm_name = "Renders/" + image->save_name + "_heat_map.ppm";
 
 		//Stream for writing to file
 		std::ofstream ofs;
