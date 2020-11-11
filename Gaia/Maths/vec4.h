@@ -95,10 +95,6 @@ inline float dot(const vec4 &v1, const vec4 &v2) {
 	return v1.e[0] * v2.e[0] + v1.e[1] * v2.e[1] + v1.e[2] * v2.e[2] + v1.e[3] * v2.e[3];
 }
 
-//Cross Product
-
-
-
 //Returns vector with abs applied to each component
 inline vec4 abs(const vec4 &v) {
 	return vec4(std::abs(v[0]), std::abs(v[1]), std::abs(v[2]), std::abs(v[3]));
@@ -166,6 +162,11 @@ inline vec4& vec4::operator /=(float t) {
 	e[2] *= k;
 	e[3] *= k;
 	return *this;
+}
+
+// Equality opeator - Inequality is automatically defined by the compiler using this
+inline bool operator == (const vec4& v1, const vec4& v2) {
+	return (v1.w() == v2.w() && v1.x() == v2.x() && v1.y() == v2.y() && v1.z() == v2.z());
 }
 
 //For cout / cin

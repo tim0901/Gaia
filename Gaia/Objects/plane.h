@@ -28,6 +28,15 @@ public:
         }
     }
 
+	// This might be incorrect
+	virtual vec3 centroid() {
+		//Vectors of sides of rectangle
+		vec3 v1 = (pointb - pointa);
+		vec3 v2 = (pointb - pointc);
+
+		return pointb - 0.5 * (v1 + v2);
+	}
+
 	float object_id;
 	float primitive_id;
 	vec3 pointa;
@@ -114,6 +123,13 @@ public:
 		return normalVector;
 	}
 
+	virtual vec3 centroid() const {
+		float length = x1 - x0;
+		float height = y1 - y0;
+
+		return vec3(x0 + (0.5*length), y0 + (0.5 * height), const_axis);
+	}
+
 	float object_id;
 	float primitive_id;
 
@@ -188,6 +204,13 @@ public:
 		return normalVector;
 	}
 
+	virtual vec3 centroid() const {
+		float length = x1 - x0;
+		float height = z1 - z0;
+
+		return vec3(x0 + (0.5 * length), const_axis, z0 + (0.5 * height));
+	}
+
 	float object_id;
 	float primitive_id;
 
@@ -259,6 +282,13 @@ public:
 
 	virtual vec3 normal() const {
 		return normalVector;
+	}
+
+	virtual vec3 centroid() const {
+		float length = y1 - y0;
+		float height = z1 - z0;
+
+		return vec3(const_axis, y0 + (0.5 * length), z0 + (0.5 * height));
 	}
 
 	float object_id;

@@ -201,6 +201,15 @@
     <ClInclude Include="Materials\texture.h">
       <Filter>Source Files\Materials</Filter>
     </ClInclude>
+    <ClInclude Include="Accelerators\medianbvh.h">
+      <Filter>Source Files\Accelerators</Filter>
+    </ClInclude>
+    <ClInclude Include="Accelerators\sahbvh.h">
+      <Filter>Source Files\Accelerators</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\memory.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Accelerators\bvh.cpp">
@@ -265,6 +274,15 @@
     </ClCompile>
     <ClCompile Include="Materials\portal.cpp">
       <Filter>Source Files\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Accelerators\medianbvh.cpp">
+      <Filter>Source Files\Accelerators</Filter>
+    </ClCompile>
+    <ClCompile Include="Accelerators\sahbvh.cpp">
+      <Filter>Source Files\Accelerators</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\memory.cpp">
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -78,8 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\Libraries\OpenGL\include;D:\Libraries\OpenSubdiv-master;D:\Libraries\glfw-3.3.bin.WIN64\include\GLFW;</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;D:\Libraries\OpenSubdiv-master\cmake\lib\Debug;D:\Libraries\glfw-3.3.bin.WIN64\lib-vc2019</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\Libraries\OpenGL\include;D:\Libraries\OpenSubdiv;D:\Libraries\glfw-3.3.bin.WIN64\include\GLFW;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;D:\Libraries\OpenSubdiv\build\lib\Debug;D:\Libraries\glfw-3.3.bin.WIN64\lib-vc2019</LibraryPath>
     <SourcePath>$(VC_SourcePath);D:\Libraries\OpenGL\src;</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -90,8 +90,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\Libraries\OpenGL\include;D:\Libraries\OpenSubdiv-master;D:\Libraries\glfw-3.3.bin.WIN64\include\GLFW;</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;D:\Libraries\OpenSubdiv-master\cmake\lib\Release;D:\Libraries\glfw-3.3.bin.WIN64\lib-vc2019;</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\Libraries\OpenGL\include;D:\Libraries\OpenSubdiv;D:\Libraries\glfw-3.3.bin.WIN64\include\GLFW;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;D:\Libraries\OpenSubdiv\build\lib\Release;D:\Libraries\glfw-3.3.bin.WIN64\lib-vc2019;</LibraryPath>
     <SourcePath>$(VC_SourcePath);D:\Libraries\OpenGL\src;</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -178,10 +178,13 @@
     <ClInclude Include="Accelerators\aabb.h" />
     <ClInclude Include="Accelerators\bvh.h" />
     <ClInclude Include="Accelerators\chunk.h" />
+    <ClInclude Include="Accelerators\medianbvh.h" />
+    <ClInclude Include="Accelerators\sahbvh.h" />
     <ClInclude Include="Core\camera.h" />
     <ClInclude Include="Core\cleanup.h" />
     <ClInclude Include="Core\colourGradient.h" />
     <ClInclude Include="Core\image_parameters.h" />
+    <ClInclude Include="Core\memory.h" />
     <ClInclude Include="Core\radiance.h" />
     <ClInclude Include="Core\ray.h" />
     <ClInclude Include="Core\save.h" />
@@ -232,9 +235,12 @@
   <ItemGroup>
     <ClCompile Include="Accelerators\aabb.cpp" />
     <ClCompile Include="Accelerators\bvh.cpp" />
+    <ClCompile Include="Accelerators\medianbvh.cpp" />
+    <ClCompile Include="Accelerators\sahbvh.cpp" />
     <ClCompile Include="Core\cleanup.cpp" />
     <ClCompile Include="Core\Gaia.cpp" />
     <ClCompile Include="Core\image_parameters.cpp" />
+    <ClCompile Include="Core\memory.cpp" />
     <ClCompile Include="Core\radiance.cpp" />
     <ClCompile Include="Materials\dielectric.cpp" />
     <ClCompile Include="Materials\material.cpp" />

@@ -72,6 +72,10 @@ public:
 		return uv;
 	}
 
+	virtual vec3 centroid() const {
+		return centre;
+	}
+
 	float object_id;
 	float primitive_id;
 	float radius;

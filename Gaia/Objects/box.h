@@ -8,18 +8,24 @@
 
 class box :public object {
 public:
-	box(){}
+	box() {}
 	box(float oid, const vec3& p0, const vec3& p1, material* mat_ptr);
-    ~box(){
-        //std::cout << "Delete box" << std::endl;
-        if(list_ptr){
-            delete list_ptr;
-        }
-    }
+	~box() {
+		//std::cout << "Delete box" << std::endl;
+		if (list_ptr) {
+			delete list_ptr;
+		}
+	}
 	virtual bool hit(const ray& r, float t0, float t1, hit_record& rec) const;
 	virtual bool bounding_box(float t0, float t1, aabb& box) const {
 		box = aabb(pmin, pmax);
 		return true;
+	}
+
+	virtual vec3 centroid() const {
+		vec3 diagonal = pmax - pmin;
+
+		return pmin + (0.5 * diagonal);
 	}
 
 	float object_id;

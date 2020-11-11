@@ -59,7 +59,8 @@ public:
 			int y = raw->trianglesList[j].y();
 			int z = raw->trianglesList[j].z();
 
-			triList[j] = new triangle(raw->oid, j, (raw->vertexList[x] - *origin) * scale, (raw->vertexList[y] - *origin) * scale, (raw->vertexList[z] - *origin) * scale, raw->mat[raw->materialsList[j]], raw->normalsList[x], raw->normalsList[y], raw->normalsList[z]);
+			//triList[j] = new triangle(raw->oid, j, (raw->vertexList[x] - *origin) * scale, (raw->vertexList[y] - *origin) * scale, (raw->vertexList[z] - *origin) * scale, raw->mat[raw->materialsList[j]], raw->normalsList[x], raw->normalsList[y], raw->normalsList[z]);
+			triList[j] = new triangle(raw->oid, j, (raw->vertexList[x] - *origin) * scale, (raw->vertexList[y] - *origin) * scale, (raw->vertexList[z] - *origin) * scale, raw->mat[raw->materialsList[j]], vec3(0,0,0));
             triList[j]->type = "triangle";
             
 		}
@@ -72,8 +73,15 @@ public:
         free(raw->mat);
         
 		std::cout << "BVH construction start." << std::endl;
-		list_ptr = new bvh_node(triList, j, 0, 0);
-		std::cout << "BVH construction complete." << std::endl;
+		std::chrono::time_point<std::chrono::steady_clock> start = std::chrono::steady_clock::now();
+
+		// Create bvh for mesh
+		list_ptr = bvh::constructBVH(triList, j, 0, 0, SAH);
+
+		std::chrono::time_point<std::chrono::steady_clock> end = std::chrono::steady_clock::now();
+		std::chrono::duration<double> diff = end - start;
+		//list_ptr = new bvh_node(triList, j, 0, 0);
+		std::cout << "BVH construction complete in "<< std::chrono::duration <double, std::milli>(diff).count() << "ms." << std::endl;
 		std::cout << "Mesh loaded." << std::endl;
 	};
     ~mesh(){
@@ -87,7 +95,8 @@ public:
         if(triList){
             //int numDeleted = 0;
             for(int i = 0; i < nTris; i++){
-                delete triList[i];
+				//std::cout << i;
+                //delete triList[i];
                 //numDeleted++;
             }
             delete[] triList;

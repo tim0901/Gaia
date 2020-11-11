@@ -13,7 +13,7 @@ class mesh;
 class triangle :public object {
 public:
 	triangle() {}
-    triangle(float oid, float pid, vec3 p0, vec3 p1, vec3 p2, material *m, vec3 n0, vec3 n1, vec3 n2) :object_id(oid), primitive_id(pid), point0(p0), point1(p1), point2(p2), mat_ptr(m), normal0(n0), normal1(n1), normal2(n2) {}
+    triangle(float oid, float pid, vec3 p0, vec3 p1, vec3 p2, material *m, vec3 n) :object_id(oid), primitive_id(pid), point0(p0), point1(p1), point2(p2), mat_ptr(m), normal(n) {}
     ~triangle(){
         //std::cout << "Delete tri" << std::endl;
         if(mat_ptr){
@@ -51,14 +51,16 @@ public:
 		
 	}
 
+	virtual vec3 centroid() const {
+		return vec3((point0.x() + point1.x() + point2.x()) / 3.0f, (point0.y() + point1.y() + point2.y()) / 3.0f, (point0.z() + point1.z() + point2.z()) / 3.0f);
+	}
+
 	float object_id;
 	float primitive_id;
 	vec3 point0;
 	vec3 point1;
 	vec3 point2;
-	vec3 normal0;
-	vec3 normal1;
-	vec3 normal2;
+	vec3 normal;
 	material *mat_ptr;
     std::string type = "triangle";
 };

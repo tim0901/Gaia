@@ -70,7 +70,7 @@ bool triangle::hit(const ray& r, float tmin, float tmax, hit_record& rec) const 
     // Compute triangle partial derivatives
     vec3 dpdu, dpdv;
     vec2 uv[3];
-    //TODO proper UV calculation
+    //TODO Fetch proper UVs from mesh
     uv[0] = vec2(0, 0);
     uv[1] = vec2(1, 0);
     uv[2] = vec2(1, 1);
@@ -82,6 +82,11 @@ bool triangle::hit(const ray& r, float tmin, float tmax, hit_record& rec) const 
     // Interpolate $(u,v)$ parametric coordinates and hit point
     vec3 pHit = b0 * point0 + b1 * point1 + b2 * point2;
     //vec2 uvHit = b0 * uv[0] + b1 * uv[1] + b2 * uv[2];
+    
+    vec3 norm;
+    if (normal == vec3(0, 0, 0)) {
+        norm = vec3(unit_vector(cross(dp02, dp12)));
+    }
 
     rec.object_id = object_id;
     rec.primitive_id = primitive_id;

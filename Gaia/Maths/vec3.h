@@ -201,6 +201,11 @@ inline vec3& vec3::operator /=(float t) {
 	return *this;
 }
 
+// Equality opeator - Inequality is automatically defined by the compiler using this
+inline bool operator == (const vec3& v1, const vec3& v2){
+	return (v1.x() == v2.x() && v1.y() == v2.y() && v1.z() == v2.z());
+}
+
 //For cout / cin
 inline std::istream& operator >> (std::istream &is, vec3 &t) {
 	is >> t.e[0] >> t.e[1] >> t.e[2];

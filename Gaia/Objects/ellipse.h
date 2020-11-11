@@ -101,6 +101,10 @@ public:
 		return uv;
 	}
 
+	virtual vec3 centroid() { 
+		return centre;
+	}
+
 	float object_id;
 	float primitive_id;
 	vec3 radius1;

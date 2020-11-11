@@ -253,7 +253,7 @@ raw_mesh load_mesh(int oid, image_parameters* image, std::string filePath, mater
         trianglesList[i] = vec3(fverts[0], fverts[1], fverts[2]);
     }
     
-    //delete refiner;
+    // Cleanup
     attrib.colors.clear();
     attrib.normals.clear();
     attrib.texcoords.clear();
@@ -264,7 +264,8 @@ raw_mesh load_mesh(int oid, image_parameters* image, std::string filePath, mater
     vbuffer.clear();
     free(tempmatlist);
     free(vertsperfacelist);
-    
+    delete refiner;
+
     std::cout << "Subdivision complete." << std::endl;
 
     raw_mesh* raw = new raw_mesh;

@@ -34,6 +34,9 @@ bool rectangle::hit(const ray& r, float t_min, float t_max, hit_record &rec) con
     //Vectors of sides of rectangle
     vec3 v1 = (pointb - pointa);
     vec3 v2 = (pointb - pointc);
+
+    
+
     
     //Checks point is on the rectangle
     if (dot(v1, pointb-p) < 0 || dot(v1, pointb - p)/v1.length() > v1.length()) {

@@ -39,7 +39,7 @@ void render(bool *window_open, image_parameters *image, int k, object **world, o
 //Defines number of threads of system
 unsigned const int nthreads = std::thread::hardware_concurrency();
 
-std::string version_number = "0.4.1";
+std::string version_number = "0.4.2";
 
 std::mutex console_mutex;
 std::mutex chunk_list_mutex;
@@ -79,7 +79,7 @@ int main(int argc, const char * argv[])
 
 
 	//Fetch scene - must be called before initialise
-	cornell_box(&world, &light_list, matList, image, &cam);
+	lucy(&world, &light_list, matList, image, &cam);
 
 	//Initialise image container
 	initialise(image);

@@ -45,7 +45,7 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 	image->saveHDR = false;
 	image->savePPM = false;
     image->generateHeatMap = false;
-    image->save_name = "sqaretest";
+    image->save_name = "colourtest2";
 
 	//Camera
 	vec3 look_from(0.5, 0.5, -2);
@@ -116,6 +116,11 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 	//llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.7), vec3(0.3, 0.999, 0.7), 0, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
 	//llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.3), vec3(0.7, 0.999, 0.7), 0, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
 
+
+	//llist[j++] = new ellipse(oid++, 0, vec3(0.5, 0.25, 0.995), vec3(0.1, 0, 0), vec3(0, 0.2, 0), 0, vec3(0, -1, 0));
+	//llist[j++] = new ellipse(oid++, 0, vec3(0.995, 0.25, 0.5), vec3(0, 0, 0.1), vec3(0, 0.2, 0), 0, vec3(-1, 0, 0));
+	
+
 	// These are the main light, but duplicated to account for portal effects
 	//llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 1.3), vec3(0.7, 0.999, 1.7), vec3(0.3, 0.999, 1.7), 0, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
 	//llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 1.3), vec3(0.7, 0.999, 1.3), vec3(0.7, 0.999, 1.7), 0, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
@@ -126,20 +131,6 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 	//llist[j++] = new xy_rect(i++, 0, 0.3, 0.7, 0.3, 0.7, 0.99999, vec3(0, 0, 1), 0);
 	//llist[j++] = new rotate_y(new box(i++, vec3(0.6, 0, 0.6), vec3(0.8, 0.2, 0.8), 0), 10);
 
-	
-	// Metal cube
-	vec3 p0 = vec3(0.6, 0, 0.7);
-	vec3 p1 = vec3(0.8, 0.2, 0.9);
-	
-	llist[j++] = new translate(new rotate_y(new xy_rect(oid++, 0, p0.x(), p1.x(), p0.y(), p1.y(), p1.z(), vec3(0, 0, -1), 0), -15), vec3(0.3, 0, -0.25));
-	llist[j++] = new translate(new rotate_y(new xy_rect(oid++, 0, p0.x(), p1.x(), p0.y(), p1.y(), p0.z(), vec3(0, 0, 1), 0), -15), vec3(0.3, 0, -0.25));
-
-	llist[j++] = new translate(new rotate_y(new xz_rect(oid++, 0, p0.x(), p1.x(), p0.z(), p1.z(), p1.y(), vec3(0, 1, 0), 0), -15), vec3(0.3, 0, -0.25));
-	llist[j++] = new translate(new rotate_y(new xz_rect(oid++, 0, p0.x(), p1.x(), p0.z(), p1.z(), p0.y(), vec3(0, -1, 0), 0), -15), vec3(0.3, 0, -0.25));
-
-	llist[j++] = new translate(new rotate_y(new yz_rect(oid++, 0, p0.y(), p1.y(), p0.z(), p1.z(), p1.x(), vec3(1, 0, 0), 0), -15), vec3(0.3, 0, -0.25));
-	llist[j++] = new translate(new rotate_y(new yz_rect(oid++, 0, p0.y(), p1.y(), p0.z(), p1.z(), p0.x(), vec3(-1, 0, 0), 0), -15), vec3(0.3, 0, -0.25));
-	
 
 		//Assign light list
 	*light_list = new object_list(llist, j);
@@ -215,13 +206,13 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 
 	
     //Load raw mesh from file
-    //raw_mesh rawMini = load_mesh(oid++, image, "Render Assets/minitest.obj", miniMatList);
+    raw_mesh rawMini = load_mesh(oid++, image, "Render Assets/minitest.obj", miniMatList);
 
-    //mesh* miniMesh = new mesh(&rawMini, 0, 0.0025);
+    mesh* miniMesh = new mesh(&rawMini, 0, 0.0025);
     
 	//mesh* miniMesh2 = new mesh(&rawMini, 0, 0.001);
     
-	//list[i++] = new translate( new rotate_y(new rotate_z(new rotate_y(miniMesh, 90), 90),145), vec3(0.7, 0.075, 0.35));
+	list[i++] = new translate( new rotate_y(new rotate_z(new rotate_y(miniMesh, 90), 90),145), vec3(0.7, 0.075, 0.35));
     
     //list[i++] = new translate( new rotate_y(new rotate_z(new rotate_y(miniMesh2, 90), 90),55), vec3(0.3, 0.2, 0.5));
 
@@ -230,7 +221,7 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 	//list[i++] = new ellipse(oid++, 0, vec3(0.3, 0.2, 0.5), vec3(0.2, 0, 0.1), vec3(0, 0.15, -0.3), red);
 	
 	
-	
+	/*
 	portal* portal1 = new portal(new xy_rect(oid++, 0, 0.4, 0.6, 0.1, 0.3, 0.995, vec3(0, 0, -1), 0), new yz_rect(oid++, 0, 0.1, 0.3, 0.4, 0.6, 0.995, vec3(1, 0, 0), 0));
 	matList[matNo++] = portal1;
 	portal* portal2 = new portal(new yz_rect(oid++, 0, 0.1, 0.3, 0.4, 0.6, 0.995, vec3(1, 0, 0), 0), new xy_rect(oid++, 0, 0.4, 0.6, 0.1, 0.3, 0.995, vec3(0, 0, -1), 0));
@@ -240,15 +231,15 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 	yz_rect* leftWall = new yz_rect(oid++, 0, 0.1, 0.3, 0.4, 0.6, 0.995, vec3(-1, 0, 0), portal2);
 	list[i++] = backWall;
 	list[i++] = leftWall;
-	
+	*/
 
 	lambertian* earthmap = new lambertian(new image_texture("Render Assets/earthmap.jpg"));
 	matList[matNo++] = earthmap;
-	list[i++] = new xy_rect(oid++, 0, 0.25, 0.75, 0.55, 0.95, 0.999, vec3(0, 0, -1), earthmap);
+	list[i++] = new xy_rect(oid++, 0, 0.25, 0.75, 0.6, 0.85, 0.999, vec3(0, 0, -1), earthmap);
 	//list[i++] = new sphere(oid++, 0, vec3(0.5, 0.2, 0.5), 0.2, earthmap);
+	
 
-
-	/*
+	
 	ellipse* backWall = new ellipse(oid++, 0, vec3(0.5, 0.25, 0.995), vec3(0.1, 0, 0), vec3(0, 0.2, 0), 0, vec3(0, -1, 0));
 	ellipse* leftWall = new ellipse(oid++, 0, vec3(0.995, 0.25, 0.5), vec3(0, 0, 0.1), vec3(0, 0.2, 0), 0, vec3(-1, 0, 0));
 
@@ -261,7 +252,7 @@ void cornell_box(object **world, object **light_list, material** matList, image_
 	leftWall->mat_ptr = portal2;
 	list[i++] = leftWall;
 	list[i++] = backWall;
-	*/
+	
     //Assign world list
 	*world = new object_list(list, i);
 }
@@ -275,7 +266,7 @@ void big_cornell_box(object** world, object** light_list, material** matList, im
 
 	image->nx = 1000;
 	image->ny = 1000;
-	image->ns = 200;
+	image->ns = 1000;
 
 	image->chunk_size = 25;
 
@@ -289,10 +280,10 @@ void big_cornell_box(object** world, object** light_list, material** matList, im
 
 	image->maxlevel = 0;
 
-	image->saveHDR = false;
+	image->saveHDR = true;
 	image->savePPM = false;
-	image->generateHeatMap = false;
-	image->save_name = "sqaretest";
+	image->generateHeatMap = true;
+	image->save_name = "colourtest2";
 
 	//Camera
 	vec3 look_from(0.5 * 256, 0.5 * 256, -2 * 256);
@@ -374,6 +365,9 @@ void big_cornell_box(object** world, object** light_list, material** matList, im
 	llist[j++] = new translate(new rotate_y(new yz_rect(oid++, 0, p0.y(), p1.y(), p0.z(), p1.z(), p0.x(), vec3(-1, 0, 0), 0), -15), vec3(0.3 * 256, 0, -0.25 * 256));
 
 
+	llist[j++] = new ellipse(oid++, 0, vec3(0.5 * 256, 0.25 * 256, 0.9999 * 256), vec3(0.1 * 256, 0, 0), vec3(0, 0.2 * 256, 0), 0, vec3(0, -1, 0));
+	llist[j++] = new ellipse(oid++, 0, vec3(0.9999 * 256, 0.25 * 256, 0.5 * 256), vec3(0, 0, 0.1 * 256), vec3(0, 0.2 * 256, 0), 0, vec3(-1, 0, 0));
+
 	//Assign light list
 	*light_list = new object_list(llist, j);
 
@@ -424,8 +418,8 @@ void big_cornell_box(object** world, object** light_list, material** matList, im
 	list[i++] = new translate( new rotate_y(bunnymesh, -120), vec3(0.1* 256, 0.2* 256, 0.5* 256));
 
 	
-	ellipse* backWall = new ellipse(oid++, 0, vec3(0.5*256, 0.25 * 256, 0.995 * 256), vec3(0.1 * 256, 0, 0), vec3(0, 0.2 * 256, 0), 0, vec3(0, -1, 0));
-	ellipse* leftWall = new ellipse(oid++, 0, vec3(0.995 * 256, 0.25 * 256, 0.5 * 256), vec3(0, 0, 0.1 * 256), vec3(0, 0.2 * 256, 0), 0, vec3(-1, 0, 0));
+	ellipse* backWall = new ellipse(oid++, 0, vec3(0.5*256, 0.25 * 256, 0.9999 * 256), vec3(0.1 * 256, 0, 0), vec3(0, 0.2 * 256, 0), 0, vec3(0, -1, 0));
+	ellipse* leftWall = new ellipse(oid++, 0, vec3(0.9999 * 256, 0.25 * 256, 0.5 * 256), vec3(0, 0, 0.1 * 256), vec3(0, 0.2 * 256, 0), 0, vec3(-1, 0, 0));
 
 	portal* portal1 = new portal(backWall, leftWall);
 	matList[matNo++] = portal1;
@@ -440,7 +434,7 @@ void big_cornell_box(object** world, object** light_list, material** matList, im
 
 	lambertian* earthmap = new lambertian(new image_texture("Render Assets/earthmap.jpg"));
 	matList[matNo++] = earthmap;
-	list[i++] = new xy_rect(oid++, 0, 0.25 * 256, 0.75 * 256, 0.55 * 256, 0.95 * 256, 0.999 * 256, vec3(0, 0, -1), earthmap);
+	list[i++] = new xy_rect(oid++, 0, 0.25 * 256, 0.75 * 256, 0.6 * 256, 0.85 * 256, 0.999 * 256, vec3(0, 0, -1), earthmap);
 
 	//Assign world list
 	* world = new object_list(list, i);
@@ -454,9 +448,9 @@ void lucy(object** world, object** light_list, material** matList, image_paramet
 	//Y goes down -> up
 	//Z goes front -> back
 
-	image->nx = 1000;
-	image->ny = 1000;
-	image->ns = 25;
+	image->nx = 2000;
+	image->ny = 2000;
+	image->ns = 2000;
 
 	image->chunk_size = 25;
 
@@ -470,10 +464,10 @@ void lucy(object** world, object** light_list, material** matList, image_paramet
 
 	image->maxlevel = 0;
 
-	image->saveHDR = false;
+	image->saveHDR = true;
 	image->savePPM = false;
-	image->generateHeatMap = false;
-	image->save_name = "lucytest";
+	image->generateHeatMap = true;
+	image->save_name = "glasslucy2000x2000 2000ns";
 
 	//Camera
 	vec3 look_from(0.5, 0.5, -2);
@@ -502,6 +496,8 @@ void lucy(object** world, object** light_list, material** matList, image_paramet
 	matList[matNo++] = green;
 	lambertian* red = new lambertian(vec3(0.65, 0.05, 0.05));
 	matList[matNo++] = red;
+	dielectric* glass = new dielectric(1.5, vec3(1.0, 1.0, 1.0));
+	matList[matNo++] = glass;
 
 	//Light List. Remember to remove objects from Light list, can cause issues when rendering lambertians 
 	int j = 0;
@@ -535,10 +531,10 @@ void lucy(object** world, object** light_list, material** matList, image_paramet
 
 
 	material** lucyMatList = new material * [5];
-	lucyMatList[0] = white;
+	lucyMatList[0] = glass;
 
 	//Load raw mesh from file
-	raw_mesh lucy_raw_mesh = load_mesh(oid++, image, "Render Assets/stanfordbunny.obj", lucyMatList);
+	raw_mesh lucy_raw_mesh = load_mesh(oid++, image, "Render Assets/lucy.obj", lucyMatList);
 
 	//Initialize mesh
 	mesh* lucyMesh = new mesh(&lucy_raw_mesh, 0, 0.0005);
@@ -608,8 +604,8 @@ void bunnyMovie(object **world, object **light_list, image_parameters *image, ca
     //Object list
     
     //Ceiling light
-    list[i++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.7), vec3(0.3, 0.999, 0.7), light, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
-    list[i++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.3), vec3(0.7, 0.999, 0.7), light, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
+    list[i++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.7), vec3(0.3, 0.999, 0.7), light, vec3(0, 0, 0));
+    list[i++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.3), vec3(0.7, 0.999, 0.7), light, vec3(0, 0, 0));
 
     //Bunny mesh materials
     material** matList = new material * [5];
@@ -631,8 +627,8 @@ void bunnyMovie(object **world, object **light_list, image_parameters *image, ca
     int j = 0;
     object** llist = new object* [50];
 
-    llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.7), vec3(0.3, 0.999, 0.7), 0, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
-    llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.3), vec3(0.7, 0.999, 0.7), 0, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
+    llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.7), vec3(0.3, 0.999, 0.7), 0, vec3(0, 0, 0));
+    llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.3), vec3(0.7, 0.999, 0.7), 0, vec3(0, 0, 0));
     
     //Assign light list
     *light_list = new object_list(llist, j);
@@ -685,8 +681,8 @@ void bunny_cornell_box(object **world, object **light_list, material** matList, 
 	int j = 0;
 	object** llist = new object * [50];
 
-	llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.7), vec3(0.3, 0.999, 0.7), 0, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
-	llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.3), vec3(0.7, 0.999, 0.7), 0, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
+	llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.7), vec3(0.3, 0.999, 0.7), 0, vec3(0, 0, 0));
+	llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.3), vec3(0.7, 0.999, 0.7), 0, vec3(0, 0, 0));
 	//llist[j++] = new sphere(oid++, 0, vec3(0.5, 0.5, 0.5), 0.3, 0);
 	//Assign light list
 	*light_list = new object_list(llist, j);
@@ -718,8 +714,8 @@ void bunny_cornell_box(object **world, object **light_list, material** matList, 
     list[i++] = new rectangle(oid++,0,vec3(0, 1, 0), vec3(0, 1, 1), vec3(1, 1, 1), white);
 
     //Ceiling light
-    list[i++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.7), vec3(0.3, 0.999, 0.7), light, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
-    list[i++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.3), vec3(0.7, 0.999, 0.7), light, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
+    list[i++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.7), vec3(0.3, 0.999, 0.7), light, vec3(0, 0, 0));
+    list[i++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.3), vec3(0.7, 0.999, 0.7), light, vec3(0, 0, 0));
 
     //Back Wall
     list[i++] = new rectangle(oid++,0,vec3(0, 1, 1), vec3(0, 0, 1), vec3(1, 0, 1), white);
@@ -934,7 +930,8 @@ void teapot(object **world, /*object **light_list, */image_parameters *image, ca
 //	mesh *test = new mesh(raw, new vec3(0,0,0), 1.0);
 	object **meshlist = new object*[1];
 //	meshlist[0] = test;
-	list[i++] = new bvh_node(meshlist, 1, 0, 1);
+	list[i++] = bvh::constructBVH(meshlist, 1, 0, 1, MEDIAN);
+	//list[i++] = new bvh_node(meshlist, 1, 0, 1);
 
 	*world = new object_list(list, i);
 }
@@ -1040,8 +1037,8 @@ void goochtest(object **world, object **light_list, image_parameters *image, cam
 	//list[i++] = new sphere(oid++, 0, vec3(0, -100.5, -1), 100, white);
     
     //Ceiling light
-    list[i++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.7), vec3(0.3, 0.999, 0.7), light, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
-    list[i++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.3), vec3(0.7, 0.999, 0.7), light, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
+    list[i++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.7), vec3(0.3, 0.999, 0.7), light, vec3(0, 0, 0));
+    list[i++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.3), vec3(0.7, 0.999, 0.7), light, vec3(0, 0, 0));
 	*world = new object_list(list, i);
     
     
@@ -1049,8 +1046,8 @@ void goochtest(object **world, object **light_list, image_parameters *image, cam
     int j = 0;
     object** llist = new object* [50];
 
-    llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.7), vec3(0.3, 0.999, 0.7), 0, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
-    llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.3), vec3(0.7, 0.999, 0.7), 0, vec3(0, -1, 0), vec3(0, -1, 0), vec3(0, -1, 0));
+    llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.7), vec3(0.3, 0.999, 0.7), 0, vec3(0, 0, 0));
+    llist[j++] = new triangle(oid++, 0, vec3(0.3, 0.999, 0.3), vec3(0.7, 0.999, 0.3), vec3(0.7, 0.999, 0.7), 0, vec3(0, 0, 0));
 	
     *light_list = new object_list(llist, j);
     
@@ -1166,7 +1163,8 @@ void random_scene(object **world, /*object **light_list, */image_parameters *ima
 			}
 		}
 	}
-	templist[0] = new bvh_node(list, i, 0, 1);
+	templist[0] = bvh::constructBVH(list, i, 0, 1, MEDIAN);
+	//templist[0] = new bvh_node(list, i, 0, 1);
 
 	*world = new object_list(templist, 1);
 	//*world = new object_list(list, i);

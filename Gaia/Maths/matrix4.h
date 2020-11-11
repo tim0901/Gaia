@@ -459,6 +459,15 @@ inline vec4 operator * (const vec4& v1, const matrix4& m2) {
 				m2.e[3] * v1.e[0] + m2.e[7] * v1.e[1] + m2.e[11] * v1.e[2] + m2.e[15] * v1.e[3]);
 }
 
+// Equality operator - Inequality is automatically defined by the compiler using this
+inline bool operator == (const matrix4& m1, const matrix4& m2) {
+	bool temp = (m1[0] == m2[0]);
+	for (int i = 1; i < 16; i++) {
+		temp = temp && (m1[i] == m2[i]);
+	}
+	return temp;
+}
+
 // For cout / cin
 inline std::istream& operator >> (std::istream& is, matrix4& m) {
 	is >> m.e[0] >> m.e[1] >> m.e[2] >> m.e[3] >> m.e[4] >> m.e[5] >> m.e[6] >> m.e[7] >> m.e[8] >> m.e[9] >> m.e[10] >> m.e[11] >> m.e[12] >> m.e[13] >> m.e[14] >> m.e[15];
