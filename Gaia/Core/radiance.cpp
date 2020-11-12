@@ -12,7 +12,7 @@ vec4 cast(image_parameters *image, const ray& r, object *world, object* light_li
     scattering_record scatter;
     
     //To generate a heat map, we add the number of primitive intersection tests to the number of traversal steps for each primary ray. 
-    numberOfIntersectionTests++; //Therefore we iterate this value by one each time cast() is called, to account for the number of traversal steps. 
+    //numberOfIntersectionTests++; //Therefore we iterate this value by one each time cast() is called, to account for the number of traversal steps. 
 
     if (world->hit(r, 0.001, FLT_MAX, rec)) {
 
@@ -31,8 +31,10 @@ vec4 cast(image_parameters *image, const ray& r, object *world, object* light_li
         bool hit = rec.mat_ptr->scatter(r, rec, scatter);
         emitted = rec.mat_ptr->emitted(r, rec, rec.u, rec.v, rec.p);
 
-        numberOfIntersectionTests += rec.numberOfIntersectionTests; // Add the number of intersection tests performed to the overall counter for this primary ray. 
-
+        if (depth == 0) { // We only want the number of intersection tests performed by primary rays. 
+            numberOfIntersectionTests += rec.numberOfIntersectionTests; // Add the number of intersection tests performed to the overall counter for this primary ray. 
+        }
+        
         vec4 emitteda = vec4(emitted.r(), emitted.g(), emitted.b(), 1);
         vec4 brdf = vec4(scatter.brdf.r(), scatter.brdf.g(), scatter.brdf.b(), 1);
 

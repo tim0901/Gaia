@@ -20,7 +20,7 @@
 
 void save(image_parameters* image) {
 	
-	if (image->saveHDR == false && image->savePPM == false && image->generateHeatMap == false) {
+	if (image->saveHDR == false && image->savePPM == false && image->savePNG == false && image->generateHeatMap == false) {
 		return;
 	}
 

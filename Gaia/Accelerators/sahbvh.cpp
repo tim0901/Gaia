@@ -195,7 +195,11 @@ sahBVH::sahBVH(object** objectList, int numPrimitives, float time0, float time1)
 
 	std::cout << "Recursive build start" << std::endl;
 
-	nodes = AllocAligned<linearBVHNode>(2*numPrimitives); // This SHOULD be enough. Any excess is trimmed off post construction
+	// A tree with N single-prim leaf nodes will have exactly N-1 internal nodes. 
+	// As such, 2N nodes will always be enough to fully encapsulate the tree.  
+	// Some nodes have more than 1 primitive, so we will have fewer nodes than this,
+	// but we cannot know this prior to construction. Excess is therefore trimmed afterwards.
+	nodes = AllocAligned<linearBVHNode>(2*numPrimitives); 
 
 	int offset = 0;
 	recursiveBuild(primitives, primInfo, 0, numPrimitives, time0, time1, &numNodes, &offset, orderedPrimitives);
@@ -226,24 +230,30 @@ bool sahBVH::bounding_box(float t0, float t1, aabb& b) const {
 bool sahBVH::hit(const ray& r, float t_min, float t_max, hit_record& rec)const {
 	// Traversal is done through the flattened representation of the bvh
 
-		// Follow ray through nodes to find primitive intersections;
+	// Follow ray through nodes to find primitive intersections;
 
 	bool hit = false;
 	double closest_so_far = t_max;
 	hit_record temp_record;
+
+	// Store the number of intersection tests up to this point
+	// This is incremented by 1 during primitive hit() functions and BVH traversal steps
+	temp_record.numberOfIntersectionTests = rec.numberOfIntersectionTests;
 
 	vec3 invDir(1 / r.direction().x(), 1 / r.direction().y(), 1 / r.direction().z());
 	int dirIsNeg[3] = { invDir.x() < 0, invDir.y() < 0, invDir.z() < 0 };
 
 	int toVisitOffset = 0, currentNodeIndex = 0;
 	int nodesToVisit[64];
-	int numberOfPrimitiveIntersectionTests = 0;
+
 	while (true) {
 		if (currentNodeIndex < 0) {
 			return false;
 		}
 
+		// Obtain next node in the list to traverse
 		const linearBVHNode* node = &nodes[currentNodeIndex];
+		temp_record.numberOfIntersectionTests++; // New bvh traversal step so iterate 
 
 		// Check ray against node
 		if (node->bounds.hit(r, t_min, closest_so_far)) {
@@ -253,9 +263,6 @@ bool sahBVH::hit(const ray& r, float t_min, float t_max, hit_record& rec)const {
 				for (int i = 0; i < node->nPrimitives; i++) {
 					if (primitives[node->primitivesOffset + i]->hit(r, t_min, closest_so_far, temp_record)) {
 						hit = true;
-						if (temp_record.primitive) {
-							numberOfPrimitiveIntersectionTests++;
-						}
 						if (temp_record.t < closest_so_far) {
 							closest_so_far = temp_record.t;
 							rec = temp_record;
@@ -283,12 +290,11 @@ bool sahBVH::hit(const ray& r, float t_min, float t_max, hit_record& rec)const {
 			}
 		}
 		else {
+			// Miss bounding box - find next node
 			if (toVisitOffset == 0) break;
 			currentNodeIndex = nodesToVisit[--toVisitOffset];
 		}
 	}
-
-	temp_record.numberOfIntersectionTests = numberOfPrimitiveIntersectionTests;
 	return hit;
 
 }

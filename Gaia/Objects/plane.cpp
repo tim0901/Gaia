@@ -60,6 +60,7 @@ bool rectangle::hit(const ray& r, float t_min, float t_max, hit_record &rec) con
     rec.normal = normal;
     rec.type = type;
     rec.primitive = true;
+    rec.numberOfIntersectionTests++; // This is a primitive
     return true;
 }
 
@@ -95,6 +96,7 @@ bool xy_rect::hit(const ray &r, float t_min, float t_max, hit_record &rec) const
     rec.p = r.p_at_t(t);
     rec.normal = normalVector; //Should be vec3(0, 0, +/-1)
     rec.primitive = true;
+    rec.numberOfIntersectionTests++; // This is a primitive
     return true;
 }
 
@@ -132,6 +134,7 @@ bool xz_rect::hit(const ray &r, float t_min, float t_max, hit_record &rec) const
     rec.p = r.p_at_t(t);
     rec.normal = normalVector; //Should be vec3(0, +/-1, 0)
     rec.primitive = true;
+    rec.numberOfIntersectionTests++; // This is a primitive
     return true;
 }
 
@@ -169,5 +172,6 @@ bool yz_rect::hit(const ray &r, float t_min, float t_max, hit_record &rec) const
     rec.p = r.p_at_t(t);
     rec.normal = normalVector; //Should be vec3(+/-1, 0, 0)
     rec.primitive = true;
+    rec.numberOfIntersectionTests++; // This is a primitive
     return true;
 }

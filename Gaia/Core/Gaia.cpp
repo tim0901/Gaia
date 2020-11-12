@@ -79,7 +79,7 @@ int main(int argc, const char * argv[])
 
 
 	//Fetch scene - must be called before initialise
-	lucy(&world, &light_list, matList, image, &cam);
+	bistro(&world, &light_list, matList, image, &cam);
 
 	//Initialise image container
 	initialise(image);

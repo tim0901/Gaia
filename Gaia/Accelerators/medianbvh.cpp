@@ -6,11 +6,23 @@ bool medianBVH::bounding_box(float t0, float t1, aabb& b) const {
 }
 
 bool medianBVH::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
-    if (box.hit(r, t_min, t_max)) {
+    
+    rec.numberOfIntersectionTests++;// We increment this value by one for each traversal step. 
+
+    if (box.hit(r, t_min, t_max)) { // Bounding box intersection test
         rec.object_id = object_id;
         hit_record left_rec, right_rec;
         bool hit_left = left->hit(r, t_min, t_max, left_rec);
         bool hit_right = right->hit(r, t_min, t_max, right_rec);
+
+        // Add the number of intersection tests undertaken to the overall count
+        rec.numberOfIntersectionTests += left_rec.numberOfIntersectionTests;
+        rec.numberOfIntersectionTests += right_rec.numberOfIntersectionTests;
+
+        // Store current traversal count before transferring it
+        left_rec.numberOfIntersectionTests = rec.numberOfIntersectionTests;
+        right_rec.numberOfIntersectionTests = rec.numberOfIntersectionTests;
+
         if (hit_left && hit_right) {
             if (left_rec.t < right_rec.t)
                 rec = left_rec;

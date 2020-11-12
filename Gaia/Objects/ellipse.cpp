@@ -17,6 +17,7 @@ bool ellipse::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
 
     float t = (dot(axisTest, axisTest) < 1.0) ? out.x() : -1.0;
 
+    rec.numberOfIntersectionTests++; // This is a primitive
 
     if (t > 0.0) {
         rec.object_id = object_id;

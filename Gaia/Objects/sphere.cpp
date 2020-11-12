@@ -27,6 +27,7 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record &rec) const 
     float discriminant = b * b - a * c;
     
     //Test for intersection
+    rec.numberOfIntersectionTests++; // This is a primitive
     if (discriminant > 0) {
         float temp = (-b - sqrt(discriminant))/a;
         if (temp < t_max && temp > t_min) {

@@ -95,9 +95,11 @@ bool triangle::hit(const ray& r, float tmin, float tmax, hit_record& rec) const 
     rec.p = pHit;
     //rec.u = uvHit.u();
     //rec.v = uvHit.v();
-    rec.normal = vec3(unit_vector(cross(dp02, dp12)));
+    rec.normal = norm; // vec3(unit_vector(cross(dp02, dp12)));
     rec.type = type;
     rec.primitive = true;
+
+    rec.numberOfIntersectionTests++; // This is a primitive
 
     //broken?
     /*if (normal0 != (0,0,0)) {
@@ -114,8 +116,8 @@ bool triangle::bounding_box(float t0, float t1, aabb& box) const {
     vec3 p1 = point1;
     vec3 p2 = point2;
 
-    vec3 pmin(std::min(p0.x(), std::min(p1.x(), p2.x())), std::min(p0.y(), std::min(p1.y(), p2.y())), std::min(p0.z(), std::min(p1.z(), p2.z())));
-    vec3 pmax(std::max(p0.x(), std::max(p1.x(), p2.x())), std::max(p0.y(), std::max(p1.y(), p2.y())), std::max(p0.z(), std::max(p1.z(), p2.z())));
+    vec3 pmin(std::min(p0.x(), std::min(p1.x(), p2.x())) - 0.0001, std::min(p0.y(), std::min(p1.y(), p2.y())) - 0.0001, std::min(p0.z(), std::min(p1.z(), p2.z())) - 0.0001);
+    vec3 pmax(std::max(p0.x(), std::max(p1.x(), p2.x())) + 0.0001, std::max(p0.y(), std::max(p1.y(), p2.y())) + 0.0001, std::max(p0.z(), std::max(p1.z(), p2.z())) + 0.0001);
     
     box = aabb(pmin, pmax);
     return true;
