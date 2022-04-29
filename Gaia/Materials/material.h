@@ -1,58 +1,83 @@
-#pragma once
-
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include "vec3.h"
-#include "ray.h"
-#include "texture.h"
+#include "../Core/IntersectionRecord.h"
+#include "../Core/ScatteringRecord.h"
+#include "../Maths/Vector.h"
+#include "../Maths/Pi.h"
+#include "../Maths/Random.h"
+#include "Texture.h"
 
-//Forward declaration
-class pdf;
-
-class material;
-
-//Stores information about the object the ray just hit
-struct hit_record {
-    float object_id = -1;
-    float primitive_id = -1;
-    float t; //t from p(t) = A + t*B
-    vec3 p; //3D position of ray hit
-    float u, v;
-    vec3 normal;//Normal vector of hit point
-    material *mat_ptr;//A pointer to the material of the object hit
-    std::string type = "hit_record";
-	bool primitive = false; //Have I hit a primitive? eg: Tri, Sphere, XY plane
-	int numberOfIntersectionTests = 0; //Number of intersection tests performed, used for heat maps 
-};
-
-
-struct scattering_record {
-	ray specular_ray;
-	bool is_specular;
-	vec3 brdf;
-	pdf* pdf;
-};
-
-//Defines a material
-class material {
+class Material {
 public:
-    virtual ~material(){}
-	//Scatter function
-	virtual bool scatter(const ray& r_in, const hit_record& rec, scattering_record &scatter) const = 0;
-	virtual vec3 emitted(const ray& r_in, const hit_record& rec, float u, float v, const vec3& p) const { return vec3(0, 0, 0); }
-	virtual float scattering_pdf(const ray& r_in, const hit_record& rec, const ray& scattered) const { return 0; }
+	Material() {}
 
-	virtual std::string type(int i = 0) const = 0;
+	virtual Vec3d EmittedRadiance(const Ray& r, IntersectionRecord& iRec) const = 0;
 
-	//std::string type = "undefined";
+	virtual Vec3d SampleAndEvaluate(const Ray& r, IntersectionRecord& iRec, ScatteringRecord& sRec) const = 0;
 
+	virtual void SampleDirection(const Ray& r, const IntersectionRecord& iRec, ScatteringRecord& sRec) const = 0;
+
+	virtual Vec3d ScatteredRadiance(const Vec3d& inDirection, const Vec3d& outDirection, IntersectionRecord& iRec, ScatteringRecord& sRec) const = 0;
+
+	virtual double EvaluatePDFFromDirections(const Vec3d& in, const Vec3d& scattered, const Vec3d& surfaceNormal) const = 0;
+	
+	Vec3d EvaluateAlphaMap(const IntersectionRecord& iRec) const {
+
+		if (alphaMap) {
+			return alphaMap->SampleTexture(iRec);
+		}
+		else {
+			return Vec3d(1.0, 1.0, 1.0);
+		}
+	}
+
+	bool EvaluateAlphaTransmission(const IntersectionRecord& iRec) const {
+		Vec3d alpha = this->EvaluateAlphaMap(iRec);
+
+		if (alpha == Vec3d(1.0, 1.0, 1.0)) {
+			// Full alpha - return hit
+			return true;
+		}
+		else if (alpha == Vec3d(0.0, 0.0, 0.0)) {
+			return false;
+		}
+		else {
+			// Percentile alpha information
+
+			// Randomly select a channel, then test vs the opacity of that channel
+			int channel = (rng.RandomDouble() * 3);
+			double opacity = alpha[channel];
+			if (rng.RandomDouble() < opacity) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void AddAlphaMap(const std::shared_ptr<Texture> map) {
+		alphaMap = map;
+	}
+
+	virtual std::string ReturnName() const { return name; }
+	std::shared_ptr<Texture> alphaMap;
+	std::string name = "";
+	bool pureSpecular = false; // For use by purely specular materials eg glass.
 };
 
-//Describes a perfect reflection as used by metals and glasses
-vec3 reflect(const vec3 &v, const vec3 &n);
+// Return the reflected vector around a normal vector
+// inDirection should be pointing away from the hit point
+Vec3d Reflect(const Vec3d& inDirection, const Vec3d& normal);
 
-//Determines whether a ray is refracted or not
-bool refract(const vec3 &v, const vec3 &n, float ni_over_nt, vec3 &refracted);
+// Return the refracted vector by a surface
+// inDirection should be pointing away from the hit point
+bool Refract(const Vec3d& inDirection, const Vec3d& normal, const double& eta, Vec3d& outDirection);
+
+double Fresnel(Vec3d w_i, Vec3d n, double eta_t, double eta_i);
+
+#include "Lambertian.h"
+#include "AutodeskSurface.h"
+#include "TrowbridgeReitz.h"
+#include "Glass.h"
 
 #endif // !MATERIAL_H

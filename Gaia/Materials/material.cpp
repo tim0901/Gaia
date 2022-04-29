@@ -1,29 +1,34 @@
-//
-//  material.cpp
-//  Gaia
-//
-//  Created by Alex Richardson on 15/03/2020.
-//  Copyright © 2020 Alex Richardson. All rights reserved.
-//
-#include "material.h"
+#include "Material.h"
 
-//Describes a perfect reflection as used by metals and glasses
-vec3 reflect(const vec3 &v, const vec3 &n) {
-    return v - 2 * dot(v, n)*n;
+Vec3d Reflect(const Vec3d& inDirection, const Vec3d& normal) {
+	return unit_vector(2.0 * dot(inDirection, normal) * normal - inDirection);
 }
 
-//Determines whether a ray is refracted or not
-bool refract(const vec3 &v, const vec3 &n, float ni_over_nt, vec3 &refracted) {
-    vec3 uv = unit_vector(v);
-    float dt = dot(uv, n);
-    float discriminant = 1.0 - ni_over_nt * ni_over_nt*(1 - dt * dt);
-    if (discriminant > 0) {
-        //Refracted
-        refracted = ni_over_nt * (uv - n * dt) - n * sqrt(discriminant);
-        return true;
-    }
-    else {
-        return false;
-    }
+bool Refract(const Vec3d& inDirection, const Vec3d& normal, const double& eta, Vec3d& outDirection) {
+
+	Vec3d inBound = -inDirection;
+	double cosTheta_i = dot(inDirection, normal);
+	double descriminant = 1.0 - eta * eta * (1.0 - cosTheta_i * cosTheta_i);
+	if (descriminant > 0.0) {
+		outDirection = unit_vector(eta * inBound + (eta * cosTheta_i - sqrt(descriminant)) * normal);
+		return true;
+	}
+	return false;
+}
+
+double Fresnel(Vec3d w_i, Vec3d n, double eta_t, double eta_i) {
+	// Fresnel
+	double eta_t2 = eta_t * eta_t;
+	double eta_i2 = eta_i * eta_i;
+
+	double c = abs(dot(w_i, n));
+
+	double gSquared = (eta_t2 / eta_i2) - 1.0 + (c * c);
+	if (gSquared < 0.0) { // Return 1 if g is imaginary - total internal reflection
+		return 1.0;
+	}
+
+	double g = sqrt(gSquared);
+	return 0.5 * (((g - c) * (g - c)) / ((g + c) * (g + c))) * (1.0 + (((c * (g + c) - 1.0) * (c * (g + c) - 1.0)) / ((c * (g - c) + 1.0) * (c * (g - c) + 1.0))));
 
 }

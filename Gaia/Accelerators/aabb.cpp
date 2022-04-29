@@ -1,28 +1,19 @@
-//
-//  aabb.cpp
-//  Gaia
-//
-//  Created by Alex Richardson on 15/03/2020.
-//  Copyright © 2020 Alex Richardson. All rights reserved.
-//
-#include "aabb.h"
+#include "AABB.h"
 
-//Returns a bounding box that surrounds two bounding boxes given to it.
-aabb surrounding_box(const aabb &box0, const aabb &box1) {
-
-    vec3 small(fmin(box0.min().x(), box1.min().x()), fmin(box0.min().y(), box1.min().y()), fmin(box0.min().z(), box1.min().z()));
-
-    vec3 big(fmax(box0.max().x(), box1.max().x()), fmax(box0.max().y(), box1.max().y()), fmax(box0.max().z(), box1.max().z()));
-
-    return aabb(small, big);
+// Return the AABB encapsulating two points
+AABB SurroundingBox(const Vec3f& p1, const Vec3f& p2) {
+	return AABB(Vec3f(std::min(p1.x(), p2.x()), std::min(p1.y(), p2.y()), std::min(p1.z(), p2.z())),
+		Vec3f(std::max(p1.x(), p2.x()), std::max(p1.y(), p2.y()), std::max(p1.z(), p2.z())));
 }
 
-// Extend a bounding box to include a point.
-aabb surrounding_box(const aabb &box0, const vec3 &point) {
-    
-    vec3 small(fmin(box0.min().x(), point.x()), fmin(box0.min().y(), point.y()), fmin(box0.min().z(), point.z()));
+// Return an AABB surrounding two existing AABBs
+AABB SurroundingBox(const AABB& b1, const AABB& b2) {
+	return AABB(Vec3f(std::min(b1.minPoint.x(), b2.minPoint.x()), std::min(b1.minPoint.y(), b2.minPoint.y()), std::min(b1.minPoint.z(), b2.minPoint.z())),
+		Vec3f(std::max(b1.maxPoint.x(), b2.maxPoint.x()), std::max(b1.maxPoint.y(), b2.maxPoint.y()), std::max(b1.maxPoint.z(), b2.maxPoint.z())));
+}
 
-    vec3 big(fmax(box0.max().x(), point.x()), fmax(box0.max().y(), point.y()), fmax(box0.max().z(), point.z()));
-
-    return aabb(small, big);
+// Extend an AABB to include a point
+AABB SurroundingBox(const AABB& b1, const Vec3f& p2) {
+	return AABB(Vec3f(std::min(b1.minPoint.x(), p2.x()), std::min(b1.minPoint.y(), p2.y()), std::min(b1.minPoint.z(), p2.z())),
+		Vec3f(std::max(b1.maxPoint.x(), p2.x()), std::max(b1.maxPoint.y(), p2.y()), std::max(b1.maxPoint.z(), p2.z())));
 }

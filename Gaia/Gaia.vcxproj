@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,36 +19,37 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{48BE2E7B-BA9E-42FA-BE5A-9423DBCDBB92}</ProjectGuid>
+    <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{7aa9f98d-94ba-4e94-abe9-42e49daeaa63}</ProjectGuid>
     <RootNamespace>Gaia</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Gaia</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -72,203 +73,176 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\Libraries\OpenGL\include;D:\Libraries\OpenSubdiv-master;</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;D:\Libraries\OpenGL\lib;D:\Libraries\OpenSubdiv-master\cmake\lib\Debug;</LibraryPath>
-    <SourcePath>$(VC_SourcePath);D:\Libraries\OpenGL\src;</SourcePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\Libraries\OpenGL\include;D:\Libraries\OpenSubdiv;D:\Libraries\glfw-3.3.bin.WIN64\include\GLFW;</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;D:\Libraries\OpenSubdiv\build\lib\Debug;D:\Libraries\glfw-3.3.bin.WIN64\lib-vc2019</LibraryPath>
-    <SourcePath>$(VC_SourcePath);D:\Libraries\OpenGL\src;</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\Libraries\OpenGL\include;D:\Libraries\OpenSubdiv-master;</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;D:\Libraries\OpenGL\lib;D:\Libraries\OpenSubdiv-master\cmake\lib\Release;</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\Libraries\OpenGL\include;D:\Libraries\OpenSubdiv;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);D:\Libraries\OpenSubdiv\build\lib\Debug;</LibraryPath>
     <SourcePath>$(VC_SourcePath);D:\Libraries\OpenGL\src;</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\Libraries\OpenGL\include;D:\Libraries\OpenSubdiv;D:\Libraries\glfw-3.3.bin.WIN64\include\GLFW;</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;D:\Libraries\OpenSubdiv\build\lib\Release;D:\Libraries\glfw-3.3.bin.WIN64\lib-vc2019;</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\Libraries\OpenGL\include;D:\Libraries\OpenSubdiv;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);D:\Libraries\OpenSubdiv\build\lib\Release;</LibraryPath>
     <SourcePath>$(VC_SourcePath);D:\Libraries\OpenGL\src;</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia;;C:\Users\alexa\source\repos\Gaia\Gaia\Accelerators;C:\Users\alexa\source\repos\Gaia\Gaia\Core;C:\Users\alexa\source\repos\Gaia\Gaia\Dependencies;C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia\Maths;C:\Users\alexa\source\repos\Gaia\Gaia\Metal;C:\Users\alexa\source\repos\Gaia\Gaia\Objects;C:\Users\alexa\source\repos\Gaia\Gaia\OpenGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);opengl32.lib;glfw3.lib;osdCPU.lib;</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia;;C:\Users\alexa\source\repos\Gaia\Gaia\Accelerators;C:\Users\alexa\source\repos\Gaia\Gaia\Core;C:\Users\alexa\source\repos\Gaia\Gaia\Dependencies;C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia\Maths;C:\Users\alexa\source\repos\Gaia\Gaia\Metal;C:\Users\alexa\source\repos\Gaia\Gaia\Objects;C:\Users\alexa\source\repos\Gaia\Gaia\OpenGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);opengl32.lib;glfw3.lib;osdCPU.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia;;C:\Users\alexa\source\repos\Gaia\Gaia\Accelerators;C:\Users\alexa\source\repos\Gaia\Gaia\Core;C:\Users\alexa\source\repos\Gaia\Gaia\Dependencies;C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia\Maths;C:\Users\alexa\source\repos\Gaia\Gaia\Metal;C:\Users\alexa\source\repos\Gaia\Gaia\Objects;C:\Users\alexa\source\repos\Gaia\Gaia\OpenGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);opengl32.lib;glfw3.lib;osdCPU.lib;</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>D:\Libraries\glfw-3.3.6.bin.WIN64\include;C:\VulkanSDK\1.3.204.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <EnableModules>false</EnableModules>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opengl32.lib;glfw3.lib;osdCPU.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Libraries\glfw-3.3.6.bin.WIN64\lib-vc2022;C:\VulkanSDK\1.3.204.1\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia;;C:\Users\alexa\source\repos\Gaia\Gaia\Accelerators;C:\Users\alexa\source\repos\Gaia\Gaia\Core;C:\Users\alexa\source\repos\Gaia\Gaia\Dependencies;C:\Users\alexa\source\repos\Gaia\Gaia\Materials;C:\Users\alexa\source\repos\Gaia\Gaia\Maths;C:\Users\alexa\source\repos\Gaia\Gaia\Metal;C:\Users\alexa\source\repos\Gaia\Gaia\Objects;C:\Users\alexa\source\repos\Gaia\Gaia\OpenGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>D:\Libraries\glfw-3.3.6.bin.WIN64\include;C:\VulkanSDK\1.3.204.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <EnableModules>false</EnableModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);opengl32.lib;glfw3.lib;osdCPU.lib;</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opengl32.lib;glfw3.lib;osdCPU.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Libraries\glfw-3.3.6.bin.WIN64\lib-vc2022;C:\VulkanSDK\1.3.204.1\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Accelerators\aabb.h" />
-    <ClInclude Include="Accelerators\bvh.h" />
-    <ClInclude Include="Accelerators\chunk.h" />
-    <ClInclude Include="Accelerators\medianbvh.h" />
-    <ClInclude Include="Accelerators\sahbvh.h" />
-    <ClInclude Include="Core\camera.h" />
-    <ClInclude Include="Core\cleanup.h" />
-    <ClInclude Include="Core\colourGradient.h" />
-    <ClInclude Include="Core\image_parameters.h" />
-    <ClInclude Include="Core\memory.h" />
-    <ClInclude Include="Core\radiance.h" />
-    <ClInclude Include="Core\ray.h" />
-    <ClInclude Include="Core\save.h" />
-    <ClInclude Include="Core\scenes.h" />
+    <ClInclude Include="Accelerators\AABB.h" />
+    <ClInclude Include="Accelerators\BVH.h" />
+    <ClInclude Include="Core\Camera.h" />
+    <ClInclude Include="Core\Flags.h" />
+    <ClInclude Include="Core\Gaia.h" />
+    <ClInclude Include="Core\Image.h" />
+    <ClInclude Include="Core\Integrator.h" />
+    <ClInclude Include="Core\IntersectionRecord.h" />
+    <ClInclude Include="Core\Light.h" />
+    <ClInclude Include="Core\Ray.h" />
+    <ClInclude Include="Core\ScatteringRecord.h" />
+    <ClInclude Include="Core\Scene.h" />
+    <ClInclude Include="Core\Scenes.h" />
+    <ClInclude Include="Core\Tiler.h" />
+    <ClInclude Include="Core\Viewport.h" />
+    <ClInclude Include="Dependencies\renderdoc_app.h" />
     <ClInclude Include="Dependencies\stb_image.h" />
-    <ClInclude Include="Dependencies\stb_image_write.h" />
     <ClInclude Include="Dependencies\tiny_obj_loader.h" />
-    <ClInclude Include="Materials\blinnphong.h" />
-    <ClInclude Include="Materials\dielectric.h" />
-    <ClInclude Include="Materials\diffuse_light.h" />
-    <ClInclude Include="Materials\gooch.h" />
-    <ClInclude Include="Materials\lambert.h" />
-    <ClInclude Include="Materials\material.h" />
-    <ClInclude Include="Materials\materials.h" />
-    <ClInclude Include="Materials\metal.h" />
-    <ClInclude Include="Materials\oren_nayar.h" />
-    <ClInclude Include="Materials\portal.h" />
-    <ClInclude Include="Materials\texture.h" />
-    <ClInclude Include="Maths\matrix2.h" />
-    <ClInclude Include="Maths\matrix3.h" />
-    <ClInclude Include="Maths\matrix4.h" />
-    <ClInclude Include="Maths\onb.h" />
-    <ClInclude Include="Maths\pdf.h" />
-    <ClInclude Include="Maths\pi.h" />
-    <ClInclude Include="Maths\random.h" />
-    <ClInclude Include="Maths\rotate.h" />
-    <ClInclude Include="Maths\translate.h" />
-    <ClInclude Include="Maths\vec2.h" />
-    <ClInclude Include="Maths\vec3.h" />
-    <ClInclude Include="Maths\vec4.h" />
-    <ClInclude Include="Metal\AppDelegate.h" />
-    <ClInclude Include="Metal\metalAPI.h" />
-    <ClInclude Include="Metal\MetalRenderer.h" />
-    <ClInclude Include="Metal\MetalShaderTypes.h" />
-    <ClInclude Include="Metal\ViewController.h" />
-    <ClInclude Include="Objects\box.h" />
-    <ClInclude Include="Objects\ellipse.h" />
-    <ClInclude Include="Objects\mesh.h" />
-    <ClInclude Include="Objects\object.h" />
-    <ClInclude Include="Objects\objects.h" />
-    <ClInclude Include="Objects\object_list.h" />
-    <ClInclude Include="Objects\plane.h" />
-    <ClInclude Include="Objects\sphere.h" />
-    <ClInclude Include="Objects\triangle.h" />
+    <ClInclude Include="Materials\AutodeskSurface.h" />
+    <ClInclude Include="Materials\Glass.h" />
+    <ClInclude Include="Materials\Lambertian.h" />
+    <ClInclude Include="Materials\Material.h" />
+    <ClInclude Include="Materials\Texture.h" />
+    <ClInclude Include="Materials\TrowbridgeReitz.h" />
+    <ClInclude Include="Maths\Basis.h" />
+    <ClInclude Include="Maths\Colour.h" />
+    <ClInclude Include="Maths\Matrix.h" />
+    <ClInclude Include="Maths\Pdf.h" />
+    <ClInclude Include="Maths\Pi.h" />
+    <ClInclude Include="Maths\Random.h" />
+    <ClInclude Include="Maths\sRGB.h" />
+    <ClInclude Include="Maths\Vector.h" />
+    <ClInclude Include="Memory\CircularBuffer.h" />
+    <ClInclude Include="Memory\MemoryRegion.h" />
+    <ClInclude Include="Metal\MetalViewport.h" />
+    <ClInclude Include="Objects\Object.h" />
+    <ClInclude Include="Objects\ObjectList.h" />
+    <ClInclude Include="Objects\Sphere.h" />
+    <ClInclude Include="Objects\Triangle.h" />
     <ClInclude Include="OpenGL\GLshader.h" />
-    <ClInclude Include="OpenGL\OpenGL.h" />
+    <ClInclude Include="OpenGL\OpenGLViewport.h" />
+    <ClInclude Include="Vulkan\RenderDocDebugging.h" />
+    <ClInclude Include="Vulkan\VulkanViewport.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Accelerators\aabb.cpp" />
-    <ClCompile Include="Accelerators\bvh.cpp" />
-    <ClCompile Include="Accelerators\medianbvh.cpp" />
-    <ClCompile Include="Accelerators\sahbvh.cpp" />
-    <ClCompile Include="Core\cleanup.cpp" />
+    <ClCompile Include="Accelerators\AABB.cpp" />
+    <ClCompile Include="Accelerators\BVH.cpp" />
+    <ClCompile Include="Core\Camera.cpp" />
     <ClCompile Include="Core\Gaia.cpp" />
-    <ClCompile Include="Core\image_parameters.cpp" />
-    <ClCompile Include="Core\memory.cpp" />
-    <ClCompile Include="Core\radiance.cpp" />
-    <ClCompile Include="Materials\dielectric.cpp" />
-    <ClCompile Include="Materials\material.cpp" />
-    <ClCompile Include="Materials\portal.cpp" />
-    <ClCompile Include="Maths\onb.cpp" />
-    <ClCompile Include="Maths\random.cpp" />
-    <ClCompile Include="Maths\rotate.cpp" />
-    <ClCompile Include="Maths\translate.cpp" />
-    <ClCompile Include="Objects\box.cpp" />
-    <ClCompile Include="Objects\ellipse.cpp" />
-    <ClCompile Include="Objects\mesh.cpp" />
-    <ClCompile Include="Objects\object_list.cpp" />
-    <ClCompile Include="Objects\plane.cpp" />
-    <ClCompile Include="Objects\sphere.cpp" />
-    <ClCompile Include="Objects\triangle.cpp" />
-    <ClCompile Include="OpenGL\OpenGL.cpp" />
+    <ClCompile Include="Core\Image.cpp" />
+    <ClCompile Include="Core\Integrator.cpp" />
+    <ClCompile Include="Core\IntersectionRecord.cpp" />
+    <ClCompile Include="Core\Light.cpp" />
+    <ClCompile Include="Core\Ray.cpp" />
+    <ClCompile Include="Core\ScatteringRecord.cpp" />
+    <ClCompile Include="Core\Scene.cpp" />
+    <ClCompile Include="Core\Tiler.cpp" />
+    <ClCompile Include="Core\Viewport.cpp" />
+    <ClCompile Include="Materials\AutodeskSurface.cpp" />
+    <ClCompile Include="Materials\Glass.cpp" />
+    <ClCompile Include="Materials\Lambertian.cpp" />
+    <ClCompile Include="Materials\Material.cpp" />
+    <ClCompile Include="Materials\Texture.cpp" />
+    <ClCompile Include="Materials\TrowbridgeReitz.cpp" />
+    <ClCompile Include="Maths\Basis.cpp" />
+    <ClCompile Include="Maths\Colour.cpp" />
+    <ClCompile Include="Maths\Pdf.cpp" />
+    <ClCompile Include="Maths\Random.cpp" />
+    <ClCompile Include="Maths\sRGB.cpp" />
+    <ClCompile Include="Memory\MemoryRegion.cpp" />
+    <ClCompile Include="Objects\Object.cpp" />
+    <ClCompile Include="Objects\ObjectList.cpp" />
+    <ClCompile Include="Objects\Sphere.cpp" />
+    <ClCompile Include="Objects\Triangle.cpp" />
+    <ClCompile Include="OpenGL\glad.c" />
+    <ClCompile Include="OpenGL\OpenGLViewport.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Vulkan\RenderDocDebugging.cpp" />
+    <ClCompile Include="Vulkan\VulkanViewport.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Metal\AppDelegate.mm" />
-    <None Include="Metal\macOS\Gaia.entitlements" />
-    <None Include="Metal\macOS\Info.plist" />
-    <None Include="Metal\macOS\Main.storyboard" />
-    <None Include="Metal\metalAPI.mm" />
-    <None Include="Metal\MetalRenderer.mm" />
-    <None Include="Metal\MetalShaders.metal" />
-    <None Include="Metal\ViewController.mm" />
+    <None Include="Metal\MetalViewport.mm" />
     <None Include="OpenGL\shader.frag" />
     <None Include="OpenGL\shader.vert" />
+    <None Include="Vulkan\shader.comp" />
+    <None Include="Vulkan\shader.frag" />
+    <None Include="Vulkan\shader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

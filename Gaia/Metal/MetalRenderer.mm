@@ -16,8 +16,8 @@
 
 // This class performs Metal setup and per-frame rendering
 
-extern image_parameters *image;
-extern std::string version_number;
+extern std::shared_ptr<Image> image;
+extern std::shared_ptr<Flags> flags;
 
 // Main class that performs the rendering
 @implementation MetalRenderer{
@@ -53,19 +53,19 @@ extern std::string version_number;
     textureDescriptor.pixelFormat = MTLPixelFormatRGBA32Float;
     
     // Set the pixel dimensions of the texture
-    textureDescriptor.width = image->nx;
-    textureDescriptor.height = image->ny;
+    textureDescriptor.width = image->xDim;
+    textureDescriptor.height = image->yDim;
     
     // Create the texture
     id<MTLTexture> texture = [_device newTextureWithDescriptor:textureDescriptor];
     
     // Calculate the number of bytes per row in the image
-    // 4 bytes * 4 components * pixels
-    NSUInteger bytesPerRow = 16 * image->nx;
+    // 4 bytes * 3 components * pixels
+    NSUInteger bytesPerRow = 12 * image->xDim;
     
     MTLRegion region = {
         { 0, 0, 0 }, // MTLOrigin
-        { (unsigned long)image->nx, (unsigned long)image->ny, 1} // MTLSize
+        { (unsigned long)image->xDim, (unsigned long)image->yDim, 1} // MTLSize
     };
     
     // Copy the bytes into the texture

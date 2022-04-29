@@ -64,6 +64,6 @@
 
 # Sets glad.c as a vendored file, excluding it from language statistics
 Gaia/OpenGL/glad.c linguist-vendored=true
-Gaia/Dependencies/stb_image_write.h linguist-vendored=true
 Gaia/Dependencies/stb_image.h linguist-vendored=true
 Gaia/Dependencies/tiny_obj_loader.h linguist-vendored=true
+Gaia/Dependencies/renderdoc_app.h linguist-vendored=true

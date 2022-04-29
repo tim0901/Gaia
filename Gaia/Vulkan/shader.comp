@@ -1,0 +1,29 @@
+#version 450
+
+layout(std430, binding = 0) buffer PixelsIn{
+    float pixels[ ];
+};
+
+layout(binding = 1) uniform UniformBufferObject{
+    uint image_size;
+    uint image_cols;
+};
+
+layout(binding = 2, rgba32f) uniform image2D result;
+
+// Process in blocks of 256 elements
+layout(local_size_x = 256) in;
+
+void main() {
+    uint index = gl_GlobalInvocationID.x;
+    if (index >= image_size){
+        return;
+    }
+    
+    vec4 out_colour = vec4(pixels[3 * index], pixels[(3 * index) + 1], pixels[(3 * index) + 2], 1.0);
+    
+    uint x = image_cols - (index % image_cols);
+    uint y = index / image_cols;
+    ivec2 image_write_location = ivec2(x, y);
+    imageStore(result, image_write_location, out_colour);
+}

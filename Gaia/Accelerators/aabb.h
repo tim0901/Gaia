@@ -1,70 +1,71 @@
-#pragma once
-
 #ifndef AABB_H
 #define AABB_H
 
-#include "ray.h"
+#include "../Maths/Vector.h"
+#include "../Core/Ray.h"
 
-//ffmin and ffmax are faster than fmin and fmax, but don't worry about NaNs and other exceptions
-inline float ffmin(float a, float b) { return a < b ? a : b; }
-inline float ffmax(float a, float b) { return a > b ? a : b; }
-
-//Defines axis-aligned bounding boxes, for accelerating intersection tests in complex scenes.
-
-class aabb {
+class AABB {
 public:
-	aabb() {
-		// By setting _max to be smaller than _min, we create an invalid configuration that
-		// violates eg _max.x > _min.x and therefore any operations involving an empty box
-		// will yield the correct result.
-		_min = vec3(FLT_MAX, FLT_MAX, FLT_MAX); _max = vec3(-FLT_MAX, -FLT_MAX, -FLT_MAX);
-	}
-	aabb(const vec3 &a, const vec3 &b) { _min = a; _max = b; }
-    ~aabb(){}
-
-	vec3 min() const { return _min; }
-	vec3 max() const { return _max; }
-
-	bool hit(const ray &r, float t_min, float t_max) const {
-		for (int a = 0; a < 3; a++) {
-			float invD = 1.0f / r.direction()[a];
-			float t0 = (min()[a] - r.origin()[a]) * invD;
-			float t1 = (max()[a] - r.origin()[a]) * invD;
-			if (invD < 0) {
-				std::swap(t0, t1);
-			}
-			t_min = t0 > t_min ? t0 : t_min;
-			t_max = t1 < t_max ? t1 : t_max;
-			if (t_max <= t_min) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	// Return the relative position of a point within an aabb
-	// At _min this would be (0,0,0), at _max it would be (1,1,1)
-	vec3 positionInside(const vec3& p) const {
-		vec3 o = p - _min; // Shift to local
-
-		if (_max.x() > _min.x())
-			o[0] /= (_max.x() - _min.x());
-
-		if (_max.y() > _min.y())
-			o[1] /= (_max.y() - _min.y());
-
-		if (_max.z() > _min.z())
-			o[2] /= (_max.z() - _min.z());
-		return o;
-	}
+	AABB() : minPoint(Vec3f(FLT_MAX, FLT_MAX, FLT_MAX)), maxPoint(Vec3f(-FLT_MAX, -FLT_MAX, -FLT_MAX)) {}
+	AABB(const Vec3f& min, const Vec3f& max) : minPoint(min), maxPoint(max) {}
 	
-	// Returns the index of which axis is longest
-	int longestAxis() const {
-		vec3 diagonal = _max - _min;
-		if (diagonal.x() > diagonal.y() && diagonal.x() > diagonal.z()) {
+	// Intersection test using Roman Wiche's ray-AABB intersection algorithm
+	// Available at https://medium.com/@bromanz/41125138b525
+	bool Intersect(const Ray& r, const double& tMin, const double& tMax) const {
+		Vec3f invDir = 1.0f / r.direction;
+		Vec3f t0 = (minPoint - r.origin) * invDir;
+		Vec3f t1 = (maxPoint - r.origin) * invDir;
+
+		Vec3f tSmaller = min(t0, t1);
+		Vec3f tBigger = max(t0, t1);
+
+		float min = std::max((float)tMin, std::max(tSmaller[0], std::max(tSmaller[1], tSmaller[2])));
+		float max = std::min((float)tMax, std::min(tBigger[0], std::min(tBigger[1], tBigger[2])));
+
+		return (min < max);
+	}
+
+	// Return the centre point of the AABB
+	Vec3f Centroid() const {
+		return 0.5 * (maxPoint + minPoint);
+	}
+
+	// Return the position of a given point relative to the dimensions of the box
+	Vec3f PositionInside(const Vec3f& v) const {
+		Vec3f ret = v - minPoint;
+
+		if (maxPoint.x() > minPoint.x())
+			ret[0] /= (maxPoint.x() - minPoint.x());
+
+		if (maxPoint.y() > minPoint.y())
+			ret[1] /= (maxPoint.y() - minPoint.y());
+
+		if (maxPoint.z() > minPoint.z())
+			ret[2] /= (maxPoint.z() - minPoint.z());
+		return ret;
+	}
+
+
+
+	// Return the surface area of the AABB
+	double SurfaceArea() const {
+		Vec3f ret = maxPoint - minPoint;
+		return 2.0 * (double(ret.x() * ret.y()) + double(ret.y() * ret.z()) + double(ret.z() * ret.z()));
+	}
+
+	// Return the enclosed volume
+	double Volume() const {
+		Vec3f ret = maxPoint - minPoint;
+		return double(ret.x() * ret.y() * ret.z());
+	}
+
+	// Which side of the AABB is the longest?
+	int LongestAxis() const {
+		Vec3f diff = maxPoint - minPoint;
+		if (diff.x() > diff.y() && diff.x() > diff.z()) {
 			return 0;
 		}
-		else if (diagonal.y() > diagonal.z()) {
+		else if (diff.y() > diff.z()) {
 			return 1;
 		}
 		else {
@@ -72,30 +73,18 @@ public:
 		}
 	}
 
-	// Returns the surface area of the aabb
-	double surfaceArea() const {
-		vec3 d = _max - _min;
-		return 2.0 * ((double)(d.x() * d.y()) + (double)(d.y() * d.z()) + (double)(d.z() * d.z()));
-	}
-
-	// Returns the volume of the aabb
-	float volume() const {
-		vec3 d = _max - _min;
-		return d.x() * d.y() * d.z();
-	}
-
-	vec3 _min;
-	vec3 _max;
+	Vec3f minPoint;
+	Vec3f maxPoint;
 };
 
-//For cout
-inline std::ostream& operator << (std::ostream& os, const aabb& box) {
-	os << box.min() << " " << box.max();
+inline std::ostream& operator << (std::ostream& os, const AABB& bounds) {
+	os << "Min: " << bounds.minPoint << " Max: " << bounds.maxPoint; 
 	return os;
 }
 
+// Create AABBs
+AABB SurroundingBox(const Vec3f& p1, const Vec3f& p2);
+AABB SurroundingBox(const AABB& b1, const AABB& b2);
+AABB SurroundingBox(const AABB& b1, const Vec3f& p2);
 
-
-aabb surrounding_box(const aabb &box0, const aabb &box1);
-aabb surrounding_box(const aabb &box0, const vec3 &point);
 #endif // !AABB_H

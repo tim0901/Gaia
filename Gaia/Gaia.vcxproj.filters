@@ -1,320 +1,288 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Core">
+      <UniqueIdentifier>{6937d3cd-48b2-4adc-a4c3-548459df482a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Dependencies">
+      <UniqueIdentifier>{0a1878c8-0edc-4486-ba41-7c41b7619943}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Maths">
+      <UniqueIdentifier>{1318a2f5-fd67-470a-b29b-59cda0ccf9a2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Core">
-      <UniqueIdentifier>{32222611-f4f3-4e19-9ede-8ad4e6daa3af}</UniqueIdentifier>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{61c451f4-15c8-4d57-af5a-bcfa487e52a4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\OpenGL">
-      <UniqueIdentifier>{5d2af90e-1a06-436a-b419-9b2852b7d57c}</UniqueIdentifier>
+    <Filter Include="OpenGL">
+      <UniqueIdentifier>{a228215e-aeb9-4ad4-95e0-e2f6c0982e9b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Maths">
-      <UniqueIdentifier>{70c92823-cf4a-4983-9bd4-d49d6914bccc}</UniqueIdentifier>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{e0ba185c-c087-4b1f-a0b4-74f5f44106fa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Accelerators">
-      <UniqueIdentifier>{aae49c02-59a7-4fa7-b280-02b417265d5a}</UniqueIdentifier>
+    <Filter Include="Materials">
+      <UniqueIdentifier>{47945303-6f22-4d5d-9e93-e35ec6b34f58}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Dependencies">
-      <UniqueIdentifier>{f15b54a3-518a-4db0-b661-6b3998463e7a}</UniqueIdentifier>
+    <Filter Include="Accelerators">
+      <UniqueIdentifier>{eafb924c-1b2b-435f-b76d-73ced3bb668b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects">
-      <UniqueIdentifier>{479385ee-3a3c-4dc8-b83a-7501f832a8a7}</UniqueIdentifier>
+    <Filter Include="Vulkan">
+      <UniqueIdentifier>{eef1b730-849c-445a-bea8-d796b4467143}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Metal">
-      <UniqueIdentifier>{b6e9fd2a-75eb-4eb0-bf49-3d5844090dd3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Metal\macOS">
-      <UniqueIdentifier>{12fa615e-2c0b-45d7-aeda-03ea1d49e953}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Materials">
-      <UniqueIdentifier>{5e9fc010-b3db-4942-909a-2e5ad1952d75}</UniqueIdentifier>
+    <Filter Include="Metal">
+      <UniqueIdentifier>{8c9882db-4e57-46f6-a2cf-c00f3ceb71c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Accelerators\bvh.h">
-      <Filter>Source Files\Accelerators</Filter>
+    <ClInclude Include="Core\Camera.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Accelerators\chunk.h">
-      <Filter>Source Files\Accelerators</Filter>
+    <ClInclude Include="Core\Ray.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Accelerators\aabb.h">
-      <Filter>Source Files\Accelerators</Filter>
+    <ClInclude Include="Maths\Basis.h">
+      <Filter>Maths</Filter>
     </ClInclude>
-    <ClInclude Include="Core\image_parameters.h">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="Core\Gaia.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\radiance.h">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="Core\Image.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\ray.h">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="Core\Integrator.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\save.h">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="Core\IntersectionRecord.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\scenes.h">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="Core\Tiler.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\camera.h">
-      <Filter>Source Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\cleanup.h">
-      <Filter>Source Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\colourGradient.h">
-      <Filter>Source Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Dependencies\tiny_obj_loader.h">
-      <Filter>Source Files\Dependencies</Filter>
+    <ClInclude Include="Core\Flags.h">
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Dependencies\stb_image.h">
-      <Filter>Source Files\Dependencies</Filter>
+      <Filter>Dependencies</Filter>
     </ClInclude>
-    <ClInclude Include="Dependencies\stb_image_write.h">
-      <Filter>Source Files\Dependencies</Filter>
+    <ClInclude Include="Maths\Pi.h">
+      <Filter>Maths</Filter>
     </ClInclude>
-    <ClInclude Include="Maths\random.h">
-      <Filter>Source Files\Maths</Filter>
+    <ClInclude Include="Maths\Random.h">
+      <Filter>Maths</Filter>
     </ClInclude>
-    <ClInclude Include="Maths\rotate.h">
-      <Filter>Source Files\Maths</Filter>
+    <ClInclude Include="Maths\sRGB.h">
+      <Filter>Maths</Filter>
     </ClInclude>
-    <ClInclude Include="Maths\translate.h">
-      <Filter>Source Files\Maths</Filter>
+    <ClInclude Include="Maths\Vector.h">
+      <Filter>Maths</Filter>
     </ClInclude>
-    <ClInclude Include="Maths\vec2.h">
-      <Filter>Source Files\Maths</Filter>
+    <ClInclude Include="Maths\Colour.h">
+      <Filter>Maths</Filter>
     </ClInclude>
-    <ClInclude Include="Maths\vec3.h">
-      <Filter>Source Files\Maths</Filter>
+    <ClInclude Include="Maths\Matrix.h">
+      <Filter>Maths</Filter>
     </ClInclude>
-    <ClInclude Include="Maths\vec4.h">
-      <Filter>Source Files\Maths</Filter>
+    <ClInclude Include="Memory\CircularBuffer.h">
+      <Filter>Memory</Filter>
     </ClInclude>
-    <ClInclude Include="Maths\matrix4.h">
-      <Filter>Source Files\Maths</Filter>
+    <ClInclude Include="Memory\MemoryRegion.h">
+      <Filter>Memory</Filter>
     </ClInclude>
-    <ClInclude Include="Maths\onb.h">
-      <Filter>Source Files\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="Maths\pdf.h">
-      <Filter>Source Files\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="Maths\pi.h">
-      <Filter>Source Files\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGL\OpenGL.h">
-      <Filter>Source Files\OpenGL</Filter>
+    <ClInclude Include="Objects\Object.h">
+      <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="OpenGL\GLshader.h">
-      <Filter>Source Files\OpenGL</Filter>
+      <Filter>OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\mesh.h">
-      <Filter>Source Files\Objects</Filter>
+    <ClInclude Include="OpenGL\OpenGLViewport.h">
+      <Filter>OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\object.h">
-      <Filter>Source Files\Objects</Filter>
+    <ClInclude Include="Objects\ObjectList.h">
+      <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\object_list.h">
-      <Filter>Source Files\Objects</Filter>
+    <ClInclude Include="Objects\Sphere.h">
+      <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\objects.h">
-      <Filter>Source Files\Objects</Filter>
+    <ClInclude Include="Core\Scene.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\plane.h">
-      <Filter>Source Files\Objects</Filter>
+    <ClInclude Include="Core\Scenes.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\sphere.h">
-      <Filter>Source Files\Objects</Filter>
+    <ClInclude Include="Materials\Material.h">
+      <Filter>Materials</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\triangle.h">
-      <Filter>Source Files\Objects</Filter>
+    <ClInclude Include="Materials\Lambertian.h">
+      <Filter>Materials</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\box.h">
-      <Filter>Source Files\Objects</Filter>
+    <ClInclude Include="Core\ScatteringRecord.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\ellipse.h">
-      <Filter>Source Files\Objects</Filter>
+    <ClInclude Include="Core\Light.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Metal\MetalRenderer.h">
-      <Filter>Source Files\Metal</Filter>
+    <ClInclude Include="Maths\Pdf.h">
+      <Filter>Maths</Filter>
     </ClInclude>
-    <ClInclude Include="Metal\MetalShaderTypes.h">
-      <Filter>Source Files\Metal</Filter>
+    <ClInclude Include="Objects\Triangle.h">
+      <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Metal\ViewController.h">
-      <Filter>Source Files\Metal</Filter>
+    <ClInclude Include="Dependencies\tiny_obj_loader.h">
+      <Filter>Dependencies</Filter>
     </ClInclude>
-    <ClInclude Include="Metal\AppDelegate.h">
-      <Filter>Source Files\Metal</Filter>
+    <ClInclude Include="Accelerators\AABB.h">
+      <Filter>Accelerators</Filter>
     </ClInclude>
-    <ClInclude Include="Metal\metalAPI.h">
-      <Filter>Source Files\Metal</Filter>
+    <ClInclude Include="Accelerators\BVH.h">
+      <Filter>Accelerators</Filter>
     </ClInclude>
-    <ClInclude Include="Materials\diffuse_light.h">
-      <Filter>Source Files\Materials</Filter>
+    <ClInclude Include="Materials\AutodeskSurface.h">
+      <Filter>Materials</Filter>
     </ClInclude>
-    <ClInclude Include="Materials\gooch.h">
-      <Filter>Source Files\Materials</Filter>
+    <ClInclude Include="Materials\Texture.h">
+      <Filter>Materials</Filter>
     </ClInclude>
-    <ClInclude Include="Materials\lambert.h">
-      <Filter>Source Files\Materials</Filter>
+    <ClInclude Include="Vulkan\VulkanViewport.h">
+      <Filter>Vulkan</Filter>
     </ClInclude>
-    <ClInclude Include="Materials\material.h">
-      <Filter>Source Files\Materials</Filter>
+    <ClInclude Include="Core\Viewport.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Materials\materials.h">
-      <Filter>Source Files\Materials</Filter>
+    <ClInclude Include="Metal\MetalViewport.h">
+      <Filter>Metal</Filter>
     </ClInclude>
-    <ClInclude Include="Materials\metal.h">
-      <Filter>Source Files\Materials</Filter>
+    <ClInclude Include="Dependencies\renderdoc_app.h">
+      <Filter>Dependencies</Filter>
     </ClInclude>
-    <ClInclude Include="Materials\oren_nayar.h">
-      <Filter>Source Files\Materials</Filter>
+    <ClInclude Include="Vulkan\RenderDocDebugging.h">
+      <Filter>Vulkan</Filter>
     </ClInclude>
-    <ClInclude Include="Materials\blinnphong.h">
-      <Filter>Source Files\Materials</Filter>
+    <ClInclude Include="Materials\TrowbridgeReitz.h">
+      <Filter>Materials</Filter>
     </ClInclude>
-    <ClInclude Include="Materials\dielectric.h">
-      <Filter>Source Files\Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="Materials\portal.h">
-      <Filter>Source Files\Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="Maths\matrix2.h">
-      <Filter>Source Files\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="Maths\matrix3.h">
-      <Filter>Source Files\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="Materials\texture.h">
-      <Filter>Source Files\Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="Accelerators\medianbvh.h">
-      <Filter>Source Files\Accelerators</Filter>
-    </ClInclude>
-    <ClInclude Include="Accelerators\sahbvh.h">
-      <Filter>Source Files\Accelerators</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\memory.h">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="Materials\Glass.h">
+      <Filter>Materials</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Accelerators\bvh.cpp">
-      <Filter>Source Files\Accelerators</Filter>
-    </ClCompile>
-    <ClCompile Include="Accelerators\aabb.cpp">
-      <Filter>Source Files\Accelerators</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\radiance.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\cleanup.cpp">
-      <Filter>Source Files\Core</Filter>
+    <ClCompile Include="Core\Camera.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Core\Gaia.cpp">
-      <Filter>Source Files\Core</Filter>
+      <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\image_parameters.cpp">
-      <Filter>Source Files\Core</Filter>
+    <ClCompile Include="Core\Image.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Maths\rotate.cpp">
-      <Filter>Source Files\Maths</Filter>
+    <ClCompile Include="Core\Integrator.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Maths\translate.cpp">
-      <Filter>Source Files\Maths</Filter>
+    <ClCompile Include="Core\IntersectionRecord.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Maths\onb.cpp">
-      <Filter>Source Files\Maths</Filter>
+    <ClCompile Include="Core\Ray.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Maths\random.cpp">
-      <Filter>Source Files\Maths</Filter>
+    <ClCompile Include="Core\Scene.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="OpenGL\OpenGL.cpp">
-      <Filter>Source Files\OpenGL</Filter>
+    <ClCompile Include="Core\Tiler.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\mesh.cpp">
-      <Filter>Source Files\Objects</Filter>
+    <ClCompile Include="Maths\sRGB.cpp">
+      <Filter>Maths</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\object_list.cpp">
-      <Filter>Source Files\Objects</Filter>
+    <ClCompile Include="Maths\Basis.cpp">
+      <Filter>Maths</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\plane.cpp">
-      <Filter>Source Files\Objects</Filter>
+    <ClCompile Include="Maths\Colour.cpp">
+      <Filter>Maths</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\sphere.cpp">
-      <Filter>Source Files\Objects</Filter>
+    <ClCompile Include="Maths\Random.cpp">
+      <Filter>Maths</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\triangle.cpp">
-      <Filter>Source Files\Objects</Filter>
+    <ClCompile Include="Memory\MemoryRegion.cpp">
+      <Filter>Memory</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\box.cpp">
-      <Filter>Source Files\Objects</Filter>
+    <ClCompile Include="Objects\Sphere.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\ellipse.cpp">
-      <Filter>Source Files\Objects</Filter>
+    <ClCompile Include="Objects\Object.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Materials\material.cpp">
-      <Filter>Source Files\Materials</Filter>
+    <ClCompile Include="Objects\ObjectList.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Materials\dielectric.cpp">
-      <Filter>Source Files\Materials</Filter>
+    <ClCompile Include="OpenGL\glad.c">
+      <Filter>OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="Materials\portal.cpp">
-      <Filter>Source Files\Materials</Filter>
+    <ClCompile Include="OpenGL\OpenGLViewport.cpp">
+      <Filter>OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="Accelerators\medianbvh.cpp">
-      <Filter>Source Files\Accelerators</Filter>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Materials\Material.cpp">
+      <Filter>Materials</Filter>
     </ClCompile>
-    <ClCompile Include="Accelerators\sahbvh.cpp">
-      <Filter>Source Files\Accelerators</Filter>
+    <ClCompile Include="Materials\Lambertian.cpp">
+      <Filter>Materials</Filter>
     </ClCompile>
-    <ClCompile Include="Core\memory.cpp">
-      <Filter>Source Files\Core</Filter>
+    <ClCompile Include="Core\ScatteringRecord.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Light.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Maths\Pdf.cpp">
+      <Filter>Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Triangle.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Accelerators\AABB.cpp">
+      <Filter>Accelerators</Filter>
+    </ClCompile>
+    <ClCompile Include="Accelerators\BVH.cpp">
+      <Filter>Accelerators</Filter>
+    </ClCompile>
+    <ClCompile Include="Materials\AutodeskSurface.cpp">
+      <Filter>Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Materials\Texture.cpp">
+      <Filter>Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Viewport.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Vulkan\VulkanViewport.cpp">
+      <Filter>Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Vulkan\RenderDocDebugging.cpp">
+      <Filter>Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Materials\TrowbridgeReitz.cpp">
+      <Filter>Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Materials\Glass.cpp">
+      <Filter>Materials</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="OpenGL\shader.frag">
-      <Filter>Source Files\OpenGL</Filter>
-    </None>
     <None Include="OpenGL\shader.vert">
-      <Filter>Source Files\OpenGL</Filter>
+      <Filter>OpenGL</Filter>
     </None>
-    <None Include="Metal\MetalRenderer.mm">
-      <Filter>Source Files\Metal</Filter>
+    <None Include="OpenGL\shader.frag">
+      <Filter>OpenGL</Filter>
     </None>
-    <None Include="Metal\MetalShaders.metal">
-      <Filter>Source Files\Metal</Filter>
+    <None Include="Metal\MetalViewport.mm">
+      <Filter>Metal</Filter>
     </None>
-    <None Include="Metal\ViewController.mm">
-      <Filter>Source Files\Metal</Filter>
+    <None Include="Vulkan\shader.vert">
+      <Filter>Vulkan</Filter>
     </None>
-    <None Include="Metal\AppDelegate.mm">
-      <Filter>Source Files\Metal</Filter>
+    <None Include="Vulkan\shader.frag">
+      <Filter>Vulkan</Filter>
     </None>
-    <None Include="Metal\metalAPI.mm">
-      <Filter>Source Files\Metal</Filter>
-    </None>
-    <None Include="Metal\macOS\Info.plist">
-      <Filter>Source Files\Metal\macOS</Filter>
-    </None>
-    <None Include="Metal\macOS\Main.storyboard">
-      <Filter>Source Files\Metal\macOS</Filter>
-    </None>
-    <None Include="Metal\macOS\Gaia.entitlements">
-      <Filter>Source Files\Metal\macOS</Filter>
+    <None Include="Vulkan\shader.comp">
+      <Filter>Vulkan</Filter>
     </None>
   </ItemGroup>
 </Project>

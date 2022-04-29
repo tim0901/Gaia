@@ -1,85 +1,72 @@
-//
-//  texture.h
-//  Gaia
-//
-//  Created by Alex Richardson on 18/09/2020.
-//  Copyright © 2020 Alex Richardson. All rights reserved.
-//
-#pragma once
-
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "stb_image.h"
 
-#include "vec2.h"
-#include <algorithm>
+#ifndef __APPLE__
 
-class texture {
+#pragma warning( push, 0 )
+#include "../Dependencies/stb_image.h"
+#pragma warning( pop )
+
+#else
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include "../Dependencies/stb_image.h"
+#pragma clang diagnostic pop
+
+#endif
+
+#include "../Maths/sRGB.h"
+#include "../Maths/Colour.h"
+#include "../Core/IntersectionRecord.h"
+#include <string>
+
+class Texture {
 public:
-	virtual vec3 value(vec2 uv, const vec3& p) const = 0;
+	Texture() {}
+
+	virtual Vec3d SampleTexture(const IntersectionRecord& iRec) const = 0;
 };
 
-class solid_colour : public texture {
+class ConstantTexture : public Texture {
 public:
-	solid_colour() {}
-	~solid_colour() {}
-	solid_colour(vec3 c) :colour_value(c) {}
-	solid_colour(float r, float g, float b) :solid_colour(vec3(r, g, b)) {}
-	virtual vec3 value(vec2 uv, const vec3& p) const override {
-		return colour_value;
+	ConstantTexture() {}
+	ConstantTexture(const Colour& c) : col(c) {}
+
+	Vec3d SampleTexture(const IntersectionRecord& iRec) const {
+		return Vec3d(col.r(), col.g(), col.b());
 	}
 
-private:
-	vec3 colour_value;
+	Colour col;
 };
 
-class image_texture : public texture {
+class ImageTexture : public Texture {
 public:
-	int bytes_per_pixel = 3;
-
-	image_texture() : data(nullptr), width(0), height(0), bytes_per_scanline(0) {}
-
-	image_texture(const char* filename) {
-		data = stbi_load(filename, &width, &height, &bytes_per_pixel, bytes_per_pixel);
-		if (!data) {
-			std::cerr << "Error: Could not load image file: " << filename << "\n";
-			width = height = 0;
-		}
-
-		bytes_per_scanline = bytes_per_pixel * width;
+	ImageTexture(const std::string& fileName) {
+		pixels = stbi_load(fileName.c_str(), &nx, &ny, &componentsPerPixel, 0);
+	}
+	~ImageTexture() {
+		if (pixels)
+			stbi_image_free(pixels);
 	}
 
-	~image_texture() { delete data; }
+	Vec3d SampleTexture(const IntersectionRecord& iRec) const {
+		// Convert UVs to positions on the image
+		int xPos = std::clamp(iRec.uv.u(), 0.0, 1.0) * nx;
+		int yPos = (1.0 - std::clamp(iRec.uv.v(), 0.0, 1.0)) * ny; 
 
-	virtual vec3 value(vec2 uv, const vec3& p) const {
-		// If no texture data, return solid cyan for debugging
-		if (data == nullptr) {
-			return vec3(0, 1, 1);
-		}
+		// Ensure positions are within image
+		if (xPos >= nx)
+			xPos = nx - 1;
+		if (yPos >= ny)
+			yPos = ny - 1;
 
-		uv[0] = std::clamp(uv.u(), 0.0f, 1.0f);
-		uv[1] = 1.0 - std::clamp(uv.v(), 0.0f, 1.0f);
-
-		auto i = static_cast<int>(uv.u() * width);
-		auto j = static_cast<int>(uv.v() * height);
-		//std::cout << i << " " << j << std::endl;
-		if (i >= width) {
-			i = width - 1;
-		}
-		if (j >= height) {
-			j = height - 1;
-		}
-
-		const auto colour_scale = 1.0 / 255.0;
-		auto pixel = data + j * bytes_per_scanline + i * bytes_per_pixel;
-
-		return vec3(colour_scale * pixel[0], colour_scale * pixel[1], colour_scale * pixel[2]);
+		int pixelLocation = ((yPos * nx) + xPos) * componentsPerPixel;
+		return InverseSRGBGammaCorrect(Vec3d(pixels[pixelLocation], pixels[pixelLocation + 1], pixels[pixelLocation + 2]) / 255.0);
 	}
 
-private:
-	unsigned char* data;
-	int width, height, bytes_per_scanline;
+	int nx = 0, ny = 0, componentsPerPixel = 0;
+	stbi_uc* pixels = nullptr;
 };
-
-#endif // TEXTURE_H
+#endif // !TEXTURE_H

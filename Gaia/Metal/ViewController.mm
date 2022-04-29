@@ -14,8 +14,8 @@
 #import <Carbon/Carbon.h>
 
 
-extern image_parameters* image;
-extern bool* window_open;
+extern std::shared_ptr<Image> image;
+extern std::shared_ptr<Flags> flags;
 
 @implementation ViewController{
     MTKView *_view; // The view (viewport)
@@ -26,7 +26,7 @@ extern bool* window_open;
     [super viewDidAppear];
     
     // Set the title of the window
-    self.view.window.title = [NSString stringWithUTF8String:("Gaia - " + image->save_name).c_str()];
+    self.view.window.title = [NSString stringWithUTF8String:("Gaia - " + image->fileName).c_str()];
 }
 
 // Do any additional setup after loading the view.
@@ -42,12 +42,13 @@ extern bool* window_open;
         switch (int(keyEvent.keyCode)){
         case kVK_Escape: // If ESC is pressed
             NSLog(@"Escape");
-            *window_open = false; // Tell Gaia to stop rendering
+            flags->cancelRender = true; // Tell Gaia to stop rendering
                 
             // Keep process running until window is closed and rendering has stopped
-            while(*window_open || image->currentActiveThreads > 0){
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            }
+            while (flags->threadsActive > 0 && !flags->allSavesComplete) {
+		        // Wait
+		        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	        }
                 
             [NSApp terminate:self]; // And to terminate the window
         }

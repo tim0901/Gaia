@@ -1,68 +1,73 @@
-#pragma once
-
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
-#include "vec2.h"
-#include "random.h"
-#include "object.h"
-#include <cfloat>
+#include "Object.h"
 
-class mesh;
+#include "../Maths/Pi.h"
+#include <opensubdiv/far/topologyDescriptor.h>
+#include <opensubdiv/far/primvarRefiner.h>
 
-class triangle :public object {
+class Triangle;
+
+class Mesh {
 public:
-	triangle() {}
-    triangle(float oid, float pid, vec3 p0, vec3 p1, vec3 p2, material *m, vec3 n) :object_id(oid), primitive_id(pid), point0(p0), point1(p1), point2(p2), mat_ptr(m), normal(n) {}
-    ~triangle(){
-        //std::cout << "Delete tri" << std::endl;
-        if(mat_ptr){
-            //delete mat_ptr;
-        }
-        
-    }
-	virtual bool hit(const ray& r, float tmin, float tmax, hit_record& rec) const;
-	virtual bool bounding_box(float t0, float t1, aabb& box) const;
-	
-	virtual float pdf_value(const vec3& o, const vec3& v) const {
-		hit_record rec;
-		if (this->hit(ray(o, v), 0.001, FLT_MAX, rec)) {			
-
-			float area = cross((point1 - point0), (point2 - point0)).length()*0.5;
-
-			float distance_squared = rec.t * rec.t * v.squared_length();
-			float cosine = fabs(dot(v, rec.normal) / v.length());
-			//std::cout << *point0 << " " << *point1 << " " << *point2 << " " << ((*point1 - *point0).length()) << " " << ((*point2 - *point0).length()) << " " << area << std::endl;
-			return distance_squared / (cosine * area);
-		}
-		else {
-			return 0;
-		}
+	Mesh() {}
+	Mesh(const int nT, const int nV, const float s = 1.0f, const int subDivLevel = 0) :nTris(nT), nVerts(nV), scale(s), subdivisionLevel(subDivLevel) {
+		tris = std::make_shared <std::vector<std::shared_ptr<Object>>>(nTris);
+		vertexPositions = std::make_unique<Vec3f[]>(nVerts);
 	}
-	virtual vec3 random(const vec3& o) const {
-
-		float a = drand48();
-		float b = drand48();
-		float su0 = sqrt(a);
-
-		vec3 random_point = point0 + (1-su0)*(point1 - point0) + (b*su0)*(point2 - point0);
-
-		return random_point - o;
-		
+	Mesh(const std::string filename, const Vec3d &position, std::vector<Material*> mats, const float s = 1.0f, const int subDivLevel = 0) : scale(s), subdivisionLevel(subDivLevel) {
+		tris = std::make_shared <std::vector<std::shared_ptr<Object>>>();
+		LoadMesh(filename, position, mats);
 	}
 
-	virtual vec3 centroid() const {
-		return vec3((point0.x() + point1.x() + point2.x()) / 3.0f, (point0.y() + point1.y() + point2.y()) / 3.0f, (point0.z() + point1.z() + point2.z()) / 3.0f);
-	}
+	bool LoadMesh(const std::string filename, const Vec3d& position, std::vector<Material*> mats);
 
-	float object_id;
-	float primitive_id;
-	vec3 point0;
-	vec3 point1;
-	vec3 point2;
-	vec3 normal;
-	material *mat_ptr;
-    std::string type = "triangle";
+	std::shared_ptr<std::vector<std::shared_ptr<Object>>> tris;
+
+	size_t nTris = 0, nVerts = 0, nUVs = 0;
+	std::unique_ptr<Vec3f[]> vertexPositions;
+	std::unique_ptr<Vec3f[]> normalPositions;
+	std::unique_ptr<Vec2f[]> uvs;
+	std::vector<int> vertexIndices;
+	std::vector<int> normalIndices;
+	std::vector<int> materialIndexes;
+	std::vector<int> uvIndices;
+
+private:
+	float scale = 1.0f;
+	int subdivisionLevel = 0;
 };
+
+
+class Triangle : public Object {
+public:
+	Triangle() : triangleIndex(0), parentMesh(nullptr) {}
+	Triangle(Mesh* parent, Material* mat, uint32_t idx) : parentMesh(parent), triangleIndex(idx) { this->material = mat; }
+
+	// Perform ray-object intersection test
+	bool Intersect(Ray r, IntersectionRecord& rec, const double tMin = 0.001, const double tMax = DBL_MAX) const;
+
+	void Sample(const Vec3d& p, IntersectionRecord& iRec) const {	}
+	void Sample(IntersectionRecord& iRec) const {	}
+
+	double SamplePDF(const Vec3d& p) const;
+
+	double SurfaceArea() const;
+
+	AABB BoundingBox(const double t0, const double t1) const {
+		const Vec3f point0 = parentMesh->vertexPositions[parentMesh->vertexIndices[3 * triangleIndex + 0]];
+		const Vec3f point1 = parentMesh->vertexPositions[parentMesh->vertexIndices[3 * triangleIndex + 1]];
+		const Vec3f point2 = parentMesh->vertexPositions[parentMesh->vertexIndices[3 * triangleIndex + 2]];
+		Vec3f pMin(std::min(point0.x(), std::min(point1.x(), point2.x())), std::min(point0.y(), std::min(point1.y(), point2.y())), std::min(point0.z(), std::min(point1.z(), point2.z())));
+		Vec3f pMax(std::max(point0.x(), std::max(point1.x(), point2.x())), std::max(point0.y(), std::max(point1.y(), point2.y())), std::max(point0.z(), std::max(point1.z(), point2.z())));
+		return AABB(pMin - 0.0001, pMax + 0.0001);
+	}
+
+	Mesh* parentMesh;
+	uint32_t triangleIndex;
+};
+
+
 
 #endif // !TRIANGLE_H

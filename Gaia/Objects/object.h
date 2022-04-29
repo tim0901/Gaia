@@ -1,33 +1,37 @@
-#pragma once
-
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include "material.h"
-#include "vec2.h"
-#include "ray.h"
-#include "aabb.h"
+#include "../Core/Ray.h"
+#include "../Core/IntersectionRecord.h"
+#include "../Accelerators/AABB.h"
 
-class aabb;
+class Light;
 
-class object {
+class Object {
 public:
-	virtual ~object() {}
-	//Hit function. Takes ray, returns a hit_record of the object if it hits anything
-	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const = 0;
-	virtual bool bounding_box(float t0, float t1, aabb& box) const = 0;
-	virtual float pdf_value(const vec3& o, const vec3& v) const { return 0.0; }
-	virtual vec3 random(const vec3& o) const { return vec3(1, 0, 0); }
+	Object() {}
 
-	virtual vec3 normal() const { return vec3(0, 0, 0); }
+	// Perform ray-object intersection test 
+	virtual bool Intersect(Ray r, IntersectionRecord& rec, const double tMin = 0.001, const double tMax = DBL_MAX) const = 0;
 
-	virtual vec2 positionToUV(const vec3& p) const { return vec2(0, 0); }
-	virtual vec3 UVToPosition(const vec2& uv) const { return vec3(0, 0, 0); }
+	// Sample a point on the surface of the object from a point being illuminated by it
+	virtual void Sample(const Vec3d& p, IntersectionRecord& iRec) const = 0;
+	virtual void Sample(IntersectionRecord& iRec) const = 0;
 
-	virtual vec3 centroid() const {return vec3(0, 0, 0);}
+	Light* ReturnLight() const { return light; };
+	virtual void AttachLight(Light* l) { light = l; }
 
-	float object_id = -1;
-	float primitive_id = -1;
-    std::string type = "undefined";
+	virtual double SamplePDF(const Vec3d& p) const = 0;
+	virtual double SurfaceArea() const = 0;
+
+	virtual AABB BoundingBox(const double t0, const double t1) const = 0;
+
+	Material* material = nullptr;
+	Light* light = nullptr;
 };
+
+#include "ObjectList.h"
+#include "Sphere.h"
+#include "Triangle.h"
+
 #endif // !OBJECT_H

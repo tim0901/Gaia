@@ -1,56 +1,63 @@
-#pragma once
-
 #ifndef RANDOM_H
 #define RANDOM_H
 
+#include "Vector.h"
+#include "Pi.h"
 #include <random>
 
-#include "vec3.h"
-#include "pi.h"
+class Rng {
+public:
+	Rng() {
+		std::random_device r;
+		rng = std::mt19937_64(r());
+		doubleDis01 = std::uniform_real_distribution<double>(0.0, 1.0);
+		angleDis2Pi = std::uniform_real_distribution<double>(0.0, M_2PI);
+	}
+	double RandomDouble() {
+		return doubleDis01(rng);
+	}
 
-//All random distribution functions
+	// Return a double between 0.0 and 2 * M_PI
+	double RandomAngle2Pi() {
+		return angleDis2Pi(rng);
+	}
 
-//drand48 for windows
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
-inline float drand48() {
+	std::unique_ptr<double []> RandomDouble(const int n) {
+		std::unique_ptr<double[]> ret = std::make_unique<double[]>(n);
+		for (int i = 0; i < n; i++)
+			ret[i] = RandomDouble();
+		return std::move(ret);
+	}
 
-	return (rand() / (RAND_MAX + 1.0));
-}
-#endif
+	std::unique_ptr<double []> RandomAngle2Pi(const int n) {
+		std::unique_ptr<double[]> ret = std::make_unique<double[]>(n);
+		for (int i = 0; i < n; i++)
+			ret[i] = RandomAngle2Pi();
+		return std::move(ret);
+	}
 
-inline vec3 random_cosine_direction() {
-    float r1 = drand48();
-    float r2 = drand48();
-    float z = sqrt(1 - r2);
-    float phi = 2 * M_PI * r1;
-    float x = cos(phi) * sqrt(r2);
-    float y = sin(phi) * sqrt(r2);
-    return vec3(x, y, z);
-}
+	// Sampling distributions
+	Vec2d RandomInUnitDisk();
+	Vec3d RandomInUnitDiskXY();
+	Vec3d RandomInUnitDiskXZ();
+	Vec3d RandomInUnitDiskYZ();
+	Vec3d RandomInHemisphere();
+	Vec3d RandomCosineHemisphere();
 
-inline vec3 random_to_sphere(float radius, float distance_squared) {
-    float r1 = drand48();
-    float r2 = drand48();
-    float z = 1 + r2 * (sqrt(1 - radius * radius / distance_squared) - 1);
-    float phi = 2 * M_PI * r1;
-    float x = cos(phi) * sqrt(1 - z * z);
-    float y = sin(phi) * sqrt(1 - z * z);
-    return vec3(x, y, z);
-}
+	// PDFs for sampling distributions
+	double RandomInUnitDiskPDF();
+	double RandomInUnitDiskXYPDF();
+	double RandomInUnitDiskXZPDF();
+	double RandomInUnitDiskYZPDF();
+	double RandomInHemispherePDF() { return 1 / M_2PI; };
+	double RandomCosineHemispherePDF(const Vec3d& sampledPosition, const Vec3d& normal);
 
-//Uniform random sampling of a unit disk
-inline vec3 random_in_unit_disk(){
-    vec3 p;
-    do {
-        p = 2.0*vec3(drand48(), drand48(), 0) - vec3(1, 1, 0);
-    } while (dot(p, p) >= 1.0);
-    return p;
-}
+	std::mt19937_64 rng;
+	std::uniform_real_distribution<double> doubleDis01;
+	std::uniform_real_distribution<double> angleDis2Pi;
+};
 
-//Uniform random sampling of a unit sphere
-vec3 random_in_unit_sphere();
+extern thread_local Rng rng;
 
-//Normalize random in unit sphere to sample on a unit sphere
-vec3 random_on_unit_sphere();
 
-#endif //RANDOM_H
+#endif // !RANDOM_H
