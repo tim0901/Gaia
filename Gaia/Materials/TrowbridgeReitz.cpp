@@ -28,12 +28,16 @@ Vec3d TrowbridgeReitz::SampleAndEvaluate(const Ray& r, IntersectionRecord& iRec,
 
 	double r1 = rng.RandomDouble();
 
-	double tanTheta2 = ((alphaG * alphaG * r1) / (1.0 - r1));
-	double cosTheta = 1.0 / sqrt(1 + tanTheta2);
-	double sinTheta = sqrt(max(0.0, 1.0 - cosTheta * cosTheta));
-	double phi_m = M_2PI * rng.RandomDouble();;
+	double tan2Theta = ((alphaG * alphaG * r1) / (1.0 - r1));
+	double cos2Theta = 1.0 / (1.0 + tan2Theta);
+	double cosTheta = sqrt(cos2Theta);
+	double sinTheta = sqrt(max(0.0, 1.0 - cos2Theta));
+	double phi_m = M_2PI * rng.RandomDouble();
+	double sinPhi_m = sin(phi_m);
 
-	Vec3d microfacetNormal = unit_vector(Vec3d(sinTheta * cos(phi_m), sinTheta * sin(phi_m), cosTheta)); // m
+	Vec3d microfacetNormal = unit_vector(Vec3d(sinTheta * cos(phi_m), sinTheta * sin(phi_m), cos2Theta)); // m
+
+	//Vec3d microfacetNormal = unit_vector(Vec3d(cosTheta * sinPhi_m, sinTheta * sinPhi_m, cos(phi_m))); // Probably wrong?
 
 	// We then use Fresnel to determine whether the ray reflects or refracts off of the sampled microfacet
 	double reflectChance = Fresnel(unitInDirection, microfacetNormal, eta_t, eta_i);
@@ -44,7 +48,7 @@ Vec3d TrowbridgeReitz::SampleAndEvaluate(const Ray& r, IntersectionRecord& iRec,
 	double f = 0.0;
 	if (reflectChance > rng.RandomDouble()) {
 		// Refract
-		std::cout << "SPAWN REFRACT\n";
+		//std::cout << "SPAWN REFRACT\n";
 		if (Refract(unitInDirection, microfacetNormal, eta, sampledDirection)) {
 
 			Vec3d h_t = unit_vector(-(eta_i * unitInDirection + eta_t * sampledDirection));
@@ -61,16 +65,16 @@ Vec3d TrowbridgeReitz::SampleAndEvaluate(const Ray& r, IntersectionRecord& iRec,
 			sRec.scatteringPDF = EvaluatePDFFromDirections(unitInDirection, sRec.scatteredRay.direction, unitSurfaceNormal);
 			sRec.specular = true;
 			Vec3d R = reflectance->SampleTexture(iRec);
-			std::cout << R * f << "\n";
+		//	std::cout << R * f << "\n";
 			return R * f;
 
 		}
 	}
 
 	// Reflect
-	std::cout << "REFLECT\n";
+	//std::cout << "REFLECT\n";
 	sampledDirection = Reflect(unitInDirection, microfacetNormal);
-	//std::cout << "In: " << inDirection << " Out: " << sampledDirection << " Microfacet normal: " << microfacetNormal << " iRec.p: " << iRec.p << "\n";
+	//std::cout << "In: " << unitInDirection << " Out: " << sampledDirection << " Microfacet normal: " << microfacetNormal << " iRec.p: " << iRec.p << "\n";
 	sRec.scatteredRay = Ray(iRec.p, sampledDirection);
 
 	Vec3d h_r = unit_vector(sign * (unitInDirection + sampledDirection));
@@ -80,7 +84,7 @@ Vec3d TrowbridgeReitz::SampleAndEvaluate(const Ray& r, IntersectionRecord& iRec,
 	sRec.scatteringPDF = EvaluatePDFFromDirections(unitInDirection, sRec.scatteredRay.direction, unitSurfaceNormal);
 	sRec.specular = true;
 	Vec3d R = reflectance->SampleTexture(iRec);
-	std::cout << R * f << "\n";
+	//std::cout << f << "\n";
 	return R * f;
 
 

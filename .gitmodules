@@ -1,0 +1,3 @@
+[submodule "Gaia/Dependencies/SML"]
+	path = Gaia/Dependencies/SML
+	url = https://github.com/tim0901/SML

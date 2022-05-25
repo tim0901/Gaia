@@ -244,16 +244,16 @@ void ShaderBall(std::shared_ptr<Scene> scene, std::shared_ptr<Flags> flags) {
 	//scene->InsertObject(Sphere(Vec3d(-2.0, 0.5, 6.0), 4, scene->FindMaterial("earth"))); // Earth Sphere
 
 	std::vector<Material*> meshMaterials;
-	meshMaterials.push_back(scene->FindMaterial("glass")); // External material
+	meshMaterials.push_back(scene->FindMaterial("green")); // External material
 	meshMaterials.push_back(scene->FindMaterial("ground")); // Internal sphere
 
 
 	// Load the mesh
-	//scene->LoadMesh("Render Assets/ShaderBall.obj", Vec3d(0.0, -0.5, 0.0), meshMaterials, 1.0f, 0);
+	scene->LoadMesh("Render Assets/ShaderBall.obj", Vec3d(0.0, -0.5, 0.0), meshMaterials, 1.0f, 0);
 	
 	// Add spheres
-	scene->InsertObject(Sphere(Vec3d(0.0, 0.5, 0.0), 0.75, scene->FindMaterial("trTest")));
-	scene->InsertObject(Sphere(Vec3d(-1.0, 0.5, -3.0), 0.5, scene->FindMaterial("red")));
+	//scene->InsertObject(Sphere(Vec3d(0.0, 0.5, 0.0), 0.75, scene->FindMaterial("trTest")));
+	//scene->InsertObject(Sphere(Vec3d(-1.0, 0.5, -3.0), 0.5, scene->FindMaterial("red")));
 
 
 	// Add ground sphere

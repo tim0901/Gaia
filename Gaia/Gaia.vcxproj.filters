@@ -72,13 +72,13 @@
     <ClInclude Include="Maths\sRGB.h">
       <Filter>Maths</Filter>
     </ClInclude>
-    <ClInclude Include="Maths\Vector.h">
+    <ClInclude Include="Maths\Vector.hpp">
       <Filter>Maths</Filter>
     </ClInclude>
     <ClInclude Include="Maths\Colour.h">
       <Filter>Maths</Filter>
     </ClInclude>
-    <ClInclude Include="Maths\Matrix.h">
+    <ClInclude Include="Maths\Matrix.hpp">
       <Filter>Maths</Filter>
     </ClInclude>
     <ClInclude Include="Memory\CircularBuffer.h">

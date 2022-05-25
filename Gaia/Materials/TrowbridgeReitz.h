@@ -36,7 +36,7 @@ public:
 			+ scattered), surfaceNormal) * abs(dot(unit_vector(in + scattered), surfaceNormal));
 	}
 
-	double alphaG = 0.0;
+	double alphaG = 0.001;
 	double refractiveIndex = 1.0;
 	std::shared_ptr<Texture> reflectance;
 private:

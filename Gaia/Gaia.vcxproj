@@ -182,12 +182,12 @@
     <ClInclude Include="Materials\TrowbridgeReitz.h" />
     <ClInclude Include="Maths\Basis.h" />
     <ClInclude Include="Maths\Colour.h" />
-    <ClInclude Include="Maths\Matrix.h" />
+    <ClInclude Include="Maths\Matrix.hpp" />
     <ClInclude Include="Maths\Pdf.h" />
     <ClInclude Include="Maths\Pi.h" />
     <ClInclude Include="Maths\Random.h" />
     <ClInclude Include="Maths\sRGB.h" />
-    <ClInclude Include="Maths\Vector.h" />
+    <ClInclude Include="Maths\Vector.hpp" />
     <ClInclude Include="Memory\CircularBuffer.h" />
     <ClInclude Include="Memory\MemoryRegion.h" />
     <ClInclude Include="Metal\MetalViewport.h" />
