@@ -1,7 +1,8 @@
 #ifndef RANDOM_H
 #define RANDOM_H
 
-#include "Vector.h"
+import sml;
+using namespace sml;
 #include "Pi.h"
 #include <random>
 

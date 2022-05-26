@@ -2,13 +2,19 @@
 #define VULKAN_VIEWPORT_H
 
 #include "../Core/Viewport.h"
-#include "../Maths/Vector.h"
-#include "../Maths/Matrix.h"
+//#include "../Maths/Vector.h"
+//#include "../Maths/Matrix.h"
+import sml;
+
 #include "../Maths/Pi.h"
+#include <array>
 #include <assert.h>
 #include <optional>
 #include <chrono>
 #include <algorithm>
+#include <string>
+#include <tuple>
+#include <iostream>
 #include <set>
 #include <fstream>
 #include "../Dependencies/stb_image.h"
@@ -186,9 +192,9 @@ private:
 	};
 
 	struct Vertex {
-		Vec2f position;
-		Vec3f colour;
-		Vec2f texCoord;
+		sml::Vec2f position;
+		sml::Vec3f colour;
+		sml::Vec2f texCoord;
 
 		static VkVertexInputBindingDescription GetBindingDescription() {
 			VkVertexInputBindingDescription bindingDescription{};

@@ -6,6 +6,7 @@
 #include "../Memory/MemoryRegion.h"
 #include <thread>
 #include <future>
+#include <iostream>
 
 struct ObjectInfo {
 	ObjectInfo(const AABB& aabb, const size_t& objNumber) : boundingBox(aabb), objectNumber(objNumber), centroid(boundingBox.Centroid()) {}

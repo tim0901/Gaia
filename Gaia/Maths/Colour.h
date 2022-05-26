@@ -1,5 +1,6 @@
 #pragma once
-#include "Vector.h"
+import sml;
+using namespace sml;
 #include "sRGB.h"
 
 // Define a colour with linear values

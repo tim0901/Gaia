@@ -2,7 +2,8 @@
 #define SRGB_H
 
 #include <cmath>
-#include "Vector.h"
+import sml;
+using namespace sml;
 
 // sRGB -> linear colour correction
 double InverseSRGBGammaCorrect(double colour);

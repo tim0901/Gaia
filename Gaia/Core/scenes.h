@@ -2,7 +2,8 @@
 #define SCENES_H
 
 #include "Scene.h"
-#include "../Maths/Vector.h"
+import sml;
+using namespace sml;
 #include "../Objects/ObjectList.h"
 #include "../Objects/Sphere.h"
 #include "../Materials/Material.h"

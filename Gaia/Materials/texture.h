@@ -21,6 +21,7 @@
 #include "../Maths/Colour.h"
 #include "../Core/IntersectionRecord.h"
 #include <string>
+#include <algorithm>
 
 class Texture {
 public:
@@ -34,8 +35,8 @@ public:
 	ConstantTexture() {}
 	ConstantTexture(const Colour& c) : col(c) {}
 
-	Vec3d SampleTexture(const IntersectionRecord& iRec) const {
-		return Vec3d(col.r(), col.g(), col.b());
+	sml::Vec3d SampleTexture(const IntersectionRecord& iRec) const {
+		return sml::Vec3d(col.r(), col.g(), col.b());
 	}
 
 	Colour col;

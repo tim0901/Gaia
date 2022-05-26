@@ -1,7 +1,9 @@
 #ifndef RAY_H
 #define RAY_H
 
-#include "../Maths/Vector.h"
+import sml;
+using namespace sml;
+#include <iostream>
 
 class Ray
 {

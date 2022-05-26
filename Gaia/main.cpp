@@ -37,7 +37,7 @@ int main(int argc, const char* argv[])
 	std::cout << "Setup time: " << std::chrono::duration <double, std::milli>(diff).count() << "ms" << std::endl;
 
 	// Spawn render threads
-	const unsigned int nThreads = 1;// std::thread::hardware_concurrency();
+	const unsigned int nThreads = std::thread::hardware_concurrency();
 	for (unsigned int i = 0; i < nThreads; i++)
 		std::thread(&Gaia::Render, &g).detach();
 

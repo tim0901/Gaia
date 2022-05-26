@@ -1,11 +1,13 @@
 #ifndef INTERSECTIONRECORD_H
 #define INTERSECTIONRECORD_H
 
-#include "../Maths/Vector.h"
+import sml;
+using namespace sml;
 class Material;
 class Light;
 
 #include <memory>
+#include <iostream>
 
 class IntersectionRecord {
 public:

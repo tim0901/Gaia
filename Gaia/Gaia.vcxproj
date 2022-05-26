@@ -182,12 +182,10 @@
     <ClInclude Include="Materials\TrowbridgeReitz.h" />
     <ClInclude Include="Maths\Basis.h" />
     <ClInclude Include="Maths\Colour.h" />
-    <ClInclude Include="Maths\Matrix.hpp" />
     <ClInclude Include="Maths\Pdf.h" />
     <ClInclude Include="Maths\Pi.h" />
     <ClInclude Include="Maths\Random.h" />
     <ClInclude Include="Maths\sRGB.h" />
-    <ClInclude Include="Maths\Vector.hpp" />
     <ClInclude Include="Memory\CircularBuffer.h" />
     <ClInclude Include="Memory\MemoryRegion.h" />
     <ClInclude Include="Metal\MetalViewport.h" />
@@ -214,6 +212,9 @@
     <ClCompile Include="Core\Scene.cpp" />
     <ClCompile Include="Core\Tiler.cpp" />
     <ClCompile Include="Core\Viewport.cpp" />
+    <ClCompile Include="Dependencies\SML\Matrix.cppm" />
+    <ClCompile Include="Dependencies\SML\SML.cppm" />
+    <ClCompile Include="Dependencies\SML\Vector.cppm" />
     <ClCompile Include="Materials\AutodeskSurface.cpp" />
     <ClCompile Include="Materials\Glass.cpp" />
     <ClCompile Include="Materials\Lambertian.cpp" />

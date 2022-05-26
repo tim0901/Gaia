@@ -3,7 +3,8 @@
 
 #include "../Core/IntersectionRecord.h"
 #include "../Core/ScatteringRecord.h"
-#include "../Maths/Vector.h"
+import sml;
+using namespace sml;
 #include "../Maths/Pi.h"
 #include "../Maths/Random.h"
 #include "Texture.h"

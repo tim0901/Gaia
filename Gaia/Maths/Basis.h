@@ -1,8 +1,10 @@
 #ifndef BASIS_H
 #define BASIS_H
 
-#include "Vector.h"
-#include "Matrix.h"
+import sml;
+using namespace sml;
+
+#include <algorithm>
 
 class Basis
 {
@@ -35,11 +37,11 @@ public:
 	Vec3d invU, invV, invW;
 	
 	void UpdateInverseTransformations() {
-		Matrix33d temp({ u.x(), u.y(), u.z(), v.x(), v.y(), v.z(), w.x(), w.y(), w.z() });
+		Mat33d temp({ u.x(), u.y(), u.z(), v.x(), v.y(), v.z(), w.x(), w.y(), w.z() });
 		temp = transpose(temp);
-		invU = temp.rowVector(0);
-		invV = temp.rowVector(1);
-		invW = temp.rowVector(2);
+		invU = temp.row_vector(0);
+		invV = temp.row_vector(1);
+		invW = temp.row_vector(2);
 	}
 };
 

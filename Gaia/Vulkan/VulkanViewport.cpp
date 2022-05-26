@@ -1242,10 +1242,10 @@ void VulkanViewport::CreateVertexBuffer() {
 
     // Adjust vertices array to accomodate different image sizes
     float aspectRatio = static_cast<float>(image->xDim) / static_cast<float>(image->yDim);
-    vertices[0].position = Vec2f(-aspectRatio, -1.0f);
-    vertices[1].position = Vec2f(aspectRatio, -1.0f);
-    vertices[2].position = Vec2f(aspectRatio, 1.0f);
-    vertices[3].position = Vec2f(-aspectRatio, 1.0f);
+    vertices[0].position = sml::Vec2f(-aspectRatio, -1.0f);
+    vertices[1].position = sml::Vec2f(aspectRatio, -1.0f);
+    vertices[2].position = sml::Vec2f(aspectRatio, 1.0f);
+    vertices[3].position = sml::Vec2f(-aspectRatio, 1.0f);
 
     VkDeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
     
@@ -1575,7 +1575,7 @@ void VulkanViewport::DrawFrame() {
 
 }
 
-Matrix44f Perspective(const float fovY, const float aspect, const float zNear, const float zFar) {
+sml::Mat44f Perspective(const float fovY, const float aspect, const float zNear, const float zFar) {
 
     assert(aspect != 0.0f);
     assert(zFar != zNear);
@@ -1583,7 +1583,7 @@ Matrix44f Perspective(const float fovY, const float aspect, const float zNear, c
     const float rad = fovY;
     const float tanHalfFovY = tan(rad / 2.0f);
 
-    Matrix44f result(0.0f);
+    sml::Mat44f result(0.0f);
     result[0][0] = 1.0f / (aspect * tanHalfFovY);
     result[1][1] = -1.0f / tanHalfFovY;
     result[2][2] = -(zFar + zNear) / (zFar - zNear);
@@ -1592,13 +1592,13 @@ Matrix44f Perspective(const float fovY, const float aspect, const float zNear, c
     return result;
 }
 
-Matrix44f LookAt(const Vec3f cameraPosition, const Vec3f cameraLookAt, const Vec3f cameraUp) {
+sml::Mat44f LookAt(const sml::Vec3f cameraPosition, const sml::Vec3f cameraLookAt, const sml::Vec3f cameraUp) {
 
-    Vec3f f = unit_vector(cameraLookAt - cameraPosition);
-    Vec3f s = unit_vector(cross_product(f, cameraUp));
-    Vec3f u = cross_product(s, f);
+    sml::Vec3f f = unit_vector(cameraLookAt - cameraPosition);
+    sml::Vec3f s = unit_vector(cross_product(f, cameraUp));
+    sml::Vec3f u = cross_product(s, f);
 
-    Matrix44f view(0.0f);
+    sml::Mat44f view(0.0f);
     view[0][0] = s.x();
     view[1][0] = s.y();
     view[2][0] = s.z();
@@ -1632,11 +1632,11 @@ void VulkanViewport::UpdateUniformBuffer(uint32_t currentImage) {
 
     float theta = time * DegreesToRadians(90.0f); // Degrees in radians
 
-    Vec3f cameraPosition(0.0, 0.0, 1.78);
-    Vec3f cameraLookAt(0.0, 0.0, 0.0);
-    Vec3f cameraUp(0.0, 1.0, 0.0);
-    Matrix44f view = LookAt(cameraPosition, cameraLookAt, cameraUp);
-    Matrix44f proj = Perspective(DegreesToRadians(45.0f), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 10.0f);
+    sml::Vec3f cameraPosition(0.0, 0.0, 1.78);
+    sml::Vec3f cameraLookAt(0.0, 0.0, 0.0);
+    sml::Vec3f cameraUp(0.0, 1.0, 0.0);
+    sml::Mat44f view = LookAt(cameraPosition, cameraLookAt, cameraUp);
+    sml::Mat44f proj = Perspective(DegreesToRadians(45.0f), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 10.0f);
 
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {

@@ -31,6 +31,9 @@
     <Filter Include="Metal">
       <UniqueIdentifier>{8c9882db-4e57-46f6-a2cf-c00f3ceb71c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dependencies\SML">
+      <UniqueIdentifier>{6369db5e-b5af-40f5-b383-d9eb9b90d103}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Camera.h">
@@ -72,13 +75,7 @@
     <ClInclude Include="Maths\sRGB.h">
       <Filter>Maths</Filter>
     </ClInclude>
-    <ClInclude Include="Maths\Vector.hpp">
-      <Filter>Maths</Filter>
-    </ClInclude>
     <ClInclude Include="Maths\Colour.h">
-      <Filter>Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="Maths\Matrix.hpp">
       <Filter>Maths</Filter>
     </ClInclude>
     <ClInclude Include="Memory\CircularBuffer.h">
@@ -263,6 +260,15 @@
     </ClCompile>
     <ClCompile Include="Materials\Glass.cpp">
       <Filter>Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\SML\Matrix.cppm">
+      <Filter>Dependencies\SML</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\SML\SML.cppm">
+      <Filter>Dependencies\SML</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\SML\Vector.cppm">
+      <Filter>Dependencies\SML</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

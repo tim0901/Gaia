@@ -1,7 +1,10 @@
 #ifndef AABB_H
 #define AABB_H
 
-#include "../Maths/Vector.h"
+#include <iostream>
+
+import sml;
+using namespace sml;
 #include "../Core/Ray.h"
 
 class AABB {

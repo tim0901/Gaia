@@ -1,7 +1,8 @@
 #ifndef CIRCULARBUFFER_H
 #define CIRCULARBUFFER_H
 
-#include "../Maths/Vector.h"
+import sml;
+using namespace sml;
 
 // A circular buffer
 template<typename T>

@@ -31,7 +31,7 @@ Vec3d TrowbridgeReitz::SampleAndEvaluate(const Ray& r, IntersectionRecord& iRec,
 	double tan2Theta = ((alphaG * alphaG * r1) / (1.0 - r1));
 	double cos2Theta = 1.0 / (1.0 + tan2Theta);
 	double cosTheta = sqrt(cos2Theta);
-	double sinTheta = sqrt(max(0.0, 1.0 - cos2Theta));
+	double sinTheta = sqrt(std::max(0.0, 1.0 - cos2Theta));
 	double phi_m = M_2PI * rng.RandomDouble();
 	double sinPhi_m = sin(phi_m);
 
@@ -144,7 +144,7 @@ void TrowbridgeReitz::SampleDirection(const Ray& r, const IntersectionRecord& iR
 
 	double tanTheta2 = ((alphaG * alphaG * r1) / (1.0 - r1));
 	double cosTheta = 1.0 / sqrt(1 + tanTheta2);
-	double sinTheta = sqrt(max(0.0, 1.0 - cosTheta * cosTheta));
+	double sinTheta = sqrt(std::max(0.0, 1.0 - cosTheta * cosTheta));
 	double phi_m = M_2PI * rng.RandomDouble();;
 
 	Vec3d microfacetNormal = Vec3d(sinTheta * cos(phi_m), sinTheta * sin(phi_m), cosTheta); // m
