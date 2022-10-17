@@ -89,7 +89,10 @@ bool Mesh::LoadMesh(const std::string filename, const Vec3d &position, std::vect
 	nVerts = attrib.vertices.size();
 	nUVs = attrib.texcoords.size();
 
-	subdivisionLevel = 0;
+	if (nUVs == 0 && subdivisionLevel != 0) {
+		std::cout << "Subdivision currently doesn't work for meshes with no UVs.\n";
+		subdivisionLevel = 0;
+	}
 
 	if (subdivisionLevel > 0) {
 		

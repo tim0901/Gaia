@@ -6,6 +6,7 @@
 #include "../Materials/Material.h"
 #include "Light.h"
 #include "../Accelerators/BVH.h"
+#include "../Maths/random.h"
 
 // A scene containing a camera, a list of objects and the materials they use
 class Scene{
@@ -32,7 +33,8 @@ public:
 	}
 
 	bool Intersect(Ray r, IntersectionRecord& rec, double tMin = 0.001, double tMax = DBL_MAX) const {
-		return objectList.Intersect(r, rec, tMin, tMax);
+		return sceneBVH->Intersect(r, rec, tMin, tMax);
+		//return objectList.Intersect(r, rec, tMin, tMax);
 	}
 
 	// Return the transmittance between two points - for now this is a binary value based 
@@ -71,6 +73,10 @@ public:
 		lightList.push_back(light);
 	}
 
+	void BuildLightSampler() {
+		lightDistribution = std::uniform_int_distribution<int>(0, lightList.size() - 1);
+	}
+
 	// Add an area light to the scene
 	// This method ensures the light and geometry are linked properly
 	template <typename T>
@@ -81,16 +87,20 @@ public:
 	template<typename T>
 	void InsertAreaLight(const T& obj, const Vec3d& lum) {
 		this->InsertObject(obj);
-		this->InsertAreaLight(AreaLight(this->objectList.list.back(), lum));
+		this->InsertAreaLight(AreaLight(this->objectList.list->back(), lum));
 	}
 	template<typename T>
 	void InsertAreaLight(const std::shared_ptr<T>& obj, const Vec3d& lum) {
 		this->InsertObject(obj);
-		this->InsertAreaLight(AreaLight(this->objectList.list.back(), lum));
+		this->InsertAreaLight(AreaLight(this->objectList.list->back(), lum));
 	}
 
 	Light* ChooseLight() {
-		return lightList[0];
+
+		// Choose a light to sample
+
+		//This is a naive implementation - we simply pick a random light from the list 
+		return lightList[lightDistribution(rng.rng)];
 	}
 
 	// Load a mesh from file, create a BVH and add it to the scene
@@ -100,16 +110,26 @@ public:
 		meshList.push_back(mesh);
 	}
 
+	// Encapsulate the entire scene in a BVH
+	void GenerateSceneBVH() {
+		sceneBVH = std::make_unique<BVH>(objectList.list);
+	}
+
 	int xDim = 0;
 	int yDim = 0;
 	int samples = 0;
 	Camera camera;
 	ObjectList objectList;
 
+	std::unique_ptr<BVH> sceneBVH;
+
 	std::vector<Mesh*> meshList;
 	std::vector<Light*> lightList;
 	std::vector<Material*> materialList;
 	std::string fileName = "UntitledRender";
+
+	std::uniform_int_distribution<int> lightDistribution;
+
 };
 
 

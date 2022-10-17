@@ -139,7 +139,7 @@ Vec3d PathIntegrator::DirectLightingAt(const Vec3d& p, const Ray& r, Intersectio
 
 	Light* sampledLight = scene->ChooseLight();
 
-	Vec3d incidentLuminosity = sampledLight->Sample(p, sampledDirection, lightPdf, visibility);
+	Vec3d incidentLuminosity = static_cast<double>(scene->lightList.size()) *  sampledLight->Sample(p, sampledDirection, lightPdf, visibility);
 
 	bool hitscene = false;
 

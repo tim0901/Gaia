@@ -18,6 +18,12 @@ public:
 			flags->allSavesComplete = true;
 		}
 
+		// Build light sampler
+		s->BuildLightSampler();
+
+		// Encompass scene in BVH
+		s->GenerateSceneBVH();
+
 		std::unique_ptr<Tiler> t;
 
 		switch (flags->renderMode) {

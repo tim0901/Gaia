@@ -17,7 +17,9 @@ int main(int argc, const char* argv[])
 
 	std::shared_ptr<Flags> flags = std::make_shared<Flags>();
 	std::shared_ptr<Scene> scene = std::make_shared<Scene>();
-	ShaderBall(scene, flags);
+	Lucy(scene, flags);
+	//LightSpiral(scene, flags);
+	//ShaderBall(scene, flags);
 	std::shared_ptr<Image> image = std::make_shared<Image>(scene->xDim, scene->yDim, scene->samples, scene->fileName, flags->renderMode == RenderMode::Iterative ? true : false );
 
 	Gaia g(image, scene, flags);
