@@ -1,5 +1,5 @@
 # Gaia
 A path tracer developed in C++
 
-gaiarenderer.wordpress.com
+[awrichardson.co.uk](https://awrichardson.co.uk/category/gaia/)
 
